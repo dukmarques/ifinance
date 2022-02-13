@@ -1,19 +1,18 @@
 import { Link } from 'react-router-dom';
 
-import ilustrationImg from '../assets/auth/ilustration_2.svg';
+import ilustrationImg from '../assets/auth/ilustration.svg';
 import googleIcon from '../assets/auth/google-icon.svg';
-import accessIcon from '../assets/auth/access-icon.svg';
 import logoImg from '../assets/logo.svg';
-
+import registerIcon from '../assets/auth/register-icon.svg';
 import '../styles/auth.scss';
 
-export function Login() {
+export function Register() {
     return (
         <main>
             <div className="apresentation">
                 <img src={ilustrationImg} alt="Ilustração de Apresentação" />
                 <div className="text">
-                    <h2>Organize suas finanças</h2>
+                    <h2>Tenha o controle financeiro na palma das suas mãos</h2>
                     <p>Fácil e intuítivo, com o iFinance você se organiza e mantém o controle financeiro!</p>
                 </div>
             </div>
@@ -26,18 +25,22 @@ export function Login() {
                     </button>
                     <div className="separator">ou via e-mail</div>
                     <form>
+                        <label htmlFor="userphoto">
+                            Selecione uma Foto
+                            <input type="file" />
+                        </label>
                         <input type="email" placeholder='E-mail' />
                         <input type="password" placeholder='Senha' />
                         <button type="submit">
-                            <img src={accessIcon} alt="ícone de criar conta" />
-                            <span>Acessar</span>
+                            <img src={registerIcon} alt="ícone de criar conta" />
+                            <span>Criar Conta</span>
                         </button>
-                        <Link to="/register">
-                            <span>Registre-se</span>
+                        <Link to="/login">
+                            <span>Acessar</span>
                         </Link>
                     </form>
                 </div>
             </div>
         </main>
-    );
+    )
 }
