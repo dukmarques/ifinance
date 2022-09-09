@@ -1,0 +1,62 @@
+.containerFluid {
+    width: 100vw;
+    height: 100vh;
+    background: var(--green);
+}
+
+.container {
+    max-width: 1120px;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .content {
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 30px;
+
+        h1 {
+            font-weight: 300;
+            font-size: 40px;
+            line-height: 72px;
+            color: var(--white);
+
+            span {
+                color: var(--green-dark);
+            }
+        }
+
+        a {
+            background: var(--green-dark);
+            width: 285px;
+            height: 64px;
+            border-radius: 50px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: var(--white);
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 23px;
+
+            transition: filter .2s;
+
+            &:hover {
+                filter: brightness(.8);
+            }
+        }
+    }
+
+    img {
+    }
+}
