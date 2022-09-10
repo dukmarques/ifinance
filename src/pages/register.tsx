@@ -2,39 +2,44 @@ import Head from 'next/head';
 import Link from 'next/link';
 import LoginsProvider from '../components/LoginsProvider';
 
-import styles from '../styles/Login.module.scss';
+import styles from '../styles/Register.module.scss';
 
 export default function Login() {
     return (
         <>
             <Head>
-                <title>Login | iFinances</title>
+                <title>Cadastre-se | iFinances</title>
             </Head>
 
             <div className={styles.containerFluid}>
                 <div className={styles.container}>
                     <div className={styles.content}>
-                        <img src="/assets/images/login-image.svg" alt="Pessoas segurando gráficos" />
-                        <h2>Organize suas finanças</h2>
+                        <img src="/assets/images/register-image.svg" alt="Pessoas segurando gráficos" />
+                        <h2>
+                            Tenha o controle <br />
+                            financeiro na palma <br />
+                            das suas mãos
+                        </h2>
                         <span>
                             Fácil e intuítivo, com o iFinance você se <br /> 
                             organiza e mantém o controle financeiro!
                         </span>
                     </div>
-                    <div className={styles.login}>
+                    <div className={styles.register}>
                         <img src="/assets/images/logo-horizontal.svg" alt="Logo horizontal iFinance" />
                         <LoginsProvider />
-                        <span>convencional</span>
+                        <span>ou crie uma conta</span>
                         <form>
+                            <input type="text" name="name" placeholder="Nome" />
                             <input type="email" name="email" placeholder="E-mail" />
-                            <input type="password" name="" placeholder="Senha" />
+                            <input type="password" name="password" placeholder="Senha" />
                             <button type="submit">
-                                <img src="/assets/icons/login-icon.svg" alt="Ícone de criar conta" />
-                                Entrar
+                                <img src="/assets/icons/create-account.svg" alt="Ícone de criar conta" />
+                                Criar conta
                             </button>
-                            <Link href='/register'>
+                            <Link href='/login'>
                                 <a>
-                                    Registre-se
+                                    Fazer Login
                                 </a>
                             </Link>
                         </form>
