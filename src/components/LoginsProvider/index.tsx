@@ -1,4 +1,4 @@
-import { signIn, useSession } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import React from 'react';
 import styles from './Styles.module.scss';
 

@@ -13,6 +13,7 @@ import settingsWhite from '../../../public/assets/icons/settings-white.svg';
 import transactions from '../../../public/assets/icons/transactions.svg';
 import transactionsWhite from '../../../public/assets/icons/transactions-white.svg';
 import logout from '../../../public/assets/icons/logout.svg';
+import navbarImage from  '../../../public/assets/images/navbar-image.svg';
 
 export default function Navbar() {
     const {data: session} = useSession();
@@ -86,8 +87,8 @@ export default function Navbar() {
                 </div>
                 
                 <div className={styles.footer}>
-                    <img src="/assets/images/navbar-image.svg" alt="" />
-                    <a href='https://github.com/dukmarques' target="_blank">Develop with 🫶🏽 by Eduardo</a>
+                    <Image src={navbarImage} />
+                    <a href='https://github.com/dukmarques' target="_blank" rel="noreferrer noopener">Develop with 🫶🏽 by Eduardo</a>
                 </div>
             </div>
         </div>
