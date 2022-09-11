@@ -1,18 +1,32 @@
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 import styles from './Styles.module.scss';
 
 export default function Navbar() {
     const {data: session} = useSession();
     const router  = useRouter();
 
-    console.log(router.asPath)
+    const [collapseMenu, setCollapseMenu] = useState(false);
+
+    function handleCollapseMenu(e: React.MouseEvent) {
+        e.preventDefault();
+        setCollapseMenu(!collapseMenu);
+    }
 
     return (
-        <div className={styles.container}>
+        <div className={`${styles.container} ${collapseMenu ? styles.collapse: ''}`}>
+            <a onClick={(e) => handleCollapseMenu(e)} className={styles.expandCollapse}>
+                <img src="/assets/icons/arrow-menu.svg" alt="Expand or collapse menu" />
+            </a>
+
             <div className={styles.content}>
                 <div className={styles.perfil}>
-                    <img className={styles.logo} src="/assets/images/logo-horizontal.svg" alt="Logo da iFinances" />
+                    {
+                        !collapseMenu 
+                        ? <img className={styles.logo} src="/assets/images/logo-horizontal.svg" alt="Logo da iFinances" />
+                        : <img className={styles.logo} src="/assets/images/dollar-sign.svg" alt="Logo da iFinances" />
+                    }
                     <img className={styles.photo} src={session?.user?.image!} alt="Foto de Perfil" />
                     <h2>Hello, {session?.user?.name?.substring(0, session.user.name.indexOf(" "))} 👋🏽</h2>
                     <p>

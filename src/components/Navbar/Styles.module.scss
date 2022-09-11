@@ -6,6 +6,15 @@
 
     border-right: 1px solid #EBEBEB;
 
+    position: relative;
+
+    .expandCollapse {
+        position: absolute;
+        top: 5px;
+        right: 8px;
+        cursor: pointer;
+    }
+
     .content {
         height: 100%;
         background: rgba(234, 249, 253, 0.3);
@@ -139,7 +148,7 @@
             
             display: flex;
             flex-direction: column;
-            justify-content: space-around;
+            justify-content: space-evenly;
             align-items: center;
 
             a {
@@ -147,6 +156,45 @@
                 text-align: center;
                 color: #C7C7C7;
             }   
+        }
+    }
+}
+
+.collapse {
+    width: 134px;
+    padding: 10px;
+
+    .expandCollapse {
+        transform: scaleX(-1);
+    }
+
+    .content {
+        .perfil {
+            .logo {
+                width: 24px;
+                height: 44px;
+            }
+        
+            p {
+                display: none;
+            }
+        }
+
+        .navigation {
+            .menu,
+            .selected {
+                justify-content: center;
+
+                span {
+                    display: none;
+                }
+            }
+        }
+
+        .footer {
+            img {
+                width: 30px;
+            }
         }
     }
 }
