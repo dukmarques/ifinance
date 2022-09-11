@@ -1,0 +1,152 @@
+.container {
+    width: 265px;
+    height: 100vh;
+
+    padding: 17px;
+
+    border-right: 1px solid #EBEBEB;
+
+    .content {
+        height: 100%;
+        background: rgba(234, 249, 253, 0.3);
+        border: 1px solid #EBEBEB;
+        border-radius: 50px;
+
+        display: flex;
+        flex-direction: column;
+
+        .perfil {
+            flex: 2;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 20px;
+
+            .logo {
+                width: 120px;
+            }
+
+            .photo {
+                width: 72px;
+                min-height: 65px;
+                max-height: 72px;
+                object-fit: cover;
+                border: 2px solid #359766;
+                border-radius: 4px;
+            }
+
+            h2 {
+                font-weight: 400;
+                font-size: 20px;
+                line-height: 30px;
+                text-align: center;
+            }
+
+            p {
+                font-weight: 400;
+                font-size: 12px;
+                line-height: 18px;
+                text-align: center;
+                color: #404040;
+            }
+        }
+
+        .navigation {
+            flex: 3;
+            border-top: 1px solid #EBEBEB;
+            padding: 25px;
+            
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            position: relative;
+
+            .menu,
+            .selected {
+                padding: 10px;
+                cursor: pointer;
+
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                gap: 10px;
+
+                svg {
+                    width: 30px;
+                    height: 30px;
+                }
+
+                span {
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 21px;
+
+                    color: #404040;
+                }
+
+                &:last-child {
+                    position: absolute;
+                    bottom: 0;
+
+                    svg {
+                        width: 25px;
+                        height: 25px;
+                    }
+
+                    span {
+                        color: var(--red);
+                    }
+
+                    path {
+                        stroke: var(--red);
+                    }
+                    
+                    transition: filter 2s;
+
+                    &:hover {
+                        filter: brightness(.8);
+                    }
+                }
+            }
+
+            .selected {
+                background: var(--green);
+                border-radius: 5px;
+
+                svg {
+                    path {
+                        stroke: var(--white);
+                    }
+
+                    .pathSelected {
+                        fill: var(--white);
+                        stroke: transparent;
+                    }
+                }
+
+                span {
+                    color: var(--white);
+                }
+            }
+        }
+
+        .footer {
+            flex: 1;
+            border-top: 1px solid #EBEBEB;
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+
+            a {
+                font-size: 10px;
+                text-align: center;
+                color: #C7C7C7;
+            }   
+        }
+    }
+}

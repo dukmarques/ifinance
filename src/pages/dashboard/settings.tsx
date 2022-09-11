@@ -1,16 +1,12 @@
 import { GetServerSideProps } from "next";
-import { getSession, signOut, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import Navbar from "../../components/Navbar";
 
-import styles from '../../styles/Dashboard.module.scss';
-
-export default function Dashboard() {
-    const {data: session} = useSession();
-    
+export default function Settings() {
     return (
-        <div className={styles.container}>
+        <>
             <Navbar />
-        </div>
+        </>
     )
 }
 
