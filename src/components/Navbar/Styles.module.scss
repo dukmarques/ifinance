@@ -83,11 +83,6 @@
                 align-items: center;
                 gap: 10px;
 
-                svg {
-                    width: 30px;
-                    height: 30px;
-                }
-
                 span {
                     font-weight: 400;
                     font-size: 14px;
@@ -100,17 +95,8 @@
                     position: absolute;
                     bottom: 0;
 
-                    svg {
-                        width: 25px;
-                        height: 25px;
-                    }
-
                     span {
                         color: var(--red);
-                    }
-
-                    path {
-                        stroke: var(--red);
                     }
                     
                     transition: filter 2s;
@@ -124,17 +110,6 @@
             .selected {
                 background: var(--green);
                 border-radius: 5px;
-
-                svg {
-                    path {
-                        stroke: var(--white);
-                    }
-
-                    .pathSelected {
-                        fill: var(--white);
-                        stroke: transparent;
-                    }
-                }
 
                 span {
                     color: var(--white);

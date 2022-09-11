@@ -1,10 +1,14 @@
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
+import Head from "next/head";
 import Navbar from "../../components/Navbar";
 
 export default function Settings() {
     return (
         <>
+            <Head>
+                <title>Configurações | iFinances</title>
+            </Head>
             <Navbar />
         </>
     )

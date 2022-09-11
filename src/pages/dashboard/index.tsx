@@ -1,5 +1,6 @@
 import { GetServerSideProps } from "next";
 import { getSession, signOut, useSession } from "next-auth/react";
+import Head from "next/head";
 import Navbar from "../../components/Navbar";
 
 import styles from '../../styles/Dashboard.module.scss';
@@ -9,6 +10,9 @@ export default function Dashboard() {
     
     return (
         <div className={styles.container}>
+            <Head>
+                <title>Dashboard | iFinances</title>
+            </Head>
             <Navbar />
         </div>
     )
