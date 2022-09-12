@@ -14,6 +14,7 @@ export default function Dashboard() {
                 <title>Dashboard | iFinances</title>
             </Head>
             <Navbar />
+            <div className={styles.content}></div>
         </div>
     )
 }
