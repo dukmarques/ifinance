@@ -173,3 +173,55 @@
         }
     }
 }
+
+@media (max-width: 980px) {
+    .container {
+        width: 80px;
+        padding: 5px;
+    
+        .expandCollapse {
+            display: none;
+        }
+    
+        .content {
+            .perfil {
+                .logo {
+                    display: none;
+                }
+    
+                .photo {
+                    width: 50px;
+                    min-height: 55px;
+                }
+    
+                h2 {
+                    font-size: 14px;
+                    line-height: 20px;
+                }
+            }
+    
+            .navigation {
+                padding: 10px;
+    
+                .menu,
+                .selected {
+                    span {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-height: 980px) {
+    .content {
+        .perfil {
+            justify-content: center !important;
+
+            p {
+                display: none;
+            }
+        }
+    }
+}
