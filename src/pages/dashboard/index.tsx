@@ -1,9 +1,12 @@
 import { GetServerSideProps } from "next";
 import { getSession, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
+import Image from "next/image";
 import Navbar from "../../components/Navbar";
 
 import styles from '../../styles/Dashboard.module.scss';
+
+import underConstruction from '../../../public/assets/images/under-construction.svg';
 
 export default function Dashboard() {
     const {data: session} = useSession();
@@ -14,7 +17,10 @@ export default function Dashboard() {
                 <title>Dashboard | iFinances</title>
             </Head>
             <Navbar />
-            <div className={styles.content}></div>
+            <div className={styles.content}>
+                <Image src={underConstruction} alt="Em construção ..." />
+                <h2>Em construção...</h2>
+            </div>
         </div>
     )
 }
