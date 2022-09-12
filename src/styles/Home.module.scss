@@ -97,15 +97,20 @@
 @media (max-width: 480px) {
     .container {
         flex-direction: column;
+        gap: 20px;
+        justify-content: center;
         
+        border: 1px solid red;
         img {
             width: 100%;
-            max-width: 300px;
+            max-width: 250px;
         }
         .content {
+            gap: 20px;
+            height: auto;
             img {
                 width: 100%;
-                max-width: 250px;
+                max-width: 300px;
             }
         }
     }
