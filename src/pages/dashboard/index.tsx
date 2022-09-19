@@ -66,14 +66,14 @@ export default function Dashboard() {
                             </tr>
 
                             <tr>
-                                <td>Monitor Ultrawide 32"</td>
+                                <td>Monitor Ultrawide 32&quot;</td>
                                 <td className={false ? Styles.entry : Styles.exit}>- R$1.099,00</td>
                                 <td>Eletrônicos</td>
                                 <td>02/10/2022</td>
                             </tr>
 
                             <tr>
-                                <td>Alimentação Casa"</td>
+                                <td>Alimentação Casa</td>
                                 <td className={false ? Styles.entry : Styles.exit}>- R$500,00</td>
                                 <td>Alimentação</td>
                                 <td>03/10/2022</td>
@@ -87,7 +87,7 @@ export default function Dashboard() {
                             </tr>
 
                             <tr>
-                                <td>Bolsa de Pesquisa</td>
+                                <td>Bolsa de P&#38;D</td>
                                 <td className={true ? Styles.entry : Styles.exit}>+ R$1500,00</td>
                                 <td>Eletrônicos</td>
                                 <td>05/10/2022</td>
