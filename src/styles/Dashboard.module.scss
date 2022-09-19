@@ -88,4 +88,30 @@
             }
         }
     }
+    
+    .buttonAdd {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+
+        border: 0;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: var(--green);
+
+        &:hover {
+            filter: brightness(0.9);
+        }
+    }
+}
+
+@media (max-width: 400px) {
+    .buttonAdd {
+        top: 30px;
+        bottom: none;
+
+        width: 42px !important;
+        height: 42px !important;
+    }
 }

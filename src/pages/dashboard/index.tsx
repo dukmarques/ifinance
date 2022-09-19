@@ -1,17 +1,40 @@
+import { useState } from "react";
 import { GetServerSideProps } from "next";
-import { getSession, signOut, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import Head from "next/head";
-import Navbar from "../../components/Navbar";
+import Image from "next/image";
 
+import Modal from 'react-modal';
+
+import Navbar from "../../components/Navbar";
 import Styles from '../../styles/Dashboard.module.scss';
 import Header from "../../components/Header/Header";
 import Summary from "../../components/Summary/Summary";
 
+import plusImage from "../../../public/assets/icons/plus-small.svg";
+
 export default function Dashboard() {
     const date = new Date();
 
+    const [modalIsOpen, setIsOpen] = useState<Boolean>(false);
+
+    function openModal() {
+        setIsOpen(true);
+    }
+
+    function closeModal() {
+        setIsOpen(false);
+    }
+
     return (
         <div className={Styles.container}>
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+            >
+                <h2>Adicionar nova transação!</h2>
+                <button onClick={closeModal}><span>X</span></button>
+            </Modal>
             <Head>
                 <title>Dashboard | iFinances</title>
             </Head>
@@ -73,6 +96,10 @@ export default function Dashboard() {
                     </table>
                 </div>
             </div>
+
+            <button className={Styles.buttonAdd} onClick={openModal}>
+                <Image src={plusImage} width='12' height='12' />
+            </button>
         </div>
     )
 }
