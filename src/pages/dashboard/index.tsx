@@ -87,7 +87,7 @@ export default function Dashboard() {
                             </tr>
 
                             <tr>
-                                <td>Bolsa de P&D</td>
+                                <td>Bolsa de Pesquisa</td>
                                 <td className={true ? Styles.entry : Styles.exit}>+ R$1500,00</td>
                                 <td>Eletrônicos</td>
                                 <td>05/10/2022</td>
