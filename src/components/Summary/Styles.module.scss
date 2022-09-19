@@ -1,0 +1,87 @@
+.container {
+    width: 100%;
+    padding: 15px 20px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 5px;
+    
+    border-bottom: 1px solid #EBEBEB;
+
+    h3 {
+        font-family: 'Poppins';
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 24px;
+
+        color: var(--black);
+    }
+
+    .content {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        .card {
+            /*max-width: 355px;*/
+            min-width: 290px;
+            width: 100%;
+            height: 135px;
+            flex: 1;
+            background: var(--white);
+            border-radius: 5px;
+            filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
+    
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 25px;
+    
+            &:last-child {
+                background: var(--green);
+    
+                header {
+                    span {
+                        color: var(--white) !important;
+                    }
+                }
+    
+                h3 {
+                    color: var(--white);
+                }
+            }
+    
+            header {
+                width: 100%;
+    
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+    
+                span {
+                    font-family: 'Poppins';
+                    font-weight: 400;
+                    font-size: 16px;
+                    line-height: 24px;
+    
+                    color: var(--black-50);
+                }
+            }
+    
+            h3 {
+                font-family: 'Poppins';
+                font-weight: 400;
+                font-size: 36px;
+                line-height: 54px;
+    
+                color: var(--black-50);
+            }
+        }
+    }
+}

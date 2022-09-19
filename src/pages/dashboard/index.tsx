@@ -5,6 +5,7 @@ import Navbar from "../../components/Navbar";
 
 import styles from '../../styles/Dashboard.module.scss';
 import Header from "../../components/Header/Header";
+import Summary from "../../components/Summary/Summary";
 
 export default function Dashboard() {
     const date = new Date();
@@ -21,6 +22,7 @@ export default function Dashboard() {
                     subtitle={`${new Intl.DateTimeFormat('pt-BR', { month: "long" }).format(new Date())} - ${date.getFullYear()}`}
                     description="Tenha uma visão geral de todos os seus gastos no mês de Janeiro."
                 />
+                <Summary />
             </div>
         </div>
     )
