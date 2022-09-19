@@ -4,6 +4,8 @@ import Head from "next/head";
 import Navbar from "../../components/Navbar";
 import Image from "next/image";
 
+import Header from "../../components/Header/Header";
+
 import styles from '../../styles/Dashboard.module.scss';
 import underConstruction from '../../../public/assets/images/under-construction.svg';
 
@@ -15,6 +17,7 @@ export default function Cards() {
             </Head>
             <Navbar />
             <div className={styles.content}>
+                <Header title="Cartões" subtitle="Veja todos os seus cartões e os gastos realizados neles" />
                 <Image src={underConstruction} alt="Em construção ..." />
                 <h2>Em construção...</h2>
             </div>
@@ -25,7 +28,7 @@ export default function Cards() {
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const session = await getSession(context);
 
-    if(!session) {
+    if (!session) {
         return {
             redirect: {
                 destination: '/login',

@@ -1,0 +1,38 @@
+.container {
+    width: 100%;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 5px;
+
+    border-bottom: 1px solid #EBEBEB;
+
+    h1 {
+        font-weight: 600;
+        font-size: 44px;
+
+        color: var(--black);
+    }
+
+    p {
+        font-family: 'Quicksand';
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 18px;
+        color: var(--black);
+    }
+
+    span {
+        font-family: 'Quicksand';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+
+        color: #AEAEAE;
+
+    }
+}

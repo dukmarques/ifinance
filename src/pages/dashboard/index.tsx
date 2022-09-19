@@ -1,16 +1,14 @@
 import { GetServerSideProps } from "next";
 import { getSession, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
-import Image from "next/image";
 import Navbar from "../../components/Navbar";
 
 import styles from '../../styles/Dashboard.module.scss';
-
-import underConstruction from '../../../public/assets/images/under-construction.svg';
+import Header from "../../components/Header/Header";
 
 export default function Dashboard() {
-    const {data: session} = useSession();
-    
+    const date = new Date();
+
     return (
         <div className={styles.container}>
             <Head>
@@ -18,8 +16,11 @@ export default function Dashboard() {
             </Head>
             <Navbar />
             <div className={styles.content}>
-                <Image src={underConstruction} alt="Em construção ..." />
-                <h2>Em construção...</h2>
+                <Header
+                    title={'Overview'}
+                    subtitle={`${new Intl.DateTimeFormat('pt-BR', { month: "long" }).format(new Date())} - ${date.getFullYear()}`}
+                    description="Tenha uma visão geral de todos os seus gastos no mês de Janeiro."
+                />
             </div>
         </div>
     )
@@ -28,7 +29,7 @@ export default function Dashboard() {
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const session = await getSession(context);
 
-    if(!session) {
+    if (!session) {
         return {
             redirect: {
                 destination: '/login',
