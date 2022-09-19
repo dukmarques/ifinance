@@ -1,5 +1,5 @@
 .container {
-    height: 100vh;
+    height: 100%;
     width: 100vw;
     display: flex;
 
@@ -7,6 +7,7 @@
         background: var(--blue-light);
         width: 100%;
         height: 100%;
+        min-height: 100vh;
 
         display: flex;
         flex-direction: column;
@@ -16,6 +17,75 @@
         h2 {
             color: #404040;
             font-weight: 400;
+        }
+
+        .spending {
+            width: 100%;
+            padding: 20px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 10px;
+
+            overflow-x: scroll;
+
+            h2 {
+                font-family: 'Poppins';
+                font-weight: 400;
+                font-size: 20px;
+                line-height: 30px;
+                color: var(--black);
+            }
+
+            table {
+                width: 100%;
+                border-spacing: 0px 8px;
+
+                th {
+                    font-family: 'Poppins';
+                    font-weight: 300;
+                    font-size: 16px;
+                    line-height: 24px;
+
+                    color: #969CB3;
+                }
+
+                td {
+                    flex: 1;
+                    background-color: var(--white);
+                    padding: 15px 8px;
+                    margin: 0px;
+                    text-align: center;
+                    border: 0;
+
+                    font-family: 'Poppins';
+                    font-style: normal;
+                    font-weight: 300;
+                    font-size: 16px;
+                    line-height: 24px;
+                    color: #969CB3;
+
+                    &:first-child {
+                        border-radius: 5px 0px 0px 5px;
+                        color: var(--black-50);
+                    }
+
+                    &:last-child {
+                        border-radius: 0px 5px 5px 0px;
+                    }
+
+                    &.entry {
+                        color: var(--green-light);
+                    }
+    
+                    &.exit {
+                        color: var(--red);
+                    }
+                }
+
+            }
         }
     }
 }
