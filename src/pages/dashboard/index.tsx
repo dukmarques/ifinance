@@ -16,7 +16,7 @@ import plusImage from "../../../public/assets/icons/plus-small.svg";
 export default function Dashboard() {
     const date = new Date();
 
-    const [modalIsOpen, setIsOpen] = useState<Boolean>(false);
+    const [modalIsOpen, setIsOpen] = useState<boolean>(false);
 
     function openModal() {
         setIsOpen(true);
