@@ -11,7 +11,6 @@
 > O principal foco deste projeto é proporcionar aos usuários a possibilidade de ter um controle de suas finanças, evitando gastar mais do que recebem e pararem de anotar gastos e entradas no bloco de notas! 👀
 
 ## 🚀 Tecnologias
-* [IntelliJ](https://www.jetbrains.com/idea/)
 * [ReactJS](https://reactjs.org/)
 * [NEXT.js](https://nextjs.org/)
 * [NextAuth.js](https://next-auth.js.org/)
