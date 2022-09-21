@@ -1,7 +1,7 @@
 # iFinance 🤑
 [Acessar iFinance](https://ifinance-dukmarques.vercel.app/)
 <h1 align="center">
-    <img alt="iFinance" title="iFinance" src=".github/ifinance.png" />
+    <img alt="iFinance" title="iFinance" src=".github/ifinance-2.png" />
 </h1>
 
 
