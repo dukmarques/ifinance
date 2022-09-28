@@ -1,3 +1,4 @@
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 # iFinance 🤑
 [Acessar iFinance](https://ifinance-dukmarques.vercel.app/)
 <h1 align="center">
@@ -24,3 +25,6 @@
 
 ## 🔖 Layout
 * [Um dia colocarei o link aqui! 😝](#)
+
+## Conventional Commits
+Este repositório segue os padrões de commits estabelecidos por [Conventional Commits](https://www.conventionalcommits.org/pt-br/v1.0.0/), com suporte a [commitlint](https://github.com/conventional-changelog/commitlint), [husky]() e [commitizen](https://github.com/commitizen/cz-cli).
