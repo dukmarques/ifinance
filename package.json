@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "husky install",
-    "commit": "git-cz"
+    "commit": "cz"
   },
   "dependencies": {
     "next": "12.2.5",
@@ -17,6 +17,11 @@
     "react-dom": "18.2.0",
     "react-modal": "^3.15.1",
     "sass": "^1.54.7"
+  },
+  "husky": {
+    "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
+    }
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
@@ -27,7 +32,7 @@
     "@types/react-dom": "18.0.6",
     "@types/react-modal": "^3.13.1",
     "commitizen": "^4.2.5",
-    "cz-conventional-changelog": "3.3.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "8.23.0",
     "eslint-config-next": "12.2.5",
     "husky": "^8.0.1",
