@@ -28,6 +28,7 @@ export default function Dashboard() {
 
     return (
         <div className={Styles.container}>
+
             <Modal
                 openModal={modalIsOpen}
                 closeModal={closeModal}
@@ -65,6 +66,7 @@ export default function Dashboard() {
                 <title>Dashboard | iFinances</title>
             </Head>
             <Navbar />
+
             <div className={Styles.content}>
                 <Header
                     title={'Overview'}

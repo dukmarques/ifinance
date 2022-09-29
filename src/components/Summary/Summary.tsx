@@ -8,12 +8,14 @@ import balance from '../../../public/assets/icons/balance.svg';
 export default function Summary() {
     return (
         <div className={Styles.container}>
-            <h3>Resumo 🤑</h3>
+            <h3>Resumo <span>🍃</span></h3>
             <div className={Styles.content}>
                 <div className={Styles.card}>
                     <header>
                         <span>Entradas</span>
-                        <Image src={entrys} width='32' height='32' />
+                        <span>
+                            💰
+                        </span>
                     </header>
                     <h3>+R$ 17.400,00</h3>
                 </div>
@@ -21,7 +23,9 @@ export default function Summary() {
                 <div className={Styles.card}>
                     <header>
                         <span>Saídas</span>
-                        <Image src={exits} width='32' height='32' />
+                        <span>
+                            💸
+                        </span>
                     </header>
                     <h3>-R$ 1.259,00</h3>
                 </div>
@@ -29,7 +33,9 @@ export default function Summary() {
                 <div className={Styles.card}>
                     <header>
                         <span>Saldo</span>
-                        <Image src={balance} width='32' height='32' />
+                        <span>
+                            🏦
+                        </span>
                     </header>
                     <h3>+R$ 17.400,00</h3>
                 </div>

@@ -11,12 +11,21 @@
     border-bottom: 1px solid #EBEBEB;
 
     h3 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+
         font-family: 'Poppins';
         font-weight: 400;
         font-size: 24px;
         line-height: 24px;
 
         color: var(--black);
+
+        span {
+            font-size: 42px;
+        }
     }
 
     .content {
@@ -71,6 +80,10 @@
                     line-height: 24px;
     
                     color: var(--black-50);
+
+                    &:last-child {
+                        font-size: 42px;
+                    }
                 }
             }
     
