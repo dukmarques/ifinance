@@ -4,8 +4,6 @@ import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
 
-import Modal from 'react-modal';
-
 import Navbar from "../../components/Navbar";
 import Styles from '../../styles/Dashboard.module.scss';
 import Header from "../../components/Header/Header";
@@ -13,6 +11,7 @@ import Summary from "../../components/Summary/Summary";
 
 import plusImage from "../../../public/assets/icons/plus-small.svg";
 import CloseButton from '../../../public/assets/icons/close-button.svg';
+import { Modal } from "../../components/Modal/Modal";
 
 export default function Dashboard() {
     const date = new Date();
@@ -30,10 +29,10 @@ export default function Dashboard() {
     return (
         <div className={Styles.container}>
             <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                className={Styles.modal}
-                overlayClassName={Styles.Overlay}
+                openModal={modalIsOpen}
+                closeModal={closeModal}
+                classOverlay={Styles.Overlay}
+                classModal={Styles.modal}
             >
                 <form>
                     <h3>Cadastrar Transação</h3>
@@ -61,6 +60,7 @@ export default function Dashboard() {
                     <Image src={CloseButton} width='40' height='40' />
                 </button>
             </Modal>
+
             <Head>
                 <title>Dashboard | iFinances</title>
             </Head>
