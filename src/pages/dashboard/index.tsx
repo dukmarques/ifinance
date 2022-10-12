@@ -12,11 +12,43 @@ import Summary from "../../components/Summary/Summary";
 import plusImage from "../../../public/assets/icons/plus-small.svg";
 import CloseButton from '../../../public/assets/icons/close-button.svg';
 import { Modal } from "../../components/Modal/Modal";
+import { Transaction } from "../../Types/Transaction";
+import TransactionTable from "../../components/TransactionTable";
 
 export default function Dashboard() {
     const date = new Date();
 
     const [modalIsOpen, setIsOpen] = useState<boolean>(false);
+
+    const [transactions, setTransactions] = useState<Transaction[]>([
+        {
+            title: 'Salario',
+            price: 3099.00,
+            type: 'entry',
+            owner: 'Minha',
+            card: 'Nubank',
+            category: 'Eletrônicos',
+            date: '01/10/2022'
+        },
+        {
+            title: 'Monitor Ultrawide 32"',
+            price: 1099.00,
+            type: 'exit',
+            owner: 'Minha',
+            card: 'Ourocard',
+            category: 'Eletrônicos',
+            date: '02/10/2022'
+        },
+        {
+            title: 'Suporte Duplo para Monitor',
+            price: 299.00,
+            type: 'exit',
+            owner: 'Minha',
+            card: 'Ourocard',
+            category: 'Eletrônicos',
+            date: '03/10/2022'
+        },
+    ]);
 
     function openModal() {
         setIsOpen(true);
@@ -65,6 +97,7 @@ export default function Dashboard() {
             <Head>
                 <title>Dashboard | iFinances</title>
             </Head>
+
             <Navbar />
 
             <div className={Styles.content}>
@@ -76,73 +109,8 @@ export default function Dashboard() {
                 <Summary />
                 <div className={Styles.spending}>
                     <h2>Gastos de <span>{new Intl.DateTimeFormat('pt-BR', { month: "long" }).format(new Date())}</span></h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Título</th>
-                                <th>Preço</th>
-                                <th>Pertence</th>
-                                <th>Cartão</th>
-                                <th>Categoria</th>
-                                <th>Data</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Salário</td>
-                                <td className={true ? Styles.entry : Styles.exit}>+ R$3.099,00</td>
-                                <td>Minha</td>
-                                <td>Nubank</td>
-                                <td>Eletrônicos</td>
-                                <td>01/10/2022</td>
-                            </tr>
 
-                            <tr>
-                                <td>Monitor Ultrawide 32&quot;</td>
-                                <td className={false ? Styles.entry : Styles.exit}>- R$1.099,00</td>
-                                <td>Minha</td>
-                                <td>Ourocard</td>
-                                <td>Eletrônicos</td>
-                                <td>02/10/2022</td>
-                            </tr>
-
-                            <tr>
-                                <td>Alimentação Casa</td>
-                                <td className={false ? Styles.entry : Styles.exit}>- R$500,00</td>
-                                <td>Minha</td>
-                                <td>Nubank</td>
-                                <td>Alimentação</td>
-                                <td>03/10/2022</td>
-                            </tr>
-
-                            <tr>
-                                <td>Suporte Duplo para Monitor</td>
-                                <td className={false ? Styles.entry : Styles.exit}>- R$299,00</td>
-                                <td>Minha</td>
-                                <td>Ourocard</td>
-                                <td>Eletrônicos</td>
-                                <td>03/10/2022</td>
-                            </tr>
-
-                            <tr>
-                                <td>Bolsa de P&#38;D</td>
-                                <td className={true ? Styles.entry : Styles.exit}>+ R$1500,00</td>
-                                <td>Minha</td>
-                                <td>Caixa</td>
-                                <td>Eletrônicos</td>
-                                <td>05/10/2022</td>
-                            </tr>
-
-                            <tr>
-                                <td>iFood</td>
-                                <td className={false ? Styles.entry : Styles.exit}>- R$20,00</td>
-                                <td>Fulano 1</td>
-                                <td>Dinheiro</td>
-                                <td>Alimentação</td>
-                                <td>05/10/2022</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <TransactionTable transactions={transactions} />
                 </div>
             </div>
 

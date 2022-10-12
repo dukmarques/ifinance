@@ -1,23 +1,22 @@
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
-import Navbar from "../../components/Navbar";
+import Navbar from "../../../components/Navbar";
 import Image from "next/image";
 
-import Header from "../../components/Header/Header";
+import styles from '../../../styles/Dashboard.module.scss';
+import underConstruction from '../../../../public/assets/images/under-construction.svg';
+import Header from "../../../components/Header/Header";
 
-import styles from '../../styles/Dashboard.module.scss';
-import underConstruction from '../../../public/assets/images/under-construction.svg';
-
-export default function Cards() {
+export default function Transactions() {
     return (
         <div className={styles.container}>
             <Head>
-                <title>Cartões | iFinances</title>
+                <title>Transações | iFinances</title>
             </Head>
             <Navbar />
             <div className={styles.content}>
-                <Header title="Cartões" subtitle="Veja todos os seus cartões e os gastos realizados neles" />
+                <Header title="Transações" subtitle="Veja todas as suas transações" />
                 <Image src={underConstruction} alt="Em construção ..." />
                 <h2>Em construção...</h2>
             </div>

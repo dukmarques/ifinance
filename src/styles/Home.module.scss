@@ -34,7 +34,7 @@
             }
         }
 
-        a {
+        button {
             background: var(--green-dark);
             width: 285px;
             height: 64px;
@@ -51,13 +51,15 @@
 
             transition: filter .2s;
 
+            border: none;
+
             &:hover {
                 filter: brightness(.8);
             }
         }
     }
 
-    img {
+    .logo {
     }
 }
 
@@ -65,14 +67,14 @@
     .container {
         flex-direction: column;
         
-        img {
+        .homeImage {
             width: 100%;
             max-width: 600px;
         }
         .content {
             align-items: center;
 
-            img {
+            .logo {
                 width: 100%;
                 max-width: 300px;
             }
@@ -100,14 +102,16 @@
         gap: 20px;
         justify-content: center;
         
-        img {
+        .homeImage {
             width: 100%;
             max-width: 250px;
         }
+
         .content {
             gap: 20px;
             height: auto;
-            img {
+            
+            .logo {
                 width: 100%;
                 max-width: 300px;
             }

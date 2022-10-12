@@ -1,16 +1,19 @@
 import type { NextPage } from 'next'
 import { useSession } from 'next-auth/react'
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React from 'react';
 import styles from '../styles/Home.module.scss'
 
+import LogoHorizontal from '../../public/assets/images/logo-horizontal.svg';
+import HomeImage from '../../public/assets/images/home-image.svg';
+
 const Home: NextPage = () => {
   const router = useRouter();
-  const {data: session} = useSession();
-  
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if(session){
+  const { data: session } = useSession();
+
+  const handleClick = () => {
+    if (session) {
       router.push('dashboard');
     } else {
       router.push('login');
@@ -21,12 +24,12 @@ const Home: NextPage = () => {
     <main className={styles.containerFluid}>
       <div className={styles.container}>
         <div className={styles.content}>
-          <img src="/assets/images/logo-horizontal.svg" alt="Logo iFinance" />
+          <Image src={LogoHorizontal} className="logo" />
           <h1>A melhor forma de <br />
-          <span>Organizar</span> suas financas</h1>
-          <a href="" onClick={handleClick}>Acessar</a>
+            <span>Organizar</span> suas financas</h1>
+          <button onClick={handleClick}>Acessar</button>
         </div>
-        <img src="/assets/images/home-image.svg" alt="Mulher Organizando sua renda" />
+        <Image src={HomeImage} className="homeImage" alt="Mulher Organizando sua renda" />
       </div>
     </main>
   )
