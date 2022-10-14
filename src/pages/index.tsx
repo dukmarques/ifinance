@@ -24,7 +24,7 @@ const Home: NextPage = () => {
     <main className={styles.containerFluid}>
       <div className={styles.container}>
         <div className={styles.content}>
-          <Image src={LogoHorizontal} className="logo" />
+          <Image src={LogoHorizontal} className="logo" alt='Logo iFinances' />
           <h1>A melhor forma de <br />
             <span>Organizar</span> suas financas</h1>
           <button onClick={handleClick}>Acessar</button>

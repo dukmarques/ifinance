@@ -31,8 +31,8 @@ export default function TransactionTable({ transactions }: TransactionTableProps
                                 }).format(transaction.price)}
                             </td>
                             <td>{transaction.owner}</td>
-                            <td>{transaction.card}</td>
-                            <td>{transaction.category}</td>
+                            <td>{transaction.card.title}</td>
+                            <td>{transaction.category.title}</td>
                             <td>{transaction.date}</td>
                         </tr>
                     ))}
