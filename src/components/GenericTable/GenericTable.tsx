@@ -24,8 +24,6 @@ export default function GenericTable({ tableHeads, items }: GenericTableProps) {
                     {items.map((item, index) => (
                         <tr key={index}>
                             <td>{item.attributes.name}</td>
-                            <td>{item.attributes.createdAt}</td>
-                            <td>{item.attributes.updatedAt}</td>
                         </tr>
                     ))}
                 </tbody>

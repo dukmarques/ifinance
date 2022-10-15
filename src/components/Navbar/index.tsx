@@ -76,6 +76,14 @@ export default function Navbar() {
                         <span>Cartões</span>
                     </div>
 
+                    <div onClick={() => router.push('/dashboard/categories')} className={router.pathname === '/dashboard/categories' ? styles.selected : styles.menu}>
+                        {router.pathname === '/dashboard/categories'
+                            ? <Image src={cardsWhite} width='30' height='30' alt='Icone do menu de cartões' />
+                            : <Image src={cards} width='30' height='30' alt='Icone do menu de cartões' />
+                        }
+                        <span>Categorias</span>
+                    </div>
+
                     <div onClick={() => router.push('/dashboard/settings')} className={router.pathname === '/dashboard/settings' ? styles.selected : styles.menu}>
                         {router.pathname === '/dashboard/settings'
                             ? <Image src={settingsWhite} width='30' height='30' alt='Icone do menu de configurações' />
