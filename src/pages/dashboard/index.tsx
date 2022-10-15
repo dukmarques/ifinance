@@ -13,11 +13,11 @@ import { api } from "../../services/api";
 import { User } from "../../Types/User";
 import { UserContext } from "../../contexts/UserContext";
 
-import plusImage from "../../../public/assets/icons/plus-small.svg";
 import CloseButton from '../../../public/assets/icons/close-button.svg';
 import { Modal } from "../../components/Modal/Modal";
 import { Transaction } from "../../Types/Transaction";
 import TransactionTable from "../../components/TransactionTable";
+import ButtonAdd from "../../components/ButtonAdd/ButtonAdd";
 
 type DashboardProps = {
     userData: User;
@@ -102,9 +102,7 @@ export default function Dashboard({ userData, transactionsData }: DashboardProps
                 </div>
             </div>
 
-            <button className={Styles.buttonAdd} onClick={openModal}>
-                <Image src={plusImage} width='12' height='12' alt="Adicionar nova transação" />
-            </button>
+            <ButtonAdd onClick={openModal} alt="Adicionar nova transação" />
         </div>
     )
 }

@@ -12,13 +12,14 @@ import GenericTable from "../../../components/GenericTable/GenericTable";
 import { api } from "../../../services/api";
 import { Card } from "../../../Types/Card";
 import { useState } from "react";
+import ButtonAdd from "../../../components/ButtonAdd/ButtonAdd";
 
 type CardsProps = {
     cardsData: Card[];
 }
 
 export default function Cards({ cardsData }: CardsProps) {
-    const tableHeads = ['Nome do Cartão', 'Criado em', 'Atualizado Em'];
+    const tableHeads = ['Nome do Cartão'];
 
     const [cards, setCards] = useState<Card[]>(cardsData);
 
@@ -34,6 +35,8 @@ export default function Cards({ cardsData }: CardsProps) {
                 <GenericTable tableHeads={tableHeads} items={cards} />
 
             </div>
+
+            <ButtonAdd onClick={() => { console.log() }} alt="Cadastrar novo cartão" />
         </div>
     )
 }

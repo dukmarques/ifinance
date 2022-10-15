@@ -2,6 +2,7 @@ import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import { useState } from "react";
+import ButtonAdd from "../../../components/ButtonAdd/ButtonAdd";
 import GenericTable from "../../../components/GenericTable/GenericTable";
 import Header from "../../../components/Header/Header";
 import Navbar from "../../../components/Navbar";
@@ -29,6 +30,8 @@ export default function Categories({ categoriesData }: CategoriesProps) {
                 <Header title="Categorias" subtitle="Veja todas as suas cartegorias de entradas" />
                 <GenericTable items={categories} tableHeads={tableHeads} />
             </div>
+
+            <ButtonAdd onClick={() => { console.log('open modal') }} alt="Cadastrar nova categoria" />
         </div>
     )
 }

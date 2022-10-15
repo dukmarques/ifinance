@@ -40,22 +40,6 @@
             }
         }
     }
-    
-    .buttonAdd {
-        position: absolute;
-        bottom: 10px;
-        right: 10px;
-
-        border: 0;
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        background: var(--green);
-
-        &:hover {
-            filter: brightness(0.9);
-        }
-    }
 }
 
 /* Modal Styles */
