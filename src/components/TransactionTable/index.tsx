@@ -22,18 +22,18 @@ export default function TransactionTable({ transactions }: TransactionTableProps
                 <tbody>
                     {transactions.map((transaction, index) => (
                         <tr key={index}>
-                            <td>{transaction.title}</td>
-                            <td className={transaction.type === 'entry' ? Styles.entry : Styles.exit}>
-                                {transaction.type === 'entry' ? '+ ' : '- '}
+                            <td>{transaction.attributes.title}</td>
+                            <td className={transaction.attributes.type === 'entry' ? Styles.entry : Styles.exit}>
+                                {transaction.attributes.type === 'entry' ? '+ ' : '- '}
                                 {new Intl.NumberFormat('pt-BR', {
                                     style: 'currency',
                                     currency: 'BRL',
-                                }).format(transaction.price)}
+                                }).format(transaction.attributes.price)}
                             </td>
-                            <td>{transaction.owner}</td>
-                            <td>{transaction.card.title}</td>
-                            <td>{transaction.category.title}</td>
-                            <td>{transaction.date}</td>
+                            <td>{transaction.attributes.owner}</td>
+                            <td>{transaction.attributes.card?.data.attributes.name}</td>
+                            <td>{transaction.attributes.category?.data.attributes.name}</td>
+                            <td>{transaction.attributes.date}</td>
                         </tr>
                     ))}
                 </tbody>

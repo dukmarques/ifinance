@@ -21,55 +21,22 @@ import TransactionTable from "../../components/TransactionTable";
 
 type DashboardProps = {
     userData: User;
+    transactionsData: Transaction[];
 }
 
-export default function Dashboard({ userData }: DashboardProps) {
+export default function Dashboard({ userData, transactionsData }: DashboardProps) {
     const { userIfinance, setUserIfinance } = useContext(UserContext);
 
     const date = new Date();
 
     const [modalIsOpen, setIsOpen] = useState<boolean>(false);
 
-    const [transactions, setTransactions] = useState<Transaction[]>([
-        {
-            title: 'Salario',
-            price: 3099.00,
-            type: 'entry',
-            owner: 'Minha',
-            card: { id: 1, title: 'Nubank' },
-            category: { id: 1, title: 'Eletrônicos' },
-            date: '01/10/2022',
-            paidOut: false,
-            user: { id: 1, name: 'Eduardo Marques', email: 'eduardomarques@outlook.com' }
-        },
-        {
-            title: 'Monitor Ultrawide 32"',
-            price: 1099.00,
-            type: 'exit',
-            owner: 'Minha',
-            card: { id: 2, title: 'Ourocard' },
-            category: { id: 1, title: 'Eletrônicos' },
-            date: '02/10/2022',
-            paidOut: true,
-            user: { id: 1, name: 'Eduardo Marques', email: 'eduardomarques@outlook.com' }
-        },
-        {
-            title: 'Suporte Duplo para Monitor',
-            price: 299.00,
-            type: 'exit',
-            owner: 'Minha',
-            card: { id: 2, title: 'Ourocard' },
-            category: { id: 1, title: 'Eletrônicos' },
-            date: '03/10/2022',
-            paidOut: false,
-            user: { id: 1, name: 'Eduardo Marques', email: 'eduardomarques@outlook.com' }
-        },
-    ]);
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
 
     useEffect(() => {
         setUserIfinance(userData);
-    }, [])
-
+        setTransactions(transactionsData)
+    }, []);
 
     function openModal() {
         setIsOpen(true);
@@ -144,7 +111,8 @@ export default function Dashboard({ userData }: DashboardProps) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const session = await getSession(context);
-    let userData: User = null;
+    let userData: User;
+    let transactionsData: Transaction[];
 
     if (!session) {
         return {
@@ -155,16 +123,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         }
     }
 
-    const res = await api.get(`users-ifinances?filters[email][$eq]=${session?.user?.email}`);
-    userData = {
-        id: res.data.data[0].id,
-        name: res.data.data[0].attributes.name,
-        email: res.data.data[0].attributes.email
-    }
+    let res = await api.get(`users-ifinances?filters[email][$eq]=${session?.user?.email}`);
+    userData = res.data.data[0];
+
+    res = await api.get(`transactions?filters[users_ifinance][email][$eq]=${session.user?.email}&populate=*`);
+    transactionsData = res.data.data;
 
     return {
         props: {
-            userData
+            userData,
+            transactionsData
         }
     }
 }

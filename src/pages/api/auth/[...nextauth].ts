@@ -27,11 +27,12 @@ export default NextAuth({
       
       callbacks: {
         async signIn({user, account, credentials}) {
-          let userIfinance: User = null;
+          let res;
 
           await api.get(`users-ifinances?filters[email][$eq]=${user.email}`)
             .then(response => {
               if(response.data.data.length !== 0) {
+                res = response.data.data;
                 return true;
               }
             })
@@ -39,7 +40,7 @@ export default NextAuth({
               console.log(err)
             })
           
-          if(!userIfinance) {
+          if(!res) {
             await api.post('users-ifinances', {
               data: {
                 name: user.name,

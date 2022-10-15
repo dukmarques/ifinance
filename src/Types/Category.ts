@@ -1,4 +1,8 @@
 export type Category = {
     id: number;
-    title: string;
+    attributes: {
+        name: string;
+        createdAt: string;
+        updatedAt: string;
+    }
 }

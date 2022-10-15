@@ -1,4 +1,8 @@
 export type Card = {
     id: number;
-    title: string;
+    attributes: {
+        name: string;
+        createdAt: string;
+        updatedAt: string;
+    }
 }

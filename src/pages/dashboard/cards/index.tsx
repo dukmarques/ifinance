@@ -8,8 +8,20 @@ import Header from "../../../components/Header/Header";
 
 import styles from '../../../styles/Dashboard.module.scss';
 import underConstruction from '../../../../public/assets/images/under-construction.svg';
+import GenericTable from "../../../components/GenericTable/GenericTable";
+import { api } from "../../../services/api";
+import { Card } from "../../../Types/Card";
+import { useState } from "react";
 
-export default function Cards() {
+type CardsProps = {
+    cardsData: Card[];
+}
+
+export default function Cards({ cardsData }: CardsProps) {
+    const tableHeads = ['Nome do Cartão', 'Criado em', 'Atualizado Em'];
+
+    const [cards, setCards] = useState<Card[]>(cardsData);
+
     return (
         <div className={styles.container}>
             <Head>
@@ -18,8 +30,9 @@ export default function Cards() {
             <Navbar />
             <div className={styles.content}>
                 <Header title="Cartões" subtitle="Veja todos os seus cartões e os gastos realizados neles" />
-                <Image src={underConstruction} alt="Em construção ..." />
-                <h2>Em construção...</h2>
+
+                <GenericTable tableHeads={tableHeads} items={cards} />
+
             </div>
         </div>
     )
@@ -37,7 +50,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         }
     }
 
+    const res = await api.get(`cards?filters[users_ifinance][email][$eq]=${session?.user?.email}`)
+    let cardsData: Card[] = res.data.data;
+
     return {
-        props: {}
+        props: {
+            cardsData
+        }
     }
 }
