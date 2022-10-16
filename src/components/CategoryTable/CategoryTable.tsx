@@ -5,12 +5,28 @@ import styles from './CategoryTable.module.scss';
 
 import editIcon from '../../../public/assets/icons/edit.svg';
 import deleteIcon from '../../../public/assets/icons/delete.svg';
+import { deleteCategory } from '../../services/category';
+import { notifyError, notifySuccess } from '../../util/notifyToast';
 
 type CategoryProps = {
     items: Category[];
+    attTable: () => void;
+    openModalEdit: (card: Card) => void;
 }
 
-export default function CategoryTable({ items }: CategoryProps) {
+export default function CategoryTable({ items, attTable, openModalEdit }: CategoryProps) {
+
+    async function handleDeleteCategory(id: number) {
+        let res = await deleteCategory(id);
+
+        if (res) {
+            attTable();
+            notifySuccess(`Categoria ${res.attributes.name} excluído com sucesso!`);
+        } else {
+            notifyError('Erro ao deletar cartão!');
+        }
+    }
+
     return (
         <div className={styles.container}>
             <table>
@@ -24,12 +40,12 @@ export default function CategoryTable({ items }: CategoryProps) {
                         <tr key={index}>
                             <td>{item.attributes.name}</td>
                             <td>
-                                <button>
+                                <button onClick={() => openModalEdit(item)}>
                                     <Image src={editIcon} alt="Editar Cartão" />
                                 </button>
                             </td>
                             <td>
-                                <button onClick={() => { }}>
+                                <button onClick={() => handleDeleteCategory(item.id)}>
                                     <Image src={deleteIcon} alt="Remover Cartão" />
                                 </button>
                             </td>

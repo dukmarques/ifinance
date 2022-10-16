@@ -18,7 +18,7 @@ import { User } from "../../../Types/User";
 
 import { notifySuccess, notifyError } from '../../../util/notifyToast';
 import { async } from "@firebase/util";
-import { editCard } from "../../../services/card";
+import { editCard, registerCard } from "../../../services/card";
 
 type CardsProps = {
     userData: User;
@@ -49,21 +49,13 @@ export default function Cards({ userData, cardsData }: CardsProps) {
     async function handleSubmitRegisterCard(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        try {
-            let res = await api.post('cards', {
-                data: {
-                    name: nameCard,
-                    users_ifinance: userData?.id,
-                }
-            })
-
-            if (res.data.data) {
-                getCards();
-                closeModal();
-                notifySuccess(`Cartão ${res.data.data.attributes.name} cadastrado com sucesso!`);
-                setNameCard('');
-            }
-        } catch (error) {
+        const res = await registerCard(userData?.id!, nameCard);
+        if (res) {
+            await getCards();
+            closeModal();
+            notifySuccess(`Cartão ${res.attributes.name} cadastrado com sucesso!`);
+            setNameCard('');
+        } else {
             notifyError('Erro ao cadastrar cartão!');
         }
     }
@@ -74,8 +66,9 @@ export default function Cards({ userData, cardsData }: CardsProps) {
         const res = await editCard(cardEdit?.id!, nameCard);
 
         if (res) {
-            getCards();
+            await getCards();
             closeModalEdit();
+            setNameCard('');
             notifySuccess(`Cartão ${res.attributes.name} editado com sucesso!`);
         } else {
             notifyError('Erro ao editar cartão!');
@@ -118,7 +111,7 @@ export default function Cards({ userData, cardsData }: CardsProps) {
                 closeModal={closeModalEdit}
             >
                 <form onSubmit={handleSubmitEditCard}>
-                    <h3>Editar Cartão {cardEdit?.attributes.name}</h3>
+                    <h3>Editar cartão <strong>{cardEdit?.attributes.name}</strong></h3>
                     <input
                         type="text"
                         value={nameCard}
