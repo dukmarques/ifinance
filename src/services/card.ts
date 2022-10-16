@@ -12,6 +12,14 @@ export async function deleteCard(id: number) {
     }
 }
 
-export async function editCard(card: Card) {
-    
+export async function editCard(id: number, name: string) {
+    try {
+        let res = await api.put(`cards/${id}`, { data: { name } })
+
+        if(res.data.data) {
+            return res.data.data;
+        }
+    } catch (error) {
+        return null;
+    }
 }

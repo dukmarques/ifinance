@@ -18,6 +18,7 @@ import { User } from "../../../Types/User";
 
 import { notifySuccess, notifyError } from '../../../util/notifyToast';
 import { async } from "@firebase/util";
+import { editCard } from "../../../services/card";
 
 type CardsProps = {
     userData: User;
@@ -26,11 +27,23 @@ type CardsProps = {
 
 export default function Cards({ userData, cardsData }: CardsProps) {
     const [cards, setCards] = useState<Card[]>(cardsData);
+    const [cardEdit, setCardEdit] = useState<Card>();
     const [openModal, setOpenModal] = useState<boolean>(false);
+    const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
     const [nameCard, setNameCard] = useState<string>('');
 
     function closeModal() {
         setOpenModal(false);
+    }
+
+    function closeModalEdit() {
+        setOpenModalEdit(false);
+    }
+
+    function openEditModal(item: Card) {
+        setNameCard(item.attributes.name);
+        setCardEdit(item);
+        setOpenModalEdit(true);
     }
 
     async function handleSubmitRegisterCard(e: React.FormEvent<HTMLFormElement>) {
@@ -52,6 +65,20 @@ export default function Cards({ userData, cardsData }: CardsProps) {
             }
         } catch (error) {
             notifyError('Erro ao cadastrar cartão!');
+        }
+    }
+
+    async function handleSubmitEditCard(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+
+        const res = await editCard(cardEdit?.id!, nameCard);
+
+        if (res) {
+            getCards();
+            closeModalEdit();
+            notifySuccess(`Cartão ${res.attributes.name} editado com sucesso!`);
+        } else {
+            notifyError('Erro ao editar cartão!');
         }
     }
 
@@ -84,6 +111,25 @@ export default function Cards({ userData, cardsData }: CardsProps) {
                 </form>
             </Modal>
 
+            <Modal
+                classModal={Styles.modal}
+                classOverlay={Styles.Overlay}
+                openModal={openModalEdit}
+                closeModal={closeModalEdit}
+            >
+                <form onSubmit={handleSubmitEditCard}>
+                    <h3>Editar Cartão {cardEdit?.attributes.name}</h3>
+                    <input
+                        type="text"
+                        value={nameCard}
+                        onChange={(e) => setNameCard(e.target.value)}
+                        placeholder="Nome do Cartão"
+                        required
+                    />
+                    <button type="submit">Editar Cartão</button>
+                </form>
+            </Modal>
+
             <Head>
                 <title>Cartões | iFinances</title>
             </Head>
@@ -91,7 +137,7 @@ export default function Cards({ userData, cardsData }: CardsProps) {
             <div className={Styles.content}>
                 <Header title="Cartões" subtitle="Veja todos os seus cartões e os gastos realizados neles" />
 
-                <CardTable items={cards} attTable={getCards} />
+                <CardTable items={cards} attTable={getCards} openModalEdit={openEditModal} />
             </div>
 
             <ButtonAdd onClick={() => { setOpenModal(true) }} alt="Cadastrar novo cartão" />

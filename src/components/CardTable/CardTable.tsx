@@ -11,9 +11,10 @@ import { notifyError, notifySuccess } from '../../util/notifyToast';
 type CardProps = {
     items: Card[];
     attTable: () => void;
+    openModalEdit: (card: Card) => void;
 }
 
-export default function CardTable({ items, attTable }: CardProps) {
+export default function CardTable({ items, attTable, openModalEdit }: CardProps) {
 
     async function handleDeleteCard(id: number) {
         let res = await deleteCard(id);
@@ -35,11 +36,11 @@ export default function CardTable({ items, attTable }: CardProps) {
                     </tr>
                 </thead>
                 <tbody>
-                    {items.map((item) => (
+                    {items.map((item: Card) => (
                         <tr key={item.id}>
                             <td>{item.attributes.name}</td>
                             <td>
-                                <button>
+                                <button onClick={() => openModalEdit(item)}>
                                     <Image src={editIcon} alt="Editar Cartão" />
                                 </button>
                             </td>
