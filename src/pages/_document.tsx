@@ -12,7 +12,7 @@ export default class MyDocument extends Document {
                     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" />
                     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
-                    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+                    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
                     <meta name="title" content="iFinance" />
                     <meta name="description" content="O iFinance  é um projeto de controle financeiro com a finalidade de ser de fácil utilização. Nele você consegue registrar suas entradas (salário e extras) e saídas (gastos realizados no mês), tendo um controle sobre o quanto ainda pode gastar." />

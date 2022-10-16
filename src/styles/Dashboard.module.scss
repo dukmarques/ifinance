@@ -60,26 +60,15 @@
     .modal {
         background: var(--white);
         width: 500px;
-        height: 600px;
+        height: auto;
         border-radius: 5px;
+        padding: 20px 0px;
 
         display: flex;
         justify-content: center;
         align-items: center;
 
         position: relative;
-
-        .closeModal {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            border: none;
-            background: transparent;
-
-            &:hover {
-                filter: brightness(0.8);
-            }
-        }
 
         form {
             max-width: 400px;
@@ -101,6 +90,13 @@
 
                 color: var(--black-50);
                 margin-bottom: 5px;
+            }
+
+            label {
+                margin-bottom: -15px;
+                text-align: start;
+                width: 100%;
+                color: #969CB3;
             }
 
             input,

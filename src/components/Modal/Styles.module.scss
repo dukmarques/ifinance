@@ -21,4 +21,17 @@
             border-radius: 5px;
         }
     }
+
+    .buttonClose {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        border: none;
+        background: transparent;
+        z-index: 999;
+
+        &:hover {
+            filter: brightness(0.8);
+        }
+    }
 }

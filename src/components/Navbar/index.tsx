@@ -11,6 +11,8 @@ import overview from '../../../public/assets/icons/overview.svg';
 import overviewWhite from '../../../public/assets/icons/overview-white.svg';
 import cards from '../../../public/assets/icons/cards.svg';
 import cardsWhite from '../../../public/assets/icons/cards-white.svg';
+import categorie from '../../../public/assets/icons/category.svg';
+import categorieWhite from '../../../public/assets/icons/category-white.svg';
 import settings from '../../../public/assets/icons/settings.svg';
 import settingsWhite from '../../../public/assets/icons/settings-white.svg';
 import transactions from '../../../public/assets/icons/transactions.svg';
@@ -78,8 +80,8 @@ export default function Navbar() {
 
                     <div onClick={() => router.push('/dashboard/categories')} className={router.pathname === '/dashboard/categories' ? styles.selected : styles.menu}>
                         {router.pathname === '/dashboard/categories'
-                            ? <Image src={cardsWhite} width='30' height='30' alt='Icone do menu de cartões' />
-                            : <Image src={cards} width='30' height='30' alt='Icone do menu de cartões' />
+                            ? <Image src={categorieWhite} width='30' height='30' alt='Icone do menu de cartões' />
+                            : <Image src={categorie} width='30' height='30' alt='Icone do menu de cartões' />
                         }
                         <span>Categorias</span>
                     </div>

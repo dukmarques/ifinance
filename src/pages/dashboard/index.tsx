@@ -6,6 +6,7 @@ import Image from "next/image";
 
 import Navbar from "../../components/Navbar";
 import Styles from '../../styles/Dashboard.module.scss';
+import StylesModal from '../../styles/Modal.module.scss';
 import Header from "../../components/Header/Header";
 import Summary from "../../components/Summary/Summary";
 
@@ -13,7 +14,6 @@ import { api } from "../../services/api";
 import { User } from "../../Types/User";
 import { UserContext } from "../../contexts/UserContext";
 
-import CloseButton from '../../../public/assets/icons/close-button.svg';
 import { Modal } from "../../components/Modal/Modal";
 import { Transaction } from "../../Types/Transaction";
 import TransactionTable from "../../components/TransactionTable";
@@ -37,10 +37,6 @@ export default function Dashboard({ userData, transactionsData }: DashboardProps
         setUserIfinance(userData);
         setTransactions(transactionsData)
     }, []);
-
-    function openModal() {
-        setIsOpen(true);
-    }
 
     function closeModal() {
         setIsOpen(false);
@@ -77,9 +73,6 @@ export default function Dashboard({ userData, transactionsData }: DashboardProps
                     </select>
                     <button type="submit">Cadastrar</button>
                 </form>
-                <button className={Styles.closeModal} onClick={closeModal}>
-                    <Image src={CloseButton} width='40' height='40' alt="Fechar modal" />
-                </button>
             </Modal>
 
             <Head>
@@ -102,7 +95,7 @@ export default function Dashboard({ userData, transactionsData }: DashboardProps
                 </div>
             </div>
 
-            <ButtonAdd onClick={openModal} alt="Adicionar nova transação" />
+            <ButtonAdd onClick={() => { setIsOpen(true) }} alt="Adicionar nova transação" />
         </div>
     )
 }
