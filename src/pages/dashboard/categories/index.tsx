@@ -3,7 +3,7 @@ import { getSession } from "next-auth/react";
 import Head from "next/head";
 import { useState } from "react";
 import ButtonAdd from "../../../components/ButtonAdd/ButtonAdd";
-import GenericTable from "../../../components/GenericTable/GenericTable";
+import CategoryTable from "../../../components/CategoryTable/CategoryTable";
 import Header from "../../../components/Header/Header";
 import Navbar from "../../../components/Navbar";
 import { api } from "../../../services/api";
@@ -16,7 +16,6 @@ type CategoriesProps = {
 
 export default function Categories({ categoriesData }: CategoriesProps) {
     const [categories, setCategories] = useState<Category[]>(categoriesData);
-    const tableHeads = ['Nome da Categoria'];
 
     return (
         <div className={styles.container}>
@@ -28,7 +27,7 @@ export default function Categories({ categoriesData }: CategoriesProps) {
 
             <div className={styles.content}>
                 <Header title="Categorias" subtitle="Veja todas as suas cartegorias de entradas" />
-                <GenericTable items={categories} tableHeads={tableHeads} />
+                <CategoryTable items={categories} />
             </div>
 
             <ButtonAdd onClick={() => { console.log('open modal') }} alt="Cadastrar nova categoria" />

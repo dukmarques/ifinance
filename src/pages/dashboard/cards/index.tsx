@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { MouseEventHandler, useState } from "react";
 
 import { GetServerSideProps } from "next";
 import Head from "next/head";
@@ -9,12 +9,14 @@ import Styles from '../../../styles/Dashboard.module.scss';
 import Navbar from "../../../components/Navbar";
 import Header from "../../../components/Header/Header";
 import ButtonAdd from "../../../components/ButtonAdd/ButtonAdd";
-import GenericTable from "../../../components/GenericTable/GenericTable";
+import CardTable from "../../../components/CardTable/CardTable";
 import { Modal } from "../../../components/Modal/Modal";
 
 import { api } from "../../../services/api";
 import { Card } from "../../../Types/Card";
 import { User } from "../../../Types/User";
+
+import { notifySuccess, notifyError } from '../../../util/notifyToast';
 import { async } from "@firebase/util";
 
 type CardsProps = {
@@ -23,8 +25,6 @@ type CardsProps = {
 }
 
 export default function Cards({ userData, cardsData }: CardsProps) {
-    const tableHeads = ['Nome do Cartão'];
-
     const [cards, setCards] = useState<Card[]>(cardsData);
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [nameCard, setNameCard] = useState<string>('');
@@ -47,10 +47,11 @@ export default function Cards({ userData, cardsData }: CardsProps) {
             if (res.data.data) {
                 getCards();
                 closeModal();
-                alert(`Cartão ${res.data.data.attributes.name} cadastrado com sucesso.`);
+                notifySuccess(`Cartão ${res.data.data.attributes.name} cadastrado com sucesso!`);
+                setNameCard('');
             }
         } catch (error) {
-            alert('Erro ao cadastrar cartão!');
+            notifyError('Erro ao cadastrar cartão!');
         }
     }
 
@@ -90,8 +91,7 @@ export default function Cards({ userData, cardsData }: CardsProps) {
             <div className={Styles.content}>
                 <Header title="Cartões" subtitle="Veja todos os seus cartões e os gastos realizados neles" />
 
-                <GenericTable tableHeads={tableHeads} items={cards} />
-
+                <CardTable items={cards} attTable={getCards} />
             </div>
 
             <ButtonAdd onClick={() => { setOpenModal(true) }} alt="Cadastrar novo cartão" />
