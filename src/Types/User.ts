@@ -3,6 +3,6 @@ export type User = {
     name: string;
     email: string;
     public: boolean;
-    createdAt: string;
-    updatedAt: string;
+    createdAt: Date;
+    updatedAt: Date;
 }| null;
