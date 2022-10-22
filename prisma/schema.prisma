@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  public    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@map("users")
+}
+
+model Transaction {
+  id      Int             @id @default(autoincrement())
+  title   String
+  price   Decimal         @db.Money
+  owner   Owner           @default(MY)
+  type    TypeTransaction @default(EXIT)
+  date    DateTime
+  paidOut Boolean         @default(false)
+
+  @@map("transactions")
+}
+
+model Card {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@map("cards")
+}
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@map("categories")
+}
+
+enum TypeTransaction {
+  ENTRY
+  EXIT
+}
+
+enum Owner {
+  MY
+  OTHER
+}
