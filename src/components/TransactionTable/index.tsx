@@ -21,7 +21,7 @@ export default function TransactionTable({ transactions }: TransactionTableProps
                 </thead>
                 <tbody>
                     {transactions.map((transaction, index) => (
-                        <tr key={index}>
+                        <tr key={index} className={transaction.attributes.paidOut ? Styles.paidOut : ''}>
                             <td>{transaction.attributes.title}</td>
                             <td className={transaction.attributes.type === 'entry' ? Styles.entry : Styles.exit}>
                                 {transaction.attributes.type === 'entry' ? '+ ' : '- '}
@@ -33,7 +33,9 @@ export default function TransactionTable({ transactions }: TransactionTableProps
                             <td>{transaction.attributes.owner}</td>
                             <td>{transaction.attributes.card?.data?.attributes.name}</td>
                             <td>{transaction.attributes.category?.data?.attributes.name}</td>
-                            <td>{transaction.attributes.date}</td>
+                            <td>
+                                {new Intl.DateTimeFormat('pt-BR').format(new Date(transaction.attributes.date))}
+                            </td>
                         </tr>
                     ))}
                 </tbody>

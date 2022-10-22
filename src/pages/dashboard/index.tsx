@@ -117,6 +117,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     let res = await api.get(`users-ifinances?filters[email][$eq]=${session?.user?.email}`);
     userData = res.data.data[0];
 
+    console.log(res.data);
+
     res = await api.get(`transactions?filters[users_ifinance][email][$eq]=${session.user?.email}&populate=*`);
     transactionsData = res.data.data;
 
