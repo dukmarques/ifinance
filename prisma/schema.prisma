@@ -11,47 +11,66 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  public    Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  id           Int           @id @default(autoincrement())
+  name         String
+  email        String        @unique
+  public       Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  transactions Transaction[]
+  cards        Card[]
+  categories   Category[]
 
   @@map("users")
 }
 
 model Transaction {
-  id      Int             @id @default(autoincrement())
-  title   String
-  price   Decimal         @db.Money
-  owner   Owner           @default(MY)
-  type    TypeTransaction @default(EXIT)
-  date    DateTime
-  paidOut Boolean         @default(false)
+  id         Int       @id @default(autoincrement())
+  title      String
+  price      Decimal   @db.Money
+  type       Type      @default(EXIT)
+  owner      Owner     @default(MY)
+  date       DateTime
+  paidOut    Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  User       User?     @relation(fields: [userId], references: [id])
+  userId     Int?
+  Card       Card?     @relation(fields: [cardId], references: [id])
+  cardId     Int?
+  Category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId Int?
 
   @@map("transactions")
 }
 
 model Card {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  id           Int           @id @default(autoincrement())
+  name         String
+  fechamento   DateTime?
+  vencimento   DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  User         User?         @relation(fields: [userId], references: [id])
+  userId       Int?
+  transactions Transaction[]
 
   @@map("cards")
 }
 
 model Category {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  id           Int           @id @default(autoincrement())
+  name         String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  User         User?         @relation(fields: [userId], references: [id])
+  userId       Int?
+  transactions Transaction[]
 
   @@map("categories")
 }
 
-enum TypeTransaction {
+enum Type {
   ENTRY
   EXIT
 }

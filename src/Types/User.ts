@@ -1,9 +1,8 @@
 export type User = {
     id: number;
-    attributes: {
-        name: string;
-        email: string;
-        createdAt: string;
-        updatedAt: string;
-    } 
+    name: string;
+    email: string;
+    public: boolean;
+    createdAt: string;
+    updatedAt: string;
 }| null;

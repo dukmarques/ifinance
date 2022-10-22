@@ -4,17 +4,15 @@ import { User } from "./User";
 
 export type Transaction = {
     id: number;
-    attributes: {
-        title: string;
-        price: number;
-        type: 'entry' | 'exit';
-        owner: string;
-        date: string;
-        paidOut: boolean;
-        category: { data: Category } | null;
-        card: { data: Card; } | null;
-        user: { data: User } | null;
-        createdAt: string;
-        updatedAt: string;
-    }
+    title: string;
+    price: number;
+    type: 'ENTRY' | 'EXIT';
+    owner: string;
+    date: string;
+    paidOut: boolean;
+    category: Category | null;
+    card: Card | null;
+    user: User | null;
+    createdAt: string;
+    updatedAt: string;
 }

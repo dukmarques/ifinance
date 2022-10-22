@@ -1,8 +1,8 @@
 export type Card = {
     id: number;
-    attributes: {
-        name: string;
-        createdAt: string;
-        updatedAt: string;
-    }
+    name: string;
+    fechamento?: string;
+    vencimento?: string;
+    createdAt: string;
+    updatedAt: string;
 }
