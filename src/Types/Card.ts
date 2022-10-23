@@ -3,6 +3,6 @@ export type Card = {
     name: string;
     fechamento?: string;
     vencimento?: string;
-    createdAt: string;
-    updatedAt: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
