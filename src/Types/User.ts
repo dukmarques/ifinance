@@ -1,3 +1,5 @@
+import { Card } from "@prisma/client";
+
 export type User = {
     id: number;
     name: string;
@@ -5,4 +7,5 @@ export type User = {
     public: boolean;
     createdAt: Date;
     updatedAt: Date;
+    cards: Card | Card[] | null;
 }| null;

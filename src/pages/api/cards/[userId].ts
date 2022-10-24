@@ -2,12 +2,9 @@ import { NextApiHandler } from "next";
 import { Card } from "../../../Types/Card";
 import prisma from '../../../../lib/prisma';
 
-// Rota para lidar com todos os cartões de um usuário
-
 const handlerGet: NextApiHandler = async (req, res) => {
     const { userId } = req.query;
 
-    // TODO: pegar todos os cartões dos usuários pelo id
     const cards: Card[] = await prisma.card.findMany({
         where: {
             userId: parseInt(userId as string)
@@ -21,6 +18,20 @@ const handlerPost: NextApiHandler = async (req, res) => {
     const { userId } = req.query;
 
     const { name, closingDate, dueDate } = req.body;
+
+    const exists = await prisma.user.findUnique({
+        where: { id: parseInt(userId as string) },
+        include: {
+            cards: {
+                where: { name: name },
+            }
+        }
+    });
+
+    if(exists?.cards.length! !== 0) {
+        res.status(400).json({ error: 'card with this name already exists' });
+        return;
+    }
 
     if(name) {
         const card: Card = await prisma.card.create({

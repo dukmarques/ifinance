@@ -1,8 +1,8 @@
 export type Card = {
     id: number;
     name: string;
-    fechamento?: string;
-    vencimento?: string;
+    closingDate?: Date | null;
+    dueDate?: Date | null;
     createdAt: Date;
     updatedAt: Date;
 }
