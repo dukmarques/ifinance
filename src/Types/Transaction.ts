@@ -1,3 +1,4 @@
+import { Decimal } from "@prisma/client/runtime";
 import { Card } from "./Card";
 import { Category } from "./Category";
 import { User } from "./User";
@@ -5,14 +6,14 @@ import { User } from "./User";
 export type Transaction = {
     id: number;
     title: string;
-    price: number;
+    price: number | Decimal;
     type: 'ENTRY' | 'EXIT';
-    owner: string;
-    date: string;
+    owner: 'MY' | 'OTHER';
+    date: Date;
     paidOut: boolean;
-    category: Category | null;
-    card: Card | null;
-    user: User | null;
-    createdAt: string;
-    updatedAt: string;
+    category?: Category | null;
+    card?: Card | null;
+    user?: User | null;
+    createdAt: Date;
+    updatedAt: Date;
 }

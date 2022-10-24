@@ -44,7 +44,7 @@ const handlerPut: NextApiHandler = async (req, res) => {
         data.dueDate = new Date(dueDate);
     }
 
-    const updated = await prisma.card.update({
+    const updated: Card | null = await prisma.card.update({
         data,
         where: { id: parseInt(id as string) }
     });
