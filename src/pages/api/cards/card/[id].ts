@@ -1,5 +1,6 @@
 import { NextApiHandler } from "next";
 import prisma from '../../../../../lib/prisma';
+import { Card } from "../../../../Types/Card";
 
 // Rota para lidar com um cartão especifico
 
@@ -12,7 +13,7 @@ type UpdateCard = {
 const handlerGet: NextApiHandler = async (req, res) => {
     const { id } = req.query;
 
-    const card = await prisma.card.findUnique({
+    const card: Card | null = await prisma.card.findUnique({
         where: { id: parseInt(id as string) },
     });
 
