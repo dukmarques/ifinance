@@ -6,8 +6,6 @@ type TransactionTableProps = {
 }
 
 export default function TransactionTable({ transactions }: TransactionTableProps) {
-    console.log(transactions);
-
     return (
         <div className={Styles.container}>
             <table className='transactionTable'>

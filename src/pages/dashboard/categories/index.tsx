@@ -1,18 +1,22 @@
+import { useState } from "react";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
-import { useState } from "react";
+
+import prisma from '../../../../lib/prisma';
+import { api } from "../../../services/api";
+import { editCategory, registerCategory } from "../../../services/category";
+import { notifyError, notifySuccess } from "../../../util/notifyToast";
+
 import ButtonAdd from "../../../components/ButtonAdd/ButtonAdd";
 import CategoryTable from "../../../components/CategoryTable/CategoryTable";
 import Header from "../../../components/Header/Header";
 import { Modal } from "../../../components/Modal/Modal";
 import Navbar from "../../../components/Navbar";
-import { api } from "../../../services/api";
-import { editCategory, registerCategory } from "../../../services/category";
+
 import styles from '../../../styles/Dashboard.module.scss';
 import { Category } from "../../../Types/Category";
 import { User } from "../../../Types/User";
-import { notifyError, notifySuccess } from "../../../util/notifyToast";
 
 type CategoriesProps = {
     userData: User;
@@ -35,7 +39,7 @@ export default function Categories({ userData, categoriesData }: CategoriesProps
     }
 
     function openEditModal(item: Category) {
-        setNameCategory(item.attributes.name);
+        setNameCategory(item.name);
         setCategoryEdit(item);
         setOpenModalEdit(true);
     }
@@ -43,11 +47,11 @@ export default function Categories({ userData, categoriesData }: CategoriesProps
     async function handleSubmitRegisterCategory(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        const res = await registerCategory(userData?.id!, nameCategory);
+        const res: Category = await registerCategory(userData?.id!, nameCategory);
         if (res) {
             await getCategories();
             closeModal();
-            notifySuccess(`Categoria ${res.attributes.name} cadastrado com sucesso!`);
+            notifySuccess(`Categoria ${res.name} cadastrado com sucesso!`);
             setNameCategory('');
         } else {
             notifyError('Erro ao cadastrar categoria!');
@@ -57,13 +61,13 @@ export default function Categories({ userData, categoriesData }: CategoriesProps
     async function handleSubmitEditCategory(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        const res = await editCategory(categoryEdit?.id!, nameCategory);
+        const res: Category = await editCategory(categoryEdit?.id!, nameCategory);
 
         if (res) {
             await getCategories();
             closeModalEdit();
             setNameCategory('');
-            notifySuccess(`Categoria ${res.attributes.name} editada com sucesso!`);
+            notifySuccess(`Categoria ${res.name} editada com sucesso!`);
         } else {
             notifyError('Erro ao editar categoria!');
         }
@@ -71,10 +75,12 @@ export default function Categories({ userData, categoriesData }: CategoriesProps
 
     const getCategories = async () => {
         try {
-            let res = await api.get(`categories?filters[users_ifinance][email][$eq]=${userData?.attributes.email}`)
-            let categoriesData: Category[] = res.data.data;
+            let res = await api.get(`categories/${userData?.id}`)
+            let categoriesData: Category[] = res.data.categories;
             setCategories(categoriesData);
-        } catch (error) { }
+        } catch (error) {
+            notifyError('Erro ao obter as categorias');
+        }
     }
 
     return (
@@ -105,7 +111,7 @@ export default function Categories({ userData, categoriesData }: CategoriesProps
                 closeModal={closeModalEdit}
             >
                 <form onSubmit={handleSubmitEditCategory}>
-                    <h3>Editar cartão <strong>{categoryEdit?.attributes.name}</strong></h3>
+                    <h3>Editar cartão <strong>{categoryEdit?.name}</strong></h3>
                     <input
                         type="text"
                         value={nameCategory}
@@ -136,7 +142,6 @@ export default function Categories({ userData, categoriesData }: CategoriesProps
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const session = await getSession(context);
-    let userData: User;
 
     if (!session) {
         return {
@@ -147,11 +152,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         }
     }
 
-    let res = await api.get(`users-ifinances?filters[email][$eq]=${session?.user?.email}`);
-    userData = res.data.data[0];
+    let userData: User = await prisma.user.findUnique({
+        where: { email: session.user?.email! },
+        select: { id: true, name: true, email: true, public: true }
+    });
 
-    res = await api.get(`categories?filters[users_ifinance][email][$eq]=${session?.user?.email}`)
-    let categoriesData: Category[] = res.data.data;
+    const categoriesData: Category[] = await prisma.category.findMany({
+        where: { userId: userData?.id },
+        select: {
+            id: true,
+            name: true
+        }
+    });
 
     return {
         props: {

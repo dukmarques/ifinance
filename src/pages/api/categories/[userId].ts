@@ -1,6 +1,6 @@
-import { Category } from "@prisma/client";
 import { NextApiHandler } from "next";
 import prisma from '../../../../lib/prisma';
+import { Category } from "../../../Types/Category";
 
 const handlerGet: NextApiHandler = async (req, res) => {
     const { userId } = req.query;
@@ -10,6 +10,10 @@ const handlerGet: NextApiHandler = async (req, res) => {
             User: {
                 id: parseInt(userId as string)
             }
+        },
+        select: {
+            id: true,
+            name: true
         }
     });
     
