@@ -8,6 +8,12 @@ const handlerGet: NextApiHandler = async (req, res) => {
     const cards: Card[] = await prisma.card.findMany({
         where: {
             userId: parseInt(userId as string)
+        },
+        select: {
+            id: true,
+            name: true,
+            closingDate: true,    
+            dueDate: true
         }
     });
 

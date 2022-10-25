@@ -106,7 +106,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     let userData: User = await prisma.user.findUnique({
-        where: { email: session.user?.email! }
+        where: { email: session.user?.email! },
+        select: { id: true, name: true, email: true, public: true }
     });
 
     const transactions: Transaction[] = await prisma.transaction.findMany({
@@ -140,7 +141,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     return {
         props: {
-            userData: JSON.stringify(userData),
+            userData: userData,
             transactionsData
         }
     }

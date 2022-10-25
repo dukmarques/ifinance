@@ -4,6 +4,8 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { getSession } from "next-auth/react";
 
+import prisma from '../../../../lib/prisma';
+
 import Styles from '../../../styles/Dashboard.module.scss';
 
 import Navbar from "../../../components/Navbar";
@@ -17,7 +19,6 @@ import { Card } from "../../../Types/Card";
 import { User } from "../../../Types/User";
 
 import { notifySuccess, notifyError } from '../../../util/notifyToast';
-import { async } from "@firebase/util";
 import { editCard, registerCard } from "../../../services/card";
 
 type CardsProps = {
@@ -41,7 +42,7 @@ export default function Cards({ userData, cardsData }: CardsProps) {
     }
 
     function openEditModal(item: Card) {
-        setNameCard(item.attributes.name);
+        setNameCard(item.name);
         setCardEdit(item);
         setOpenModalEdit(true);
     }
@@ -49,11 +50,12 @@ export default function Cards({ userData, cardsData }: CardsProps) {
     async function handleSubmitRegisterCard(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        const res = await registerCard(userData?.id!, nameCard);
-        if (res) {
+        const card: Card = await registerCard(userData?.id!, nameCard);
+        console.log(card);
+        if (card) {
             await getCards();
             closeModal();
-            notifySuccess(`Cartão ${res.attributes.name} cadastrado com sucesso!`);
+            notifySuccess(`Cartão ${card.name} cadastrado com sucesso!`);
             setNameCard('');
         } else {
             notifyError('Erro ao cadastrar cartão!');
@@ -63,13 +65,13 @@ export default function Cards({ userData, cardsData }: CardsProps) {
     async function handleSubmitEditCard(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        const res = await editCard(cardEdit?.id!, nameCard);
+        const updated: Card = await editCard(cardEdit?.id!, nameCard);
 
-        if (res) {
+        if (updated) {
             await getCards();
             closeModalEdit();
             setNameCard('');
-            notifySuccess(`Cartão ${res.attributes.name} editado com sucesso!`);
+            notifySuccess(`Cartão ${updated.name} editado com sucesso!`);
         } else {
             notifyError('Erro ao editar cartão!');
         }
@@ -77,10 +79,18 @@ export default function Cards({ userData, cardsData }: CardsProps) {
 
     const getCards = async () => {
         try {
-            let res = await api.get(`cards?filters[users_ifinance][email][$eq]=${userData?.attributes.email}`)
-            let cardsData: Card[] = res.data.data;
+            let res = await api.get(`cards/${userData?.id}`);
+            let cardsData: Card[] = res.data.cards.map((item: Card) => {
+                let card: Card = item;
+                card.closingDate = card.closingDate?.toString() || null;
+                card.dueDate = card.dueDate?.toString() || null;
+                return card;
+            });
+
             setCards(cardsData);
-        } catch (error) { }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -111,7 +121,7 @@ export default function Cards({ userData, cardsData }: CardsProps) {
                 closeModal={closeModalEdit}
             >
                 <form onSubmit={handleSubmitEditCard}>
-                    <h3>Editar cartão <strong>{cardEdit?.attributes.name}</strong></h3>
+                    <h3>Editar cartão <strong>{cardEdit?.name}</strong></h3>
                     <input
                         type="text"
                         value={nameCard}
@@ -140,7 +150,6 @@ export default function Cards({ userData, cardsData }: CardsProps) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const session = await getSession(context);
-    let userData: User;
 
     if (!session) {
         return {
@@ -151,15 +160,34 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         }
     }
 
-    let res = await api.get(`users-ifinances?filters[email][$eq]=${session?.user?.email}`);
-    userData = res.data.data[0];
+    let userData: User = await prisma.user.findUnique({
+        where: { email: session.user?.email! },
+        select: { id: true, name: true, email: true, public: true }
+    });
 
-    res = await api.get(`cards?filters[users_ifinance][email][$eq]=${session?.user?.email}`)
-    let cardsData: Card[] = res.data.data;
+    const cards: Card[] = await prisma.card.findMany({
+        where: {
+            userId: userData?.id
+        },
+        select: {
+            id: true,
+            name: true,
+            closingDate: true,
+            dueDate: true
+        }
+    });
+
+    const cardsData: Card[] = cards.map((item: Card) => {
+        let card: Card = item;
+        card.closingDate = card.closingDate?.toString() || null;
+        card.dueDate = card.dueDate?.toString() || null;
+
+        return card;
+    });
 
     return {
         props: {
-            userData,
+            userData: userData,
             cardsData
         }
     }

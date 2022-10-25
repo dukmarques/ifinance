@@ -17,11 +17,11 @@ type CardProps = {
 export default function CardTable({ items, attTable, openModalEdit }: CardProps) {
 
     async function handleDeleteCard(id: number) {
-        let res = await deleteCard(id);
+        let deleted: Card = await deleteCard(id);
 
-        if (res) {
+        if (deleted) {
             attTable();
-            notifySuccess(`Cartão ${res.attributes.name} excluído com sucesso!`);
+            notifySuccess(`Cartão ${deleted.name} excluído com sucesso!`);
         } else {
             notifyError('Erro ao deletar cartão!');
         }
@@ -38,7 +38,7 @@ export default function CardTable({ items, attTable, openModalEdit }: CardProps)
                 <tbody>
                     {items.map((item: Card) => (
                         <tr key={item.id}>
-                            <td>{item.attributes.name}</td>
+                            <td>{item.name}</td>
                             <td>
                                 <button onClick={() => openModalEdit(item)}>
                                     <Image src={editIcon} alt="Editar Cartão" />
