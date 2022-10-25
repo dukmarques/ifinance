@@ -7,7 +7,7 @@ const handlerGet: NextApiHandler = async (req, res) => {
 
     const cards: Card[] = await prisma.card.findMany({
         where: {
-            userId: parseInt(userId as string)
+            User: {id: parseInt(userId as string)}
         },
         select: {
             id: true,
