@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
-import { getSession, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import Head from "next/head";
-import Image from "next/image";
+
+import prisma from '../../../lib/prisma';
 
 import Navbar from "../../components/Navbar";
 import Styles from '../../styles/Dashboard.module.scss';
@@ -25,18 +26,10 @@ type DashboardProps = {
 }
 
 export default function Dashboard({ userData, transactionsData }: DashboardProps) {
-    const { userIfinance, setUserIfinance } = useContext(UserContext);
-
     const date = new Date();
 
     const [modalIsOpen, setIsOpen] = useState<boolean>(false);
-
-    const [transactions, setTransactions] = useState<Transaction[]>([]);
-
-    useEffect(() => {
-        setUserIfinance(userData);
-        setTransactions(transactionsData)
-    }, []);
+    const [transactions, setTransactions] = useState<Transaction[]>(transactionsData);
 
     function closeModal() {
         setIsOpen(false);
@@ -102,8 +95,6 @@ export default function Dashboard({ userData, transactionsData }: DashboardProps
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const session = await getSession(context);
-    let userData: User;
-    let transactionsData: Transaction[];
 
     if (!session) {
         return {
@@ -114,17 +105,42 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         }
     }
 
-    let res = await api.get(`users-ifinances?filters[email][$eq]=${session?.user?.email}`);
-    userData = res.data.data[0];
+    let userData: User = await prisma.user.findUnique({
+        where: { email: session.user?.email! }
+    });
 
-    console.log(res.data);
+    const transactions: Transaction[] = await prisma.transaction.findMany({
+        where: {
+            userId: userData?.id
+        },
+        include: {
+            Card: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            },
+            Category: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        },
+    });
 
-    res = await api.get(`transactions?filters[users_ifinance][email][$eq]=${session.user?.email}&populate=*`);
-    transactionsData = res.data.data;
+    const transactionsData: Transaction[] = transactions.map(function (item: Transaction, index: number) {
+        let transaction: Transaction = { ...item };
+        transaction.price = parseFloat(transaction.price.toString());
+        transaction.date = transaction.date.toString();
+        transaction.createdAt = transaction.createdAt!.toString();
+        transaction.updatedAt = transaction.updatedAt!.toString();
+        return transaction;
+    });
 
     return {
         props: {
-            userData,
+            userData: JSON.stringify(userData),
             transactionsData
         }
     }

@@ -6,6 +6,8 @@ type TransactionTableProps = {
 }
 
 export default function TransactionTable({ transactions }: TransactionTableProps) {
+    console.log(transactions);
+
     return (
         <div className={Styles.container}>
             <table className='transactionTable'>
@@ -21,20 +23,20 @@ export default function TransactionTable({ transactions }: TransactionTableProps
                 </thead>
                 <tbody>
                     {transactions.map((transaction, index) => (
-                        <tr key={index} className={transaction.attributes.paidOut ? Styles.paidOut : ''}>
-                            <td>{transaction.attributes.title}</td>
-                            <td className={transaction.attributes.type === 'entry' ? Styles.entry : Styles.exit}>
-                                {transaction.attributes.type === 'entry' ? '+ ' : '- '}
+                        <tr key={index} className={transaction.paidOut ? Styles.paidOut : ''}>
+                            <td>{transaction.title}</td>
+                            <td className={transaction.type === 'ENTRY' ? Styles.entry : Styles.exit}>
+                                {transaction.type === 'ENTRY' ? '+ ' : '- '}
                                 {new Intl.NumberFormat('pt-BR', {
                                     style: 'currency',
                                     currency: 'BRL',
-                                }).format(transaction.attributes.price)}
+                                }).format(parseFloat(transaction.price.toString()))}
                             </td>
-                            <td>{transaction.attributes.owner}</td>
-                            <td>{transaction.attributes.card?.data?.attributes.name}</td>
-                            <td>{transaction.attributes.category?.data?.attributes.name}</td>
+                            <td>{transaction.owner}</td>
+                            <td>{transaction.Card?.name}</td>
+                            <td>{transaction.Category?.name}</td>
                             <td>
-                                {new Intl.DateTimeFormat('pt-BR').format(new Date(transaction.attributes.date))}
+                                {new Intl.DateTimeFormat('pt-BR').format(new Date(transaction.date))}
                             </td>
                         </tr>
                     ))}

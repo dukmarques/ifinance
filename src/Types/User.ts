@@ -5,7 +5,6 @@ export type User = {
     name: string;
     email: string;
     public: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-    cards: Card | Card[] | null;
+    createdAt?: Date;
+    updatedAt?: Date;
 }| null;

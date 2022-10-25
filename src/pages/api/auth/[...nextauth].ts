@@ -2,9 +2,8 @@ import NextAuth from "next-auth/next";
 import GithubProvider from "next-auth/providers/github";
 import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
-import { api } from "../../../services/api";
 import { User } from "../../../Types/User";
-import { signOut } from "next-auth/react";
+import prisma from '../../../../lib/prisma';
 
 export default NextAuth({
     providers: [
@@ -27,33 +26,19 @@ export default NextAuth({
       
       callbacks: {
         async signIn({user, account, credentials}) {
-          let res;
-
-          await api.get(`users-ifinances?filters[email][$eq]=${user.email}`)
-            .then(response => {
-              if(response.data.data.length !== 0) {
-                res = response.data.data;
-                return true;
-              }
-            })
-            .catch(err => {
-              console.log(err)
-            })
+          let userExists: User | null = await prisma.user.findUnique({
+            where: { email: user.email! }
+          });
           
-          if(!res) {
-            await api.post('users-ifinances', {
+          if(!userExists) {
+            const { name, email } = user;
+
+            await prisma.user.create({
               data: {
-                name: user.name,
-                email: user.email
+                name: name!,
+                email: email!
               }
-            })
-            .then(response => {
-              return true;
-            })
-            .catch(err => {
-              signOut();
-              return false;
-            })
+            });
           }
 
           return true;

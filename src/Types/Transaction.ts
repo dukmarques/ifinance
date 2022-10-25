@@ -9,11 +9,11 @@ export type Transaction = {
     price: number | Decimal;
     type: 'ENTRY' | 'EXIT';
     owner: 'MY' | 'OTHER';
-    date: Date;
+    date: Date | string;
     paidOut: boolean;
-    category?: Category | null;
-    card?: Card | null;
-    user?: User | null;
-    createdAt: Date;
-    updatedAt: Date;
+    Category?: Category | null;
+    Card?: Card | null;
+    User?: User | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
 }
