@@ -28,3 +28,15 @@ export type CreateTransaction = {
     category?: number;
     card?: number;
 }
+
+export type UpdateTransaction = {
+    id: number;
+    title?: string;
+    price?: number;
+    type?: string;
+    date?: Date | string;
+    owner?: string;
+    paidOut?: boolean;
+    category?: number;
+    card?: number;
+}

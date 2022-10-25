@@ -1,4 +1,4 @@
-import { CreateTransaction, Transaction } from "../Types/Transaction";
+import { CreateTransaction, Transaction, UpdateTransaction } from "../Types/Transaction";
 import { api } from "./api";
 
 export async function getTransactionsByUser(userId: number) {
@@ -34,10 +34,27 @@ export async function register(userId: number, transaction: CreateTransaction) {
     }
 }
 
-export async function edit(transaction: Transaction) {
+export async function edit(transaction: UpdateTransaction) {
+    console.log(transaction)
+    try {
+        const res = await api.put(`/transactions/transaction/${transaction.id}`, transaction);
 
+        if(res.data.updated) {
+            return res.data.updated;
+        }
+    } catch (error) {
+        return null;
+    }
 }
 
 export async function deleteTransaction(id: number) {
+    try {
+        const res = await api.delete(`/transactions/transaction/${id}`);
 
+        if(res.data.deleted) {
+            return res.data.deleted;
+        }
+    } catch (error) {
+        return null;
+    }
 }
