@@ -17,3 +17,14 @@ export type Transaction = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
 }
+
+export type CreateTransaction = {
+    title: string;
+    price: number;
+    type: string;
+    date: Date | string;
+    owner: string;
+    paidOut: boolean;
+    category?: number;
+    card?: number;
+}

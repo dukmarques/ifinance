@@ -33,7 +33,22 @@ const handlerGet: NextApiHandler = async (req, res) => {
     const transactions: Transaction[] = await prisma.transaction.findMany({
         where: {
             userId: parseInt(userId as string)
-        }
+        },
+        include: {
+            Card: {
+                select: {
+                    id: true,
+                    name: true,
+                    userId: true
+                }
+            },
+            Category: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        },
     });
 
     res.json({ transactions });
