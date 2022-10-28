@@ -28,7 +28,6 @@ export default function Summary({ transactions }: SummaryProps) {
 
     return (
         <div className={Styles.container}>
-            <h3>Resumo <span>🍃</span></h3>
             <div className={Styles.content}>
                 <div className={Styles.card}>
                     <header>
