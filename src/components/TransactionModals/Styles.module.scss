@@ -27,14 +27,31 @@
         position: relative;
 
         form {
-            max-width: 400px;
+            max-width: 450px;
             width: 100%;
+            padding: 0 10px;
 
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             gap: 15px;
+
+            .row {
+                width: 100%;
+                display: flex;
+                gap: 10px;
+
+                .content {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1;
+
+                    label {
+                        margin-bottom: 0px;
+                    }
+                }
+            }
 
             h3 {
                 font-family: 'Poppins';
@@ -43,6 +60,8 @@
                 line-height: 36px;
                 text-align: start;
                 width: 100%;
+
+                text-align: center;
 
                 color: var(--black-50);
                 margin-bottom: 5px;

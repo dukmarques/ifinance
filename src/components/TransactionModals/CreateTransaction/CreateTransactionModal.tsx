@@ -83,59 +83,68 @@ export default function CreateTransactionModal({ userData, cards, categories, mo
                 <label htmlFor="price">Valor</label>
                 <input type="number" id="price" min="0" step="any" value={priceTransaction} onChange={(e) => setPriceTransaction(parseFloat(e.target.value))} />
 
-                <label htmlFor="type">É uma entrada ou saída?</label>
-                <select id="type" onChange={(e) => setTypeTransaction(e.target.value)}>
-                    <option value="EXIT" selected>Saída</option>
-                    <option value="ENTRY">Entrada</option>
-                </select>
+                <div className={Styles.row}>
+                    <div className={Styles.content}>
+                        <label htmlFor="type">É uma entrada ou saída?</label>
+                        <select id="type" onChange={(e) => setTypeTransaction(e.target.value)}>
+                            <option value="EXIT" selected>Saída</option>
+                            <option value="ENTRY">Entrada</option>
+                        </select>
+                    </div>
+
+                    <div className={Styles.content}>
+                        <label htmlFor="">Data da Transação</label>
+                        <input type="date" onChange={(e) => setDateTransaction(e.target.value)} />
+                    </div>
+                </div>
 
                 {typeTransaction === 'EXIT'
                     ? (
-                        <>
-                            <label htmlFor="paidOut">Transação já paga?</label>
-                            <select id="paidOut" onChange={(e) => setPaidOutTransaction(e.target.value === 'true' ? true : false)}>
-                                <option value="false" selected>Não</option>
-                                <option value="true">Sim</option>
-                            </select>
-                        </>
+                        <div className={Styles.row}>
+                            <div className={Styles.content}>
+                                <label htmlFor="paidOut">Transação já paga?</label>
+                                <select id="paidOut" style={{ width: '100%' }} onChange={(e) => setPaidOutTransaction(e.target.value === 'true' ? true : false)}>
+                                    <option value="false" selected>Não</option>
+                                    <option value="true">Sim</option>
+                                </select>
+                            </div>
+
+                            <div className={Styles.content}>
+                                <label htmlFor="owner">Pertence a você?</label>
+                                <select id="owner" onChange={(e) => setOwnerTransaction(e.target.value)}>
+                                    <option value="MY" selected>Sim</option>
+                                    <option value="OTHER">Não</option>
+                                </select>
+                            </div>
+                        </div>
                     ) : null
                 }
 
+                <div className={Styles.row}>
+                    {typeTransaction === 'EXIT'
+                        ?
+                        <div className={Styles.content}>
+                            <label htmlFor="card" >Cartão</label>
+                            <select id="card" onChange={(e) => setCardTransaction(parseInt(e.target.value))}>
+                                <option value="" selected>Selecione o Cartão</option>
+                                {cards.map((item) => (
+                                    <option key={item.id} value={item.id}>{item.name}</option>
+                                ))}
+                            </select>
+                        </div>
+                        : null
+                    }
 
-                <label htmlFor="">Data da Transação</label>
-                <input type="date" onChange={(e) => setDateTransaction(e.target.value)} />
-
-                {typeTransaction === 'EXIT'
-                    ? <>
-                        <label htmlFor="card">Cartão</label>
-                        <select id="card" onChange={(e) => setCardTransaction(parseInt(e.target.value))}>
-                            <option value="" selected>Selecione o Cartão</option>
-                            {cards.map((item) => (
+                    <div className={Styles.content}>
+                        <label htmlFor="category" >Categoria</label>
+                        <select id="category" onChange={(e) => setCategoryTransaction(parseInt(e.target.value))}>
+                            <option value="" selected>Selecione a Categoria</option>
+                            {categories.map((item) => (
                                 <option key={item.id} value={item.id}>{item.name}</option>
                             ))}
                         </select>
-                    </>
-                    : null
-                }
-
-                <label htmlFor="category">Categoria</label>
-                <select id="category" onChange={(e) => setCategoryTransaction(parseInt(e.target.value))}>
-                    <option value="" selected>Selecione a Categoria</option>
-                    {categories.map((item) => (
-                        <option key={item.id} value={item.id}>{item.name}</option>
-                    ))}
-                </select>
-
-                {typeTransaction === 'EXIT'
-                    ? <>
-                        <label htmlFor="owner">Pertence a você?</label>
-                        <select id="owner" onChange={(e) => setOwnerTransaction(e.target.value)}>
-                            <option value="MY" selected>Sim</option>
-                            <option value="OTHER">Não</option>
-                        </select>
-                    </>
-                    : null
-                }
+                    </div>
+                </div>
 
                 <button type="submit">Cadastrar</button>
             </form>

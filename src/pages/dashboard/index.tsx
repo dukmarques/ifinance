@@ -94,8 +94,7 @@ export default function Dashboard({ userData, transactionsData, cards, categorie
             <div className={Styles.content}>
                 <Header
                     title={'Overview'}
-                    subtitle={`${new Intl.DateTimeFormat('pt-BR', { month: "long" }).format(new Date())} - ${date.getFullYear()}`}
-                    description="Tenha uma visão geral de todos os seus gastos no mês de Janeiro."
+                    description="Tenha uma visão geral de todos os seus gastos no mês."
                 />
                 <Summary transactions={transactions} />
                 <div className={Styles.spending}>
