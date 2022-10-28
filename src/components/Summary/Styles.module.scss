@@ -64,6 +64,10 @@
                 h3 {
                     color: var(--white);
                 }
+
+                &.negative {
+                    background: var(--red);
+                }
             }
     
             header {

@@ -1,11 +1,31 @@
 import Image from 'next/image';
+import { Transaction } from '../../Types/Transaction';
 import Styles from './Styles.module.scss';
 
-import entrys from '../../../public/assets/icons/entrys.svg';
-import exits from '../../../public/assets/icons/exits.svg';
-import balance from '../../../public/assets/icons/balance.svg';
+type SummaryProps = {
+    transactions: Transaction[];
+}
 
-export default function Summary() {
+type Summary = {
+    entries: number;
+    exits: number;
+}
+
+export default function Summary({ transactions }: SummaryProps) {
+
+    const summary: Summary = transactions.reduce((accumulator, current) => {
+        if (current.type === 'ENTRY' && current.owner === 'MY') {
+            accumulator.entries += parseFloat(current.price.toString());
+        } else if (current.type === 'EXIT' && current.owner === 'MY') {
+            accumulator.exits += parseFloat(current.price.toString());
+        }
+
+        return accumulator;
+    }, {
+        entries: 0,
+        exits: 0,
+    });
+
     return (
         <div className={Styles.container}>
             <h3>Resumo <span>🍃</span></h3>
@@ -17,7 +37,12 @@ export default function Summary() {
                             💰
                         </span>
                     </header>
-                    <h3>+R$ 17.400,00</h3>
+                    <h3>
+                        +{new Intl.NumberFormat('pt-BR', {
+                            style: 'currency',
+                            currency: 'BRL',
+                        }).format(summary.entries)}
+                    </h3>
                 </div>
 
                 <div className={Styles.card}>
@@ -27,17 +52,26 @@ export default function Summary() {
                             💸
                         </span>
                     </header>
-                    <h3>-R$ 1.259,00</h3>
+                    <h3>-{new Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL',
+                    }).format(summary.exits)}</h3>
                 </div>
 
-                <div className={Styles.card}>
+                <div className={`${Styles.card} ${(summary.entries - summary.exits) < 0 ? Styles.negative : ''}`}>
                     <header>
                         <span>Saldo</span>
                         <span>
                             🏦
                         </span>
                     </header>
-                    <h3>+R$ 17.400,00</h3>
+                    <h3>
+                        {(summary.entries - summary.exits) >= 0 && '+ '}
+                        {new Intl.NumberFormat('pt-BR', {
+                            style: 'currency',
+                            currency: 'BRL',
+                        }).format(summary.entries - summary.exits)}
+                    </h3>
                 </div>
             </div>
         </div>
