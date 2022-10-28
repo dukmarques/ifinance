@@ -58,7 +58,7 @@ export default function Summary({ transactions }: SummaryProps) {
                     }).format(summary.exits)}</h3>
                 </div>
 
-                <div className={`${Styles.card} ${(summary.entries - summary.exits) < 0 ? Styles.negative : ''}`}>
+                <div className={`${Styles.card} ${(summary.entries - summary.exits) < 0 ? Styles.negative : (summary.entries - summary.exits) <= 100 ? Styles.alert : ''}`}>
                     <header>
                         <span>Saldo</span>
                         <span>

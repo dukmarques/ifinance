@@ -68,6 +68,10 @@
                 &.negative {
                     background: var(--red);
                 }
+
+                &.alert {
+                    background: var(--orange);
+                }
             }
     
             header {
