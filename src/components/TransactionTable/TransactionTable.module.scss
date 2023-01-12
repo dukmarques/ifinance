@@ -17,7 +17,7 @@
         tr {
             td {
                 flex: 1;
-                background-color: var(--white);
+                background-color: var(--black-items);
                 padding: 15px 8px;
                 margin: 0px;
                 text-align: center;
@@ -28,11 +28,11 @@
                 font-weight: 300;
                 font-size: 16px;
                 line-height: 24px;
-                color: #969CB3;
+                color: #C4C4CC;
         
                 &:first-child {
                     border-radius: 5px 0px 0px 5px;
-                    color: var(--black-50);
+                    color: var(--gray);
                 }
         
                 &:last-child {
@@ -65,7 +65,7 @@
 
             &.paidOut td {
                 text-decoration: line-through;
-                background-color: #ccc;
+                background-color: var(--black-card);
             }
         }
     

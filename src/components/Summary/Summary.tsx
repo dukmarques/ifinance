@@ -2,6 +2,10 @@ import Image from 'next/image';
 import { Transaction } from '../../Types/Transaction';
 import Styles from './Styles.module.scss';
 
+import balance from '../../../public/assets/icons/balance.svg';
+import entrys from '../../../public/assets/icons/entrys.svg';
+import exits from '../../../public/assets/icons/exits.svg';
+
 type SummaryProps = {
     transactions: Transaction[];
 }
@@ -32,9 +36,7 @@ export default function Summary({ transactions }: SummaryProps) {
                 <div className={Styles.card}>
                     <header>
                         <span>Entradas</span>
-                        <span>
-                            💰
-                        </span>
+                        <Image src={entrys} alt="Valor de entradas" />
                     </header>
                     <h3>
                         +{new Intl.NumberFormat('pt-BR', {
@@ -47,9 +49,7 @@ export default function Summary({ transactions }: SummaryProps) {
                 <div className={Styles.card}>
                     <header>
                         <span>Saídas</span>
-                        <span>
-                            💸
-                        </span>
+                        <Image src={exits} alt="Valor de saídas" />
                     </header>
                     <h3>-{new Intl.NumberFormat('pt-BR', {
                         style: 'currency',
@@ -60,9 +60,7 @@ export default function Summary({ transactions }: SummaryProps) {
                 <div className={`${Styles.card} ${(summary.entries - summary.exits) < 0 ? Styles.negative : (summary.entries - summary.exits) <= 100 ? Styles.alert : ''}`}>
                     <header>
                         <span>Saldo</span>
-                        <span>
-                            🏦
-                        </span>
+                        <Image src={balance} alt="Balanço das transações" />
                     </header>
                     <h3>
                         {(summary.entries - summary.exits) >= 0 && '+ '}

@@ -20,7 +20,7 @@
 
             td {
                 flex: 5;
-                background-color: var(--white);
+                background-color: var(--black-items);
                 padding: 15px 8px;
                 margin: 0px;
                 text-align: center;
@@ -35,7 +35,7 @@
         
                 &:first-child {
                     border-radius: 5px 0px 0px 5px;
-                    color: var(--black-50);
+                    color: var(--gray);
                 }
         
                 &:last-child {

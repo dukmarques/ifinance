@@ -49,7 +49,7 @@ const handlerPut: NextApiHandler = async (req, res) => {
     if(type) { data.type = type; }
     if(owner) { data.owner = owner; }
     if(date) { data.date = new Date(date);}
-    if(paidOut){ data.paidOut = paidOut === 'true' ? true : false; }
+    if(paidOut){ data.paidOut = paidOut === true ? true : false; }
     if(category) {
         data.Category = { connect: { id: parseInt(category as string) } }
     }
