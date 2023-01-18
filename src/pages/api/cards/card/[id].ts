@@ -6,8 +6,8 @@ import { Card } from "../../../../Types/Card";
 
 type UpdateCard = {
     name?: string;
-    closingDate?: Date;
-    dueDate?: Date;
+    closingDay?: number;
+    dueDay?: number;
 }
 
 const handlerGet: NextApiHandler = async (req, res) => {
@@ -28,21 +28,15 @@ const handlerGet: NextApiHandler = async (req, res) => {
 const handlerPut: NextApiHandler = async (req, res) => {
     const { id } = req.query;
 
-    const { name, closingDate, dueDate } = req.body;
+    const { name, closingDay, dueDay } = req.body;
+
+    console.log(name, closingDay, dueDay)
 
     let data: UpdateCard = {};
 
-    if(name) {
-        data.name = name;
-    }
-
-    if(closingDate) {
-        data.closingDate = new Date(closingDate);
-    }
-
-    if(dueDate) {
-        data.dueDate = new Date(dueDate);
-    }
+    if(name) { data.name = name }
+    if(closingDay) { data.closingDay = parseInt(closingDay as string) }
+    if(dueDay) { data.dueDay = parseInt(dueDay as string) }
 
     const updated: Card | null = await prisma.card.update({
         data,

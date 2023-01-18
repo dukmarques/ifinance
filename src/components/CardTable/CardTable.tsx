@@ -33,12 +33,16 @@ export default function CardTable({ items, attTable, openModalEdit }: CardProps)
                 <thead>
                     <tr>
                         <th>Nome do Cartão</th>
+                        <th>Dia de Fechamento</th>
+                        <th>Dia de Vencimento</th>
                     </tr>
                 </thead>
                 <tbody>
                     {items.map((item: Card) => (
                         <tr key={item.id}>
                             <td>{item.name}</td>
+                            <td>{item.closingDay || '-'}</td>
+                            <td>{item.dueDay || '-'}</td>
                             <td>
                                 <button onClick={() => openModalEdit(item)}>
                                     <Image src={editIcon} alt="Editar Cartão" />

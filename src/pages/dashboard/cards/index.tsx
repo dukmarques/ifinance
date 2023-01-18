@@ -32,6 +32,8 @@ export default function Cards({ userData, cardsData }: CardsProps) {
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
     const [nameCard, setNameCard] = useState<string>('');
+    const [closingDay, setClosingDay] = useState<number>(0);
+    const [dueDay, setDueDay] = useState<number>(0);
 
     function closeModal() {
         setOpenModal(false);
@@ -43,6 +45,8 @@ export default function Cards({ userData, cardsData }: CardsProps) {
 
     function openEditModal(item: Card) {
         setNameCard(item.name);
+        setClosingDay(item.closingDay || 0);
+        setDueDay(item.dueDay || 0);
         setCardEdit(item);
         setOpenModalEdit(true);
     }
@@ -50,22 +54,33 @@ export default function Cards({ userData, cardsData }: CardsProps) {
     async function handleSubmitRegisterCard(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        const card: Card = await registerCard(userData?.id!, nameCard);
-        console.log(card);
-        if (card) {
-            await getCards();
-            closeModal();
-            notifySuccess(`Cartão ${card.name} cadastrado com sucesso!`);
-            setNameCard('');
+        if(closingDay > 31 || dueDay >31) {
+            notifyError('A dia de fechamento ou vencimento não pode ser maior que 31')
+        } else if(closingDay < 1 || dueDay < 1) {
+            notifyError('A dia de fechamento ou vencimento não pode ser menor que 1')
         } else {
-            notifyError('Erro ao cadastrar cartão!');
+            const card: Card = await registerCard(userData?.id!, nameCard, closingDay, dueDay);
+            console.log(card);
+            if (card) {
+                await getCards();
+                closeModal();
+                notifySuccess(`Cartão ${card.name} cadastrado com sucesso!`);
+                setNameCard('');
+            } else {
+                notifyError('Erro ao cadastrar cartão!');
+            }
         }
     }
 
     async function handleSubmitEditCard(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        const updated: Card = await editCard(cardEdit?.id!, nameCard);
+        const updated: Card = await editCard(
+            cardEdit?.id!, 
+            nameCard, 
+            closingDay != 0 ? closingDay : undefined, 
+            dueDay != 0 ? dueDay : undefined
+        );
 
         if (updated) {
             await getCards();
@@ -80,14 +95,7 @@ export default function Cards({ userData, cardsData }: CardsProps) {
     const getCards = async () => {
         try {
             let res = await api.get(`cards/${userData?.id}`);
-            let cardsData: Card[] = res.data.cards.map((item: Card) => {
-                let card: Card = item;
-                card.closingDate = card.closingDate?.toString() || null;
-                card.dueDate = card.dueDate?.toString() || null;
-                return card;
-            });
-
-            setCards(cardsData);
+            setCards(res.data.cards);
         } catch (error) {
             console.log(error);
         }
@@ -110,6 +118,26 @@ export default function Cards({ userData, cardsData }: CardsProps) {
                         placeholder="Nome do Cartão"
                         required
                     />
+
+                    <label htmlFor="">Dia de Fechamento</label>
+                    <input 
+                        type="number"
+                        value={closingDay}
+                        onChange={(e) => setClosingDay(parseInt(e.target.value))}
+                        placeholder="Dia de Fechamento"
+                        min="1"
+                        max="31"
+                    />
+
+                    <label htmlFor="">Dia de Vencimento</label>
+                    <input 
+                        type="number" 
+                        value={dueDay}
+                        onChange={(e) => setDueDay((parseInt(e.target.value)))}
+                        placeholder="Dia de Vencimento"
+                        min="1"
+                        max="31"
+                    />
                     <button type="submit">Cadastrar Cartão</button>
                 </form>
             </Modal>
@@ -128,6 +156,26 @@ export default function Cards({ userData, cardsData }: CardsProps) {
                         onChange={(e) => setNameCard(e.target.value)}
                         placeholder="Nome do Cartão"
                         required
+                    />
+
+                    <label htmlFor="">Dia de Fechamento</label>
+                    <input 
+                        type="number"
+                        value={closingDay}
+                        onChange={(e) => setClosingDay(parseInt(e.target.value))}
+                        placeholder="Dia de Fechamento"
+                        min="0"
+                        max="31"
+                    />
+
+                    <label htmlFor="">Dia de Vencimento</label>
+                    <input 
+                        type="number" 
+                        value={dueDay}
+                        onChange={(e) => setDueDay((parseInt(e.target.value)))}
+                        placeholder="Dia de Vencimento"
+                        min="0"
+                        max="31"
                     />
                     <button type="submit">Editar Cartão</button>
                 </form>
@@ -165,24 +213,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         select: { id: true, name: true, email: true, public: true }
     });
 
-    const cards: Card[] = await prisma.card.findMany({
+    const cardsData: Card[] = await prisma.card.findMany({
         where: {
             userId: userData?.id
         },
         select: {
             id: true,
             name: true,
-            closingDate: true,
-            dueDate: true
+            closingDay: true,
+            dueDay: true
         }
-    });
-
-    const cardsData: Card[] = cards.map((item: Card) => {
-        let card: Card = item;
-        card.closingDate = card.closingDate?.toString() || null;
-        card.dueDate = card.dueDate?.toString() || null;
-
-        return card;
     });
 
     return {

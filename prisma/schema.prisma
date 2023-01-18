@@ -47,8 +47,8 @@ model Transaction {
 model Card {
   id           Int           @id @default(autoincrement())
   name         String
-  closingDate  DateTime?
-  dueDate      DateTime?
+  closingDay  Int?
+  dueDay      Int?
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   User         User?         @relation(fields: [userId], references: [id])

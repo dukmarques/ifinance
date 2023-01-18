@@ -12,8 +12,8 @@ const handlerGet: NextApiHandler = async (req, res) => {
         select: {
             id: true,
             name: true,
-            closingDate: true,    
-            dueDate: true
+            closingDay: true,    
+            dueDay: true
         }
     });
 
@@ -23,7 +23,7 @@ const handlerGet: NextApiHandler = async (req, res) => {
 const handlerPost: NextApiHandler = async (req, res) => {
     const { userId } = req.query;
 
-    const { name, closingDate, dueDate } = req.body;
+    const { name, closingDay, dueDay } = req.body;
 
     const exists = await prisma.user.findUnique({
         where: { id: parseInt(userId as string) },
@@ -43,8 +43,8 @@ const handlerPost: NextApiHandler = async (req, res) => {
         const card: Card = await prisma.card.create({
             data: {
                 name,
-                closingDate: new Date(closingDate),
-                dueDate: new Date(dueDate),
+                closingDay,
+                dueDay,
                 User: {
                     connect: {
                         id: parseInt(userId as string)

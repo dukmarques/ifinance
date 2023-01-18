@@ -1,9 +1,11 @@
 import { api } from "./api";
 
-export async function registerCard(userId: number, name: string) {
+export async function registerCard(userId: number, name: string, closingDay: number|undefined, dueDay: number|undefined) {
     try {
         let res = await api.post(`cards/${userId}`, {
-            name
+            name,
+            closingDay,
+            dueDay
         })
 
         if(res.data) {
@@ -25,10 +27,12 @@ export async function deleteCard(id: number) {
     }
 }
 
-export async function editCard(id: number, name: string) {
+export async function editCard(id: number, name: string, closingDay: number|undefined, dueDay: number|undefined) {
     try {
         let res = await api.put(`cards/card/${id}`, {
-            name 
+            name,
+            closingDay,
+            dueDay
         });
 
         if(res.data.updated) {
