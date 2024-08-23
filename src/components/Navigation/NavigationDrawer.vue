@@ -1,5 +1,6 @@
 <template>
     <VNavigationDrawer
+        v-if="showDrawer"
         v-model="drawer"
         :rail="rail"
         rail-width="80"
@@ -44,10 +45,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
-const drawer = ref(true)
-const rail = ref(false)
+const drawer = ref(true);
+const rail = ref(false);
+const route = useRoute();
+const router = useRouter();
+
+const showDrawer = computed(() => {
+    const excludedRoutesName = [
+        'home','login', 'register'
+    ];
+    return !excludedRoutesName.includes(route.name as string);
+});
 </script>
 
 <style></style>
