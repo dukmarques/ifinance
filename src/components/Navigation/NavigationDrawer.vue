@@ -2,10 +2,9 @@
     <VNavigationDrawer
         v-if="showDrawer"
         v-model="drawer"
-        :rail="rail"
+        :rail="navigation.rail"
         rail-width="80"
         permanent
-        @click="rail = false"
         border="sm"
         rounded="xl"
         width="224"
@@ -22,15 +21,15 @@
             <v-list-item>
                 <div class="d-flex justify-start align-center">
                     <v-btn
-                        :icon="rail
+                        :icon="navigation.getRail
                             ? 'keyboard_double_arrow_right'
                             : 'keyboard_double_arrow_left'"
                         variant="text"
-                        @click.stop="rail = !rail"
+                        @click.stop="navigation.toggleRail"
                         title="Alternar menu"
                     >
                     </v-btn>
-                    <p v-if="!rail" class="text-subtitle-1">Recolher menu</p>
+                    <p v-if="!navigation.getRail" class="text-subtitle-1">Recolher menu</p>
                 </div>
             </v-list-item>
         </v-list>
@@ -53,14 +52,14 @@
             >
                 <div
                     class="d-flex align-center"
-                    :class="rail ? 'justify-center': 'justify-start ga-5 pl-5'"
+                    :class="navigation.rail ? 'justify-center': 'justify-start ga-5 pl-5'"
                 >
                     <v-icon
                         size="x-large"
                         :icon="item.icon"
                     ></v-icon>
                     <v-list-item-title
-                        v-if="!rail"
+                        v-if="!navigation.getRail"
                         class="text-white"
                     >
                         {{ item.title }}
@@ -82,13 +81,13 @@
                 >
                     <div
                         class="d-flex justify-center align-center ga-5"
-                        :class="{ 'justify-center': rail }"
+                        :class="{ 'justify-center': navigation.getRail }"
                     >
                         <v-icon
                             size="large"
                             icon="logout"
                         ></v-icon>
-                        <v-list-item-title v-if="!rail" class="text-white">
+                        <v-list-item-title v-if="!navigation.getRail" class="text-white">
                             Sair
                         </v-list-item-title>
                     </div>
@@ -103,8 +102,10 @@ import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import { useToast } from '@/stores/toast';
+import { useNavigationStore } from '@/stores/navigation';
 
 const drawer = ref(true);
+const navigation = useNavigationStore();
 const rail = ref(false);
 const route = useRoute();
 const router = useRouter();
