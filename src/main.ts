@@ -1,40 +1,12 @@
+/* eslint-disable import/extensions */
 import { createApp } from 'vue';
-
-import 'vuetify/styles';
-import '@mdi/font/css/materialdesignicons.css';
-import { createVuetify } from 'vuetify';
-import * as components from 'vuetify/components';
-import * as directives from 'vuetify/directives';
-import { aliases, mdi } from 'vuetify/iconsets/mdi';
-
 import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
-
+import Vue3Toastify, { type ToastContainerOptions } from 'vue3-toastify';
+import { VueAxios, axios } from './services/axios';
+import vuetify from './plugins/vuetify';
 import App from './App.vue';
 import router from './router/router';
-
-const vuetify = createVuetify({
-    components,
-    directives,
-    theme: {
-        defaultTheme: 'dark',
-        themes: {
-            dark: {
-                colors: {
-                    primary: '#359766',
-                    secondary: '#202223',
-                }
-            }
-        }
-    },
-    icons: {
-        defaultSet: 'mdi',
-        aliases,
-        sets: {
-            mdi,
-        },
-    },
-});
 
 const app = createApp(App);
 
@@ -44,5 +16,8 @@ pinia.use(piniaPluginPersistedstate);
 app.use(vuetify);
 app.use(pinia);
 app.use(router);
+app.use(VueAxios, axios);
+app.provide('axios', app.config.globalProperties.axios);
+app.use(Vue3Toastify, { autoClose: 3000 } as ToastContainerOptions);
 
 app.mount('#app');

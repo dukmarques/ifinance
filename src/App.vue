@@ -13,5 +13,8 @@ import { RouterView } from 'vue-router';
 import NavigationDrawer from './components/Navigation/NavigationDrawer.vue';
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.Toastify__toast-container {
+    width: 600px !important;
+}
 </style>
