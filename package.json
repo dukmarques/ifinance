@@ -17,7 +17,9 @@
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
     "vue": "^3.4.29",
+    "vue-axios": "^3.5.2",
     "vue-router": "^4.3.3",
+    "vue3-toastify": "^0.2.2",
     "vuetify": "^3.7.0"
   },
   "devDependencies": {
@@ -36,7 +38,9 @@
     "eslint-plugin-jest": "^27.9.0",
     "eslint-plugin-vue": "^9.23.0",
     "jsdom": "^24.1.0",
+    "material-design-icons-iconfont": "^6.7.0",
     "npm-run-all2": "^6.2.0",
+    "sass": "^1.77.8",
     "typescript": "~5.4.0",
     "vite": "^5.3.1",
     "vite-plugin-vue-devtools": "^7.3.1",
