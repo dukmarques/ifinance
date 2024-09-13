@@ -1,0 +1,12 @@
+<template>
+    <v-btn
+        v-bind="$attrs"
+        type="submit"
+        color="primary"
+        dark
+        density="default"
+        size="large"
+    >
+        <slot>Enviar</slot>
+    </v-btn>
+</template>
