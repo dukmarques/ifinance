@@ -13,6 +13,7 @@ module.exports = {
     parserOptions: {
         ecmaVersion: 'latest',
     },
+    ignorePatterns: ['Icon*.vue'],
     rules: {
         indent: [
             'error',
@@ -42,5 +43,8 @@ module.exports = {
                 ignores: [],
             },
         ],
+        'import/no-unresolved': 'off',
+        'import/prefer-default-export': 'off',
+        'import/extensions': 'off',
     },
 };
