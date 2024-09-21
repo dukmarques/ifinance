@@ -13,17 +13,10 @@
     >
         <v-list
             nav
-            :height="navigation.getRail ? '100' : '240'"
+            :height="navigation.getRail ? '100' : '200'"
         >
             <v-list-item>
                 <div class="d-flex flex-column justify-center align-center">
-                    <v-img
-                        v-if="!navigation.getRail"
-                        :src="logo"
-                        width="100"
-                        transition="scroll-y-transition"
-                        aspect-ratio="16/9"
-                    />
                     <div
                         class="box-avatar d-flex justify-center align-center mt-5 mb-3"
                         :class="{ 'rail': navigation.getRail }"
@@ -58,7 +51,7 @@
                 link
                 :to="item.to"
                 :active="isMenuActive(item.name)"
-                active-color="primary"
+                color="primary"
                 class="mt-2"
             >
                 <div
@@ -129,11 +122,11 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { Icon } from '@iconify/vue';
 import { useUserStore } from '@/stores/user';
 import { useToast } from '@/stores/toast';
 import { useNavigationStore } from '@/stores/navigation';
-import logo from '@/assets/logo-primary.png';
 
 const drawer = ref(true);
 const navigation = useNavigationStore();
