@@ -1,5 +1,4 @@
 /* eslint-env node */
-// eslint-disable-next-line import/no-extraneous-dependencies
 require('@rushstack/eslint-patch/modern-module-resolution');
 
 module.exports = {
@@ -8,7 +7,7 @@ module.exports = {
         'plugin:vue/vue3-essential',
         'eslint:recommended',
         '@vue/eslint-config-typescript',
-        'airbnb-base',
+        '@vue/eslint-config-prettier/skip-formatting',
     ],
     parserOptions: {
         ecmaVersion: 'latest',
@@ -43,8 +42,5 @@ module.exports = {
                 ignores: [],
             },
         ],
-        'import/no-unresolved': 'off',
-        'import/prefer-default-export': 'off',
-        'import/extensions': 'off',
-    },
+    }
 };
