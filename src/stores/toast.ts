@@ -21,5 +21,13 @@ export const useToast = defineStore('toast', {
                 dangerouslyHTMLString: true,
             } as ToastOptions);
         },
+
+        showSuccess(message: string, timeout = 3000) {
+            this.show(message, 'success', timeout);
+        },
+
+        showError(message: string, timeout = 3000) {
+            this.show(message, 'error', timeout);
+        }
     },
 });
