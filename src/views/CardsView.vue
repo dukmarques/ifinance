@@ -3,12 +3,12 @@
         fluid class="ml-5"
     >
         <v-row>
-            <HeaderViews
-                title="Cartões"
+            <HeaderViews 
+                title="Cartões" 
                 subtitle="Aqui estão todos os seus cartões"
                 hasFabButton
                 fabButtonTitle="Adicionar cartão"
-                :fabButtonClick="() => console.log('Adicionar cartão')"
+                :fabButtonClick="toggleCreateDialog"
             />
         </v-row>
         <v-row>
@@ -22,23 +22,44 @@
                 xxl="2"
                 class="d-flex justify-start align-center"
             >
-                <CreditCard
-                    :loading="loading"
-                    :card="card"
+                <CreditCard 
+                    :loading="loading" 
+                    :card="card" 
                 />
             </v-col>
         </v-row>
+
+        <ManageCardDialog
+            v-model="createDialog"
+            :loading="loadingDialog"
+            :provider="create"
+            @close="toggleCreateDialog()"
+        ></ManageCardDialog>
     </v-container>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import HeaderViews from '@/components/Header/HeaderViews.vue';
 import CreditCard from '@/components/Cards/CreditCard.vue';
 import { useCardsStore } from '@/stores/cards';
+import ManageCardDialog from '@/components/Cards/ManageCardDialog.vue';
+import type { Card } from '@/types/Card';
 
 const { cards, loading } = storeToRefs(useCardsStore());
 const { fetchCards } = useCardsStore();
 
+const createDialog = ref(false);
+const loadingDialog = ref(false);
+
+const toggleCreateDialog = () => {
+    createDialog.value = !createDialog.value;
+}
+
 fetchCards();
+
+async function create(card: Card) {
+    console.log(card);
+}
 </script>

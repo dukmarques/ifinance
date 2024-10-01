@@ -5,6 +5,7 @@
         elevation="10"
         id="credit-card"
         v-if="!loading"
+        :color="card?.background_color"
     >
         <template #image>
             <v-img
@@ -14,11 +15,13 @@
             ></v-img>
         </template>
 
-        <v-card-item class="px-7 py-3">
+        <v-card-item class="px-7 py-5">
             <div class="header d-flex justify-space-between align-center">
                 <p class="title">{{ card?.name }}</p>
-                <Icon v-if="Math.random() > 0.5" icon="simple-icons:visa" width="60" />
-                <Icon v-else icon="simple-icons:mastercard" width="60" />
+                <v-img
+                    :src="icons[card?.card_flag]"
+                    class="flag-icon"
+                ></v-img>
             </div>
 
             <div class="limit">
@@ -26,7 +29,7 @@
                 <p :id="`available-${card?.id}`" class="value">0</p>
                 <div class="progress d-flex justify-space-between">
                     <p>R$0</p>
-                    <p>R$ 40.000,00</p>
+                    <p>{{ formatCurrency(card?.limit!) }}</p>
                 </div>
                 <v-progress-linear
                     color="gray-darken-2"
@@ -37,8 +40,8 @@
             </div>
 
             <div class="footer mt-7 d-flex justify-space-between">
-                <p class="font-weight-bold">Fecha dia: {{ closingDate }}</p>
-                <p class="font-weight-bold">Vence dia: {{ dueDate }}</p>
+                <p class="font-weight-bold">Fecha dia: {{ card?.closing_date }}</p>
+                <p class="font-weight-bold">Vence dia: {{ card?.due_date }}</p>
             </div>
         </v-card-item>
     </v-card>
@@ -56,11 +59,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import { Icon } from '@iconify/vue';
 import { CountUp } from 'countup.js';
 import CreditCardBg from '@/assets/credit-card-bg.png';
 import type { Card } from '@/types/Card';
 import { formatDateToMMYY } from '@/helpers/dateFormat';
+import { formatCurrency } from '@/helpers/currencyFormat';
+import { icons } from '@/utils/creditIcons';
 
 const props = defineProps({
     loading: {
@@ -93,15 +97,12 @@ onMounted(() => {
 
     countUp.value?.start();
 });
-
-const closingDate = computed(() => formatDateToMMYY(props.card!.closing_date));
-const dueDate = computed(() => formatDateToMMYY(props.card!.due_date));
 </script>
 
 <style lang="scss" scoped>
 #credit-card {
     border-radius: 20px;
-    background: linear-gradient(106.15deg, #359766 -30.54%, #10393B 113.37%);
+    // background: linear-gradient(106.15deg, #359766 -30.54%, #10393B 113.37%);
 
     .bg-image {
         opacity: 0.7 !important;
@@ -111,6 +112,11 @@ const dueDate = computed(() => formatDateToMMYY(props.card!.due_date));
         .title {
             font-size: 24px;
             font-weight: bold;
+        }
+
+        .flag-icon {
+            max-width: 40px;
+            height: 40px;
         }
     }
 
