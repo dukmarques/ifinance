@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { type Card } from '@/types/Card';
 import { axios } from '../services/axios';
+import { useToast } from './toast';
 
 export const useCardsStore = defineStore('cardsStore', {
     state: () => ({
@@ -11,15 +12,26 @@ export const useCardsStore = defineStore('cardsStore', {
     actions: {
         async fetchCards() {
             this.fillCardsForLoading();
-            // eslint-disable-next-line no-useless-catch
             try {
-                this.loading = true;
+                this.toggleLoading();
                 const { data } = await axios.get('/cards');
                 this.cards = data.data;
             } catch (err: any) {
-                throw err;
+                useToast().showError(err.response.data.message);
             } finally {
-                this.loading = false;
+                this.toggleLoading();
+            }
+        },
+
+        async createCard(card: Card) {
+            this.toggleLoading();
+            try {
+                await axios.post('/cards', card);
+                this.fetchCards();
+            } catch (err: any) {
+                useToast().showError(err.response.data.message);
+            } finally {
+                this.toggleLoading();
             }
         },
 
