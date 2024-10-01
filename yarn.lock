@@ -2261,6 +2261,11 @@ magic-string@^0.30.10, magic-string@^0.30.4, magic-string@^0.30.5:
   dependencies:
     "@jridgewell/sourcemap-codec" "^1.5.0"
 
+maska@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/maska/-/maska-3.0.2.tgz#cdeb229ea581370cabd3a232aedd1e3d55198af0"
+  integrity sha512-onh3JCFrkUTFrrhhDpfQZGwQ830zeEUEVbuQDZpLzY/JXJ5QR+hQ6FJ7lcw1NikAixtpGXkxxC+teO5glT3Vyw==
+
 material-design-icons-iconfont@^6.7.0:
   version "6.7.0"
   resolved "https://registry.yarnpkg.com/material-design-icons-iconfont/-/material-design-icons-iconfont-6.7.0.tgz#55cf0f3d7e4c76e032855b7e810b6e30535eff3c"
