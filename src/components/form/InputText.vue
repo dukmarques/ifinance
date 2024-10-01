@@ -10,6 +10,7 @@
         variant="outlined"
         base-color="#A8A8B3"
         color="primary"
+        :rules="withRules ? rules : []"
     ></v-text-field>
 </template>
 
@@ -29,6 +30,14 @@ const props = defineProps({
     required: {
         type: Boolean as PropType<boolean>,
         default: false,
+    },
+    withRules: {
+        type: Boolean as PropType<boolean>,
+        default: false,
+    },
+    rules: {
+        type: Array as PropType<string[]>,
+        default: () => [(v: string) => !!v || 'Campo obrigatório'],
     },
 });
 
