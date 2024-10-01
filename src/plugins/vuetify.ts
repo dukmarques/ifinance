@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import 'vuetify/styles';
 
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
@@ -7,9 +6,13 @@ import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import { aliases, md } from 'vuetify/iconsets/md';
+import { VNumberInput } from 'vuetify/labs/VNumberInput'
 
 const vuetify = createVuetify({
-    components,
+    components: {
+        ...components,
+        VNumberInput,
+    },
     directives,
     theme: {
         defaultTheme: 'dark',
