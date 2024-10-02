@@ -3,7 +3,7 @@ import type { User } from './User';
 type Card = {
     id: string;
     name: string;
-    closing_date: number;
+    closing_day: number;
     due_date: number;
     limit: number;
     user_id: string;
