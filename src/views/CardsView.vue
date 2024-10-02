@@ -24,7 +24,7 @@
             >
                 <CreditCard 
                     :loading="loading" 
-                    :card="card" 
+                    :card="card"
                 />
             </v-col>
         </v-row>
@@ -48,7 +48,7 @@ import ManageCardDialog from '@/components/Cards/ManageCardDialog.vue';
 import type { Card } from '@/types/Card';
 
 const { cards, loading } = storeToRefs(useCardsStore());
-const { fetchCards } = useCardsStore();
+const { fetchCards, createCard } = useCardsStore();
 
 const createDialog = ref(false);
 const loadingDialog = ref(false);
@@ -60,6 +60,12 @@ const toggleCreateDialog = () => {
 fetchCards();
 
 async function create(card: Card) {
-    console.log(card);
+    loadingDialog.value = true;
+    try {
+        await createCard(card);
+        toggleCreateDialog();
+    } finally{
+        loadingDialog.value = false;
+    };
 }
 </script>
