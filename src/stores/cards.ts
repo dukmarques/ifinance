@@ -18,20 +18,41 @@ export const useCardsStore = defineStore('cardsStore', {
                 this.cards = data.data;
             } catch (err: any) {
                 useToast().showError(err.response.data.message);
+                throw err;
             } finally {
                 this.toggleLoading();
             }
         },
 
         async createCard(card: Card) {
-            this.toggleLoading();
             try {
                 await axios.post('/cards', card);
                 this.fetchCards();
             } catch (err: any) {
                 useToast().showError(err.response.data.message);
-            } finally {
-                this.toggleLoading();
+                throw err;
+            }
+        },
+
+        async updateCard(card: Card) {
+            try {
+                await axios.put(`/cards/${card.id}`, card);
+                useToast().showSuccess('Cartão atualizado com sucesso');
+                this.fetchCards();
+            } catch (err: any) {
+                useToast().showError(err.response.data.message);
+                throw err;
+            }
+        },
+
+        async deleteCard(cardId: string) {
+            try {
+                await axios.delete(`/cards/${cardId}`);
+                useToast().showSuccess('Cartão deletado com sucesso');
+                this.fetchCards();
+            } catch (err: any) {
+                useToast().showError(err.response.data.message);
+                throw err;
             }
         },
 
