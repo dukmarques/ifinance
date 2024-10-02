@@ -32,7 +32,7 @@
 
                         <v-col cols="12" sm="4">
                             <InputNumber
-                                v-model="localCard.closing_date"
+                                v-model="localCard.closing_day"
                                 label="Data de fechamento"
                                 :max="31"
                                 :min="1"
@@ -88,12 +88,15 @@
                     <ButtonForm
                         :loading="loading"
                         variant="tonal"
+                        type="submit"
                     >
                         Salvar
                     </ButtonForm>
                 </v-card-actions>
             </v-card>
         </v-form>
+
+
     </v-dialog>
 </template>
 
@@ -124,9 +127,9 @@ const props = defineProps({
         default: () => ({
             id: '',
             name: '',
-            closing_date: 1,
+            closing_day: 1,
             due_date: 1,
-            limit: '',
+            limit: 0,
             background_color: '',
             card_flag: '',
         }),
