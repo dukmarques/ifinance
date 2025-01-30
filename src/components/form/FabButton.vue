@@ -10,11 +10,12 @@
         title="Adicionar"
     >
         <slot>
-            <Icon icon="fluent:add-24-filled" width="24" />
+            <!-- <Icon icon="fluent:add-24-filled" width="24" /> -->
+            <v-icon icon="fa-solid fa-plus" color="white" size="small"/>
         </slot>
     </v-fab>
 </template>
 
 <script setup lang="ts">
-import { Icon } from '@iconify/vue';
+
 </script>
