@@ -3,7 +3,7 @@
         v-bind="$attrs"
         v-model="password"
         @update:model-value="$emit('update:modelValue', password)"
-        :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+        :append-inner-icon="showPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"
         :type="showPassword ? 'text' : 'password'"
         @click:append-inner="showPassword = !showPassword"
     />
