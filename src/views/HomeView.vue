@@ -15,14 +15,14 @@
             <VBtn
                 size="large"
                 rounded="lg"
-                width="285"
-                height="60"
+                width="245"
+                height="50"
                 @click="router.push('/login')"
                 color="secondary"
             >
                 Acessar
                 <template v-slot:append>
-                    <VIcon icon="mdi-arrow-right" color="primary"/>
+                    <v-icon icon="fa-solid fa-arrow-right-to-bracket" color="white"/>
                 </template>
             </VBtn>
         </VRow>
