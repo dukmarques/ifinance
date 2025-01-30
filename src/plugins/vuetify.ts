@@ -1,11 +1,10 @@
 import 'vuetify/styles';
-
-import 'material-design-icons-iconfont/dist/material-design-icons.css';
+import '@fortawesome/fontawesome-free/css/all.css'
 
 import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
-import { aliases, md } from 'vuetify/iconsets/md';
+import { aliases, fa } from 'vuetify/iconsets/fa'
 import { VNumberInput } from 'vuetify/labs/VNumberInput'
 
 const vuetify = createVuetify({
@@ -27,10 +26,10 @@ const vuetify = createVuetify({
         },
     },
     icons: {
-        defaultSet: 'md',
+        defaultSet: 'fa',
         aliases,
         sets: {
-            md,
+            fa,
         },
     },
 });
