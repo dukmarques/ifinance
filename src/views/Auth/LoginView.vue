@@ -156,10 +156,11 @@ async function login() {
 
 <style lang="scss" scoped>
 #register {
+    height: 100%;
     padding: 0px;
 
     .illustration {
-        height: 100vh;
+        height: 101vh;
     }
 
     .form-content {
