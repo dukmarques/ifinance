@@ -7,6 +7,6 @@
         density="default"
         size="large"
     >
-        <slot>Enviar</slot>
+        <slot></slot>
     </v-btn>
 </template>
