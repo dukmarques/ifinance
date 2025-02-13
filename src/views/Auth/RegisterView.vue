@@ -89,6 +89,12 @@
 
                     <v-row>
                         <v-col cols="12">
+                            <PasswordValidationInfo :password="password" />
+                        </v-col>
+                    </v-row>
+
+                    <v-row>
+                        <v-col cols="12">
                             <ButtonForm
                                 :loading="loading"
                                 block
@@ -134,6 +140,7 @@ import ButtonForm from '@/components/form/ButtonForm.vue';
 import prosperifyLogo from '@/assets/logo-primary.png';
 import RegisterIcon from '@/components/icons/IconRegister.vue';
 import { useToast } from '@/stores/toast';
+import PasswordValidationInfo from '@/components/Auth/PasswordValidationInfo.vue';
 
 const router = useRouter();
 const toast = useToast();
@@ -189,10 +196,11 @@ async function register() {
 
 <style lang="scss" scoped>
 #register {
+    height: 100%;
     padding: 0px;
 
     .illustration {
-        height: 100vh;
+        height: 101vh;
     }
 
     .form-content {
@@ -201,7 +209,9 @@ async function register() {
         align-items: center;
 
         .form {
-            max-width: 320px;
+            border: 1px solid rgb(var(--v-theme-primary), 0.3);
+            border-radius: 12px;
+            max-width: 355px;
             width: 100%;
 
             .v-col {
