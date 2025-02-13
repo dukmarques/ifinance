@@ -169,7 +169,9 @@ async function login() {
         align-items: center;
 
         .form {
-            max-width: 320px;
+            border: 1px solid rgb(var(--v-theme-primary), 0.3);
+            border-radius: 12px;
+            max-width: 355px;
             width: 100%;
 
             .v-col {
