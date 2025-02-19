@@ -21,10 +21,7 @@
                         class="box-avatar d-flex justify-center align-center mt-5 mb-3"
                         :class="{ 'rail': navigation.getRail }"
                     >
-                        <Icon
-                            icon="fluent:person-48-filled"
-                            :width="!navigation.getRail ? '64' : '48'"
-                        />
+                        <IconPerson :width="!navigation.getRail ? 48 : 28" />
                     </div>
 
                     <v-list-item-title v-if="!navigation.getRail">
@@ -58,7 +55,8 @@
                     class="d-flex align-center"
                     :class="navigation.rail ? 'justify-center': 'justify-start ga-5 pl-5'"
                 >
-                    <Icon :icon="item.icon" width="34" />
+                    <component :is="item.icon" />
+
                     <v-list-item-title
                         v-if="!navigation.getRail"
                         class="text-white"
@@ -82,10 +80,8 @@
                         class="d-flex justify-center align-center ga-2"
                         :class="{ 'justify-center': navigation.getRail }"
                     >
-                        <Icon
-                            icon="fluent:arrow-exit-20-regular"
-                            width="24"
-                        />
+                        <v-icon icon="fa-solid fa-arrow-right-from-bracket"></v-icon>
+
                         <v-list-item-title v-if="!navigation.getRail" class="text-white">
                             <p class="text-subtitle-2">Sair</p>
                         </v-list-item-title>
@@ -101,10 +97,9 @@
                             @click.stop="navigation.toggleRail"
                             title="Alternar menu"
                         >
-                            <Icon
-                                icon="fluent:arrow-swap-28-regular"
-                                width="24"
-                            />
+                            <v-icon 
+                                :icon="!navigation.getRail ? 'fa-solid fa-angles-left' : 'fa-solid fa-angles-right'"
+                            ></v-icon>
                             <p
                                 v-if="!navigation.getRail"
                                 class="text-subtitle-2 ml-2"
@@ -122,11 +117,13 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Icon } from '@iconify/vue';
 import { useUserStore } from '@/stores/user';
 import { useToast } from '@/stores/toast';
 import { useNavigationStore } from '@/stores/navigation';
+import IconOverview from '@/components/icons/IconOverview.vue';
+import IconCard from '@/components/icons/IconCard.vue';
+import IconCategory from '@/components/icons/IconCategory.vue';
+import IconPerson from '@/components/icons/IconPerson.vue';
 
 const drawer = ref(true);
 const navigation = useNavigationStore();
@@ -138,19 +135,19 @@ const toast = useToast();
 const menuItems = [
     {
         title: 'Dashboard',
-        icon: 'fluent:board-28-filled',
+        icon: IconOverview,
         to: '/dashboard',
         name: 'dashboard',
     },
     {
         title: 'Cartões',
-        icon: 'fluent:card-ui-24-filled',
+        icon: IconCard,
         to: '/cards',
         name: 'cards',
     },
     {
         title: 'Categorias',
-        icon: 'fluent:apps-list-detail-24-filled',
+        icon: IconCategory,
         to: '/categories',
         name: 'categories',
     },
