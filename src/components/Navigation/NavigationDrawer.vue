@@ -120,10 +120,12 @@ import { useRoute, useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import { useToast } from '@/stores/toast';
 import { useNavigationStore } from '@/stores/navigation';
+
 import IconOverview from '@/components/icons/IconOverview.vue';
 import IconCard from '@/components/icons/IconCard.vue';
 import IconCategory from '@/components/icons/IconCategory.vue';
 import IconPerson from '@/components/icons/IconPerson.vue';
+import IconSettings from '@/components/icons/IconSettings.vue';
 
 const drawer = ref(true);
 const navigation = useNavigationStore();
@@ -150,6 +152,12 @@ const menuItems = [
         icon: IconCategory,
         to: '/categories',
         name: 'categories',
+    },
+    {
+        title: 'Configurações',
+        icon: IconSettings,
+        to: '/settings',
+        name: 'settings',
     },
 ];
 
