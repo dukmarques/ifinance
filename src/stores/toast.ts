@@ -13,7 +13,7 @@ export const useToast = defineStore('toast', {
     actions: {
         show(message: string, type: string, timeout = 3000) {
             toast(message, {
-                theme: 'colored',
+                theme: 'dark',
                 type,
                 autoClose: timeout,
                 position: toast.POSITION.TOP_RIGHT,
