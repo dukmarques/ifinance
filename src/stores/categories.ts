@@ -24,14 +24,39 @@ export const useCategoriesStore = defineStore("categoriesStore", {
             }
         },
 
-        async createCategory(category: Category) {},
+        async createCategory(category: Category) {
+            try {
+                await axios.post("/categories", category);
+                this.fetchCategories();
+            } catch (err: any) {
+                useToast().showError(err.response.data.message);
+                throw err;
+            }
+        },
 
-        async updateCategory(category: Category) {},
+        async updateCategory(category: Category) {
+            try {
+                await axios.put(`/categories/${category.id}`, category);
+                this.fetchCategories();
+            } catch (err: any) {
+                useToast().showError(err.response.data.message);
+                throw err;
+            }
+        },
 
-        async deleteCategory(categoryId: string) {},
+        async deleteCategory(categoryId: string) {
+            try {
+                await axios.delete(`/categories/${categoryId}`);
+                useToast().showSuccess("Categoria deletada com sucesso");
+                this.fetchCategories();
+            } catch (err: any) {
+                useToast().showError(err.response.data.message);
+                throw err;
+            }
+        },
 
         fillCategoriesForLoading() {
-            this.categories = Array(12).fill({
+            this.categories = Array(5).fill({
                 id: "1",
                 name: "Categoria",
                 user_id: '123',
