@@ -1,38 +1,36 @@
 <template>
-    <div class="text-center pa-4">
-        <v-dialog
-            :model-value="modelValue"
-            width="auto"
+    <v-dialog
+        :model-value="modelValue"
+        width="auto"
+    >
+        <v-card
+            max-width="400"
+            :title="title"
+            :text="text"
         >
-            <v-card
-                max-width="400"
-                :title="title"
-                :text="text"
-            >
-                <v-card-actions class="px-5">
-                    <ButtonForm
-                        color="primary"
-                        @click="close"
-                        :disabled="loading"
-                        type="button"
-                    >
-                        Cancelar
-                    </ButtonForm>
+            <v-card-actions class="px-5">
+                <ButtonForm
+                    color="primary"
+                    @click="close"
+                    :disabled="loading"
+                    type="button"
+                >
+                    Cancelar
+                </ButtonForm>
 
-                    <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
 
-                    <ButtonForm
-                        :loading="loading"
-                        variant="tonal"
-                        color="error"
-                        @click="confirm"
-                    >
-                        Confirmar
-                    </ButtonForm>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-    </div>
+                <ButtonForm
+                    :loading="loading"
+                    variant="tonal"
+                    color="error"
+                    @click="confirm"
+                >
+                    Confirmar
+                </ButtonForm>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
 </template>
 
 <script setup lang="ts">
