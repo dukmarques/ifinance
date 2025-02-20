@@ -14,15 +14,23 @@
         </v-row>
 
         <v-row>
-            <v-col
-                v-for="category in categories"
-                :key="category.id"
-                cols="12"
-            >
-                {{ category }}
+            <v-col cols="12">
+                <CategoryItem 
+                    v-for="category in categories"
+                    :key="category.id"
+                    :category="category"
+                    :loading="loading"
+                />
             </v-col>
         </v-row>
     </v-container>
+
+    <ManageCategoryDialog
+        v-model="createDialog"
+        :loading="loadingCreateDialog"
+        :provider="create"
+        @close="toggleCreateDialog()"
+    />
 </template>
 
 <script setup lang="ts">
@@ -32,12 +40,14 @@ import { useCategoriesStore } from '@/stores/categories';
 import type { Category } from '@/types/Category';
 
 import HeaderViews from '@/components/Header/HeaderViews.vue';
+import ManageCategoryDialog from '@/components/Categories/ManageCategoryDialog.vue';
+import CategoryItem from '@/components/Categories/CategoryItem.vue';
 
 const { categories, loading } = storeToRefs(useCategoriesStore());
 const { fetchCategories, createCategory } = useCategoriesStore();
 
 const createDialog = ref(false);
-const loadingDialog = ref(false);
+const loadingCreateDialog = ref(false);
 
 const toggleCreateDialog = () => {
     createDialog.value = !createDialog.value;
@@ -46,13 +56,15 @@ const toggleCreateDialog = () => {
 fetchCategories();
 
 async function create(category: Category) {
-    loadingDialog.value = true;
+    loadingCreateDialog.value = true;
 
     try {
         await createCategory(category);
         createDialog.value = false;
     } finally {
-        loadingDialog.value = false;
+        loadingCreateDialog.value = false;
     }
 }
+
+
 </script>
