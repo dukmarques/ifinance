@@ -4,7 +4,7 @@ type Card = {
     id: string;
     name: string;
     closing_day: number;
-    due_date: number;
+    due_day: number;
     limit: number;
     user_id: string;
     background_color?: string;
