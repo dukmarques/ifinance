@@ -58,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, type PropType } from 'vue';
+import { ref, toRef, type PropType } from 'vue';
 import type { Category } from '@/types/Category';
 import { useToast } from '@/stores/toast';
 
@@ -91,7 +91,7 @@ const props = defineProps({
 });
 
 const form = ref();
-const localCategory = ref(props.category);
+const localCategory = toRef(props, "category");
 
 async function submit() {
     const { valid } = await form.value.validate();
@@ -102,9 +102,17 @@ async function submit() {
     }
 
     await props.provider(localCategory.value);
+    sanitize();
 }
 
 function close() {
     emit('update:modelValue', false);
+    sanitize();
+}
+
+function sanitize() {
+    if (!localCategory.value.id) {
+        localCategory.value.name = '';
+    }
 }
 </script>
