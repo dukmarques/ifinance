@@ -6,10 +6,10 @@
         :image="logoSoloImg"
         size="400"
     >
+        <v-btn to="/dashboard" color="primary">
+            Voltar para a página inicial
+        </v-btn>
     </v-empty-state>
-    <v-container>
-        <h1>Página não encontrada</h1>
-    </v-container>
 </template>
 
 <script setup lang="ts">
