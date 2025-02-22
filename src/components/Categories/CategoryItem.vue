@@ -1,5 +1,5 @@
 <template>
-    <v-list class="mb-2" elevation="5" width="97%">
+    <v-list v-if="!loading" class="mb-2" elevation="5" width="97%">
         <v-list-item :title="category.name" :subtitle="totalExpenses">
             <template v-slot:append>
                 <div class="actions mr-5">
@@ -24,6 +24,13 @@
             </template>
         </v-list-item>
     </v-list>
+
+    <v-skeleton-loader
+        v-else
+        type="list-item-two-line"
+        class="mb-2"
+        width="97%"
+    ></v-skeleton-loader>
 
     <ManageCategoryDialog
         v-model="updateDialog"
