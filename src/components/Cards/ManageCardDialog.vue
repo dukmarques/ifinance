@@ -11,10 +11,7 @@
         >
             <v-card>
                 <v-card-title class="d-flex ga-3 align-center pt-5 pl-5">
-                    <Icon
-                        icon="fluent:card-ui-24-filled"
-                        width="24"
-                    />
+                    <v-icon icon="fa-solid fa-credit-card"></v-icon>
                     {{ title }}
                 </v-card-title>
 
@@ -42,7 +39,7 @@
 
                         <v-col cols="12" sm="4">
                             <InputNumber
-                                v-model="localCard.due_date"
+                                v-model="localCard.due_day"
                                 label="Data de vencimento"
                                 :max="31"
                                 :min="1"
@@ -104,7 +101,6 @@
 import { ref, type PropType } from 'vue';
 import type { Card } from '@/types/Card';
 import { useToast } from '@/stores/toast';
-import { Icon } from '@iconify/vue';
 
 import InputText from '@/components/form/InputText.vue';
 import InputNumber from '../form/InputNumber.vue';
@@ -128,10 +124,10 @@ const props = defineProps({
             id: '',
             name: '',
             closing_day: 1,
-            due_date: 1,
+            due_day: 1,
             limit: 0,
             background_color: '',
-            card_flag: '',
+            card_flag: 'defaultCard',
         }),
     },
     provider: {
@@ -150,14 +146,32 @@ const localCard = ref({ ...props.card });
 async function submit() {
     const { valid } = await form.value.validate();
 
-    if (valid) {
-        await props.provider(localCard.value);
-    } else {
+    if (!valid) {
         toast.show('Verifique se todos os campos estão preenchidos corretamente', 'error');
+        return;
     }
+    
+    await props.provider(localCard.value);
+    sanitizeCard();
 }
 
 function close() {
     emit('update:modelValue', false);
+    sanitizeCard();
+}
+
+function sanitizeCard() {
+    if (!localCard.value.id) {
+        localCard.value = { 
+            id: '',
+            name: '',
+            closing_day: 1,
+            due_day: 1,
+            limit: 0,
+            background_color: '',
+            card_flag: 'defaultCard',
+            user_id: '',
+        };
+    }
 }
 </script>
