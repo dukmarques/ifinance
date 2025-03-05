@@ -18,15 +18,12 @@
         <v-menu>
             <template v-slot:activator="{ props }">
                 <v-btn
-                    class="position-absolute top-0 right-0 mt-2"
+                    class="position-absolute right-0 mt-2"
                     style="margin-right: -14px;"
                     variant="plain" 
                     v-bind="props"
                 >
-                    <Icon 
-                        icon="fluent:more-vertical-32-regular" 
-                        width="32"
-                    />
+                    <v-icon icon="fa-solid fa-ellipsis-vertical"></v-icon>
                 </v-btn>
             </template>
 
@@ -48,7 +45,7 @@
             <div class="header d-flex justify-space-between align-center">
                 <p class="title">{{ card.name }}</p>
                 <v-img
-                    :src="icons[card.card_flag]"
+                    :src="getCardFlag"
                     class="flag-icon mr-3"
                 ></v-img>
             </div>
@@ -70,7 +67,7 @@
 
             <div class="footer mt-7 d-flex justify-space-between">
                 <p class="font-weight-bold">Fecha dia: {{ card.closing_day }}</p>
-                <p class="font-weight-bold">Vence dia: {{ card.due_date }}</p>
+                <p class="font-weight-bold">Vence dia: {{ card.due_day }}</p>
             </div>
         </v-card-item>
     </v-card>
@@ -104,9 +101,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { CountUp } from 'countup.js';
-import { Icon } from '@iconify/vue';
 import CreditCardBg from '@/assets/credit-card-bg.png';
 import type { Card } from '@/types/Card';
 import { useCardsStore } from '@/stores/cards';
@@ -114,7 +110,6 @@ import { formatCurrency } from '@/helpers/currencyFormat';
 import { icons } from '@/utils/creditIcons';
 import ConfirmDialog from '@/components/form/ConfirmDialog.vue';
 import ManageCardDialog from '@/components/Cards/ManageCardDialog.vue';
-import { tr } from 'vuetify/locale';
 
 const { updateCard, deleteCard } = useCardsStore();
 
@@ -149,6 +144,12 @@ onMounted(() => {
     );
 
     countUp.value?.start();
+});
+
+const getCardFlag = computed(() => {
+    const cardIcon = props.card.card_flag as keyof typeof icons ?? 'defaultCard';
+
+    return icons[cardIcon];
 });
 
 const updateDialog = ref(false);
