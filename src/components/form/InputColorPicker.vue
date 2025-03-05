@@ -30,10 +30,16 @@
         variant="outlined"
         base-color="#A8A8B3"
         color="primary"
-    />
+    >
+        <v-icon 
+            v-if="color" 
+            icon="fa-solid fa-palette"
+            class="mr-2"
+        ></v-icon>
+    </v-text-field>
 </template>
   
-<script setup>
+<script setup lang="ts">
 import { ref, toRef } from 'vue'
 
 const props = defineProps({
@@ -48,7 +54,7 @@ const menu = ref(false) // Controla o menu do color picker
 const activatorRef = ref(null) // Ref do ativador
   
 // Atualiza a cor ao selecionar
-const onColorUpdate = newColor => {
+const onColorUpdate = (newColor: string) => {
     color.value = newColor;
     emit('update:modelValue', newColor);
 }
