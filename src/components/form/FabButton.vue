@@ -10,7 +10,6 @@
         title="Adicionar"
     >
         <slot>
-            <!-- <Icon icon="fluent:add-24-filled" width="24" /> -->
             <v-icon icon="fa-solid fa-plus" color="white" size="small"/>
         </slot>
     </v-fab>
