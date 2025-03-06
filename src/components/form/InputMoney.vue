@@ -21,9 +21,7 @@ type MaskaDetail = {
 }
 
 const props = defineProps({
-    modelValue: [
-        String, Number
-    ],
+    modelValue: [String],
     label: {
         type: String,
         default: 'Valor',
