@@ -30,7 +30,7 @@
                         </div>
                     </v-list-item-title>
                     <v-list-item-subtitle v-if="!navigation.getRail">
-                        Bem-vindo(a) ao Prosperify.
+                        Bem-vindo(a) ao <span class="text-primary">Prosperify</span>.
                     </v-list-item-subtitle>
                 </div>
             </v-list-item>
