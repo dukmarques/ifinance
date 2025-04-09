@@ -108,7 +108,7 @@ import InputEmail from '@/components/form/InputEmail.vue';
 import InputPassword from '@/components/form/InputPassword.vue';
 import ButtonForm from '@/components/form/ButtonForm.vue';
 
-import prosperifyLogo from '@/assets/logo-primary.png';
+import prosperifyLogo from '@/assets/logo-name-primary.png';
 import LoginIcon from '@/components/icons/IconLogin.vue';
 import { useToast } from '@/stores/toast';
 import { useUserStore } from '@/stores/user';
