@@ -1,7 +1,7 @@
 <template>
     <VContainer
         fluid height="100vh"
-        class="bg-secondary container d-flex justify-center align-center"
+        class="container d-flex justify-center align-center"
     >
         <VRow class="d-flex flex-column justify-center align-center ga-10">
             <VImg
@@ -34,9 +34,3 @@ import logoImg from '@/assets/logo-name-primary.png';
 
 const router = useRouter();
 </script>
-
-<style lang="scss" scoped>
-.container {
-    background-color: #13423B;
-}
-</style>
