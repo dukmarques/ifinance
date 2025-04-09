@@ -104,7 +104,7 @@
 import { ref, onMounted, computed } from 'vue';
 import { CountUp } from 'countup.js';
 import CreditCardBg from '@/assets/credit-card-bg.png';
-import type { Card } from '@/types/Card';
+import type { Card } from '@/@types/Card';
 import { useCardsStore } from '@/stores/cards';
 import { formatCurrency } from '@/helpers/currencyFormat';
 import { icons } from '@/utils/creditIcons';

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { type User } from '@/types/User';
+import { type User } from '@/@types/User';
 import { axios } from '../services/axios';
 
 type loginData = {

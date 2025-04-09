@@ -53,7 +53,7 @@
 <script setup lang="ts">
 import { ref, defineProps, computed } from 'vue';
 import { useCategoriesStore } from '@/stores/categories';
-import type { Category } from '@/types/Category';
+import type { Category } from '@/@types/Category';
 import ManageCategoryDialog from '@/components/Categories/ManageCategoryDialog.vue';
 import ConfirmDialog from '@/components/form/ConfirmDialog.vue';
 

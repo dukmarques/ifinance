@@ -45,7 +45,7 @@ import HeaderViews from '@/components/Header/HeaderViews.vue';
 import CreditCard from '@/components/Cards/CreditCard.vue';
 import { useCardsStore } from '@/stores/cards';
 import ManageCardDialog from '@/components/Cards/ManageCardDialog.vue';
-import type { Card } from '@/types/Card';
+import type { Card } from '@/@types/Card';
 
 const { cards, loading } = storeToRefs(useCardsStore());
 const { fetchCards, createCard } = useCardsStore();

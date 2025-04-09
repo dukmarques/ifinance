@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { type Card } from '@/types/Card';
+import { type Card } from '@/@types/Card';
 import { axios } from '../services/axios';
 import { useToast } from './toast';
 

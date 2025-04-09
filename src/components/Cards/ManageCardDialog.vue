@@ -99,7 +99,7 @@
 
 <script setup lang="ts">
 import { ref, type PropType } from 'vue';
-import type { Card } from '@/types/Card';
+import type { Card } from '@/@types/Card';
 import { useToast } from '@/stores/toast';
 
 import InputText from '@/components/form/InputText.vue';

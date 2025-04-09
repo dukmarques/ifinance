@@ -59,7 +59,7 @@
 
 <script setup lang="ts">
 import { ref, toRef, type PropType } from 'vue';
-import type { Category } from '@/types/Category';
+import type { Category } from '@/@types/Category';
 import { useToast } from '@/stores/toast';
 
 import InputText from '@/components/form/InputText.vue';

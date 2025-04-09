@@ -37,7 +37,7 @@
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCategoriesStore } from '@/stores/categories';
-import type { Category } from '@/types/Category';
+import type { Category } from '@/@types/Category';
 
 import HeaderViews from '@/components/Header/HeaderViews.vue';
 import ManageCategoryDialog from '@/components/Categories/ManageCategoryDialog.vue';
