@@ -168,7 +168,7 @@ const showDrawer = computed(() => {
     return !excludedRoutesName.includes(route.name as string);
 });
 
-const getUserFirstName = computed(() => userStore.user?.name.split(' ')[0]);
+const getUserFirstName = computed(() => userStore.user?.name?.split(' ')[0]);
 
 const isMenuActive = (name: string) => route.name === name;
 
