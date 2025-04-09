@@ -3,8 +3,8 @@
         headline="Ops, 404!"
         title="Página não encontrada"
         text="A página que você está tentando acessar não existe."
-        :image="logoSoloImg"
-        size="400"
+        :image="logoImage"
+        size="350"
     >
         <v-btn to="/dashboard" color="primary">
             Voltar para a página inicial
@@ -13,5 +13,5 @@
 </template>
 
 <script setup lang="ts">
-import logoSoloImg from '@/assets/logo-solo.png';
+import logoImage from '@/assets/logo-primary.png';
 </script>
