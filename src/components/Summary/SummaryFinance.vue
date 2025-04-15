@@ -1,6 +1,6 @@
 <template>
     <v-container fluid>
-        <div class="content d-flex flex-column justify-center mt-5">
+        <div class="content d-flex flex-column justify-center">
             <v-row class="row-text">
                 <v-col
                     cols="4"
