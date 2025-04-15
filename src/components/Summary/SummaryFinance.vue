@@ -10,14 +10,21 @@
                 >
                     <span :id="`value-${index}`" class="value">0</span>
                     <span class="caption">{{ item.caption }}</span>
+                    <component :is="item.icon" class="icon" />
                 </v-col>
             </v-row>
             <v-row class="row-icons">
-                <ArrowTopCircle class="icon" />
-                <div class="rectangle"></div>
-                <CheckmarkCircle />
-                <div class="rectangle"></div>
-                <ArrowBottomCircle class="icon" />
+                <v-col cols="2"></v-col>
+
+                <v-col cols="4">
+                    <div class="rectangle first"></div>
+                </v-col>
+
+                <v-col cols="4">
+                    <div class="rectangle last"></div>
+                </v-col>
+
+                <v-col cols="2"></v-col>
             </v-row>
         </div>
     </v-container>
@@ -82,18 +89,31 @@ onMounted(() => {
     margin: 0 auto;
 
     .row-text {
-        margin-bottom: unset;
-        animation: opacityAnimation 3s linear;
-
+        z-index: 99;
+        
+        border: 1px solid red;
+        
         .column-text {
             .value {
                 font-size: 32px;
                 font-weight: 500;
+                animation: opacityAnimation 3s linear;
             }
-
+            
             .caption {
                 font-size: 16px;
                 font-weight: 400;
+                animation: opacityAnimation 3s linear;
+            }
+
+            &:first-child .icon,
+            &:last-child .icon {
+                visibility: hidden;
+                animation-name: iconAnimation;
+                animation-duration: 1s;
+                animation-timing-function: linear;
+                animation-fill-mode: forwards;
+                animation-delay: 0.8s;
             }
         }
     }
@@ -102,43 +122,44 @@ onMounted(() => {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: unset;
 
-        .icon {
-            animation: iconRotationAnimation 1s linear;
-        }
+        margin-top: -41px;
 
         .rectangle {
-            width: 350px;
             height: 8px;
-            background: linear-gradient(90deg, #359766 27%, #197BBD 100%);
-            margin-left: -5px;
-            margin-right: -5px;
-
-            animation-name: rectangleAnimation;
-            animation-duration: 2s;
-
-            &:nth-of-type(2) {
-            background: linear-gradient(90deg, #197BBD 0%, #E52E4D 72.5%);
+            border-radius: 8px;
+            
+            &.first {
+                background: linear-gradient(90deg, #359766 27%, #197BBD 100%);
+                transform-origin: right;
+                transform: scaleX(0);
+                animation: grow-line 1s ease-out forwards;
+            }
+            
+            &.last {
+                background: linear-gradient(90deg, #197BBD 0%, #E52E4D 72.5%);
+                
+                transform-origin: left center;
+                transform: scaleX(0);
+                animation: grow-line 1s ease-out forwards;
             }
         }
     }
 
-    @keyframes iconRotationAnimation {
-        0% {
-            transform: scale(0.8);
-        }
-        100% {
-            transform: scale(1);
+    @keyframes grow-line {
+        to {
+            transform: scaleX(1);
         }
     }
 
-    @keyframes rectangleAnimation {
+    @keyframes iconAnimation {
         0% {
-            width: 0px;
+            transform: scale(0.5);
+            visibility: hidden;
         }
         100% {
-            width: 350px;
+            transform: scale(1);
+            visibility: visible;
         }
     }
 
