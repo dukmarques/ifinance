@@ -91,8 +91,6 @@ onMounted(() => {
     .row-text {
         z-index: 99;
         
-        border: 1px solid red;
-        
         .column-text {
             .value {
                 font-size: 32px;
