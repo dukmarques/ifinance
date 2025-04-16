@@ -43,19 +43,19 @@ const summaryItems = ref([
         caption: 'Entradas',
         value: '17400',
         icon: ArrowTopCircle,
-        prefix: '+ R$',
+        prefix: '+ R$ ',
     },
     {
         caption: 'Saldo',
         value: '16400',
         icon: CheckmarkCircle,
-        prefix: 'R$',
+        prefix: 'R$ ',
     },
     {
         caption: 'Saídas',
         value: '1000',
         icon: ArrowBottomCircle,
-        prefix: '- R$',
+        prefix: '- R$ ',
     },
 ]);
 
@@ -93,13 +93,13 @@ onMounted(() => {
         
         .column-text {
             .value {
-                font-size: 32px;
+                font-size: 24px;
                 font-weight: 500;
                 animation: opacityAnimation 3s linear;
             }
             
             .caption {
-                font-size: 16px;
+                font-size: 14px;
                 font-weight: 400;
                 animation: opacityAnimation 3s linear;
             }
