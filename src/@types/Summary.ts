@@ -1,7 +1,9 @@
+import { type DefineComponent } from 'vue';
+
 type Summary = {
     caption: string;
-    amount: number;
-    icon: string;
+    value: string;
+    icon: DefineComponent;
     prefix: string;
 };
 

@@ -4,7 +4,7 @@
             <v-row class="row-text">
                 <v-col
                     cols="4"
-                    v-for="(item, index) in summaryItems"
+                    v-for="(item, index) in summary"
                     :key="index"
                     class="column-text d-flex flex-column justify-center align-center"
                 >
@@ -34,35 +34,16 @@
 import { onMounted, ref } from 'vue';
 import { CountUp } from 'countup.js';
 
-import ArrowTopCircle from '@/components/icons/ArrowTopCircle.vue';
-import ArrowBottomCircle from '@/components/icons/ArrowBottomCircle.vue';
-import CheckmarkCircle from '@/components/icons/CheckmarkCircle.vue';
+import { useSummaryStore } from '@/stores/summary';
+import { storeToRefs } from 'pinia';
 
-const summaryItems = ref([
-    {
-        caption: 'Entradas',
-        value: '17400',
-        icon: ArrowTopCircle,
-        prefix: '+ R$ ',
-    },
-    {
-        caption: 'Saldo',
-        value: '16400',
-        icon: CheckmarkCircle,
-        prefix: 'R$ ',
-    },
-    {
-        caption: 'Saídas',
-        value: '1000',
-        icon: ArrowBottomCircle,
-        prefix: '- R$ ',
-    },
-]);
+const summaryStore = useSummaryStore();
+const { summary } = storeToRefs(summaryStore);
 
 const countUp = ref<CountUp | null>(null);
 
 onMounted(() => {
-    summaryItems.value.forEach((item, index) => {
+    summary.value.forEach((item, index) => {
         const elementId = `value-${index}`;
 
         countUp.value = new CountUp(
@@ -76,11 +57,11 @@ onMounted(() => {
                 decimal: ',',
                 prefix: item.prefix,
             }
-        )
-        
+        );
+
         countUp.value.start();
     });
-})
+});
 
 </script>
 
