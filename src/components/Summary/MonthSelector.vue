@@ -6,7 +6,7 @@
             </v-btn>
     
             <div class="current-month text-h6 text-center"> 
-                {{ useMonth.formattedMonthDisplay }} 
+                {{ formattedMonthDisplay }} 
             </div>
     
             <v-btn icon variant="plain" :ripple="false" @click="nextMonth">
@@ -18,17 +18,76 @@
 </template>
 
 <script lang="ts" setup name="MonthSelector">
-import { useMonthStore } from '@/stores/month';
+import {ref, computed, defineEmits, onMounted } from 'vue';
 
-const useMonth = useMonthStore();
+const emit = defineEmits<{
+  (e: 'month-change', date: string): void
+}>();
 
+const currentDate = new Date();
+const currentYear = currentDate.getFullYear();
+const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+const selectedDate = ref(`${currentYear}-${currentMonth}`);
+
+const monthNames = [
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+];
+
+const formattedMonthDisplay = computed(() => {
+    const dateParts = selectedDate.value.split('-');
+    const year = parseInt(dateParts[0]);
+    const month = parseInt(dateParts[1]) - 1;
+  
+    const monthName = monthNames[month];
+  
+    if (year !== currentYear) {
+        const shortYear = year.toString().slice(-2);
+        return `${monthName}/${shortYear}`;
+    }
+  
+    return monthName;
+});
+
+function emitMonthChange() {
+    emit('month-change', selectedDate.value);
+}
+    
 function previousMonth() {
-    useMonth.previousMonth();
+    const dateParts = selectedDate.value.split('-');
+    const year = parseInt(dateParts[0]);
+    const month = parseInt(dateParts[1]) - 1;
+  
+    const date = new Date(year, month, 1);
+  
+    date.setMonth(date.getMonth() - 1);
+  
+    const newYear = date.getFullYear();
+    const newMonth = (date.getMonth() + 1).toString().padStart(2, '0');
+  
+    selectedDate.value = `${newYear}-${newMonth}`;
+    emitMonthChange();
+}
+    
+function nextMonth() {
+    const dateParts = selectedDate.value.split('-');
+    const year = parseInt(dateParts[0]);
+    const month = parseInt(dateParts[1]) - 1;
+  
+    const date = new Date(year, month, 1);
+  
+    date.setMonth(date.getMonth() + 1);
+  
+    const newYear = date.getFullYear();
+    const newMonth = (date.getMonth() + 1).toString().padStart(2, '0');
+  
+    selectedDate.value = `${newYear}-${newMonth}`;
+    emitMonthChange();
 }
 
-function nextMonth() {
-    useMonth.nextMonth();
-}
+onMounted(() => {
+    emitMonthChange();
+});
 </script>
 
 <style scoped lang="scss">
