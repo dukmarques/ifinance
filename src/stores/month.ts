@@ -8,6 +8,25 @@ export const useMonthStore = defineStore("monthStore", {
         getMonth(): string {
             return this.selectedDate;
         },
+        formattedMonthDisplay(): string {
+            const dateParts = this.selectedDate.split('-');
+            const year = parseInt(dateParts[0]);
+            const month = parseInt(dateParts[1]) - 1;
+
+            const monthNames = [
+                'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+            ];
+
+            const monthName = monthNames[month];
+
+            if (year !== new Date().getFullYear()) {
+                const shortYear = year.toString().slice(-2);
+                return `${monthName}/${shortYear}`;
+            }
+
+            return monthName;
+        }
     },
     actions: {
         setMonth(month: string) {

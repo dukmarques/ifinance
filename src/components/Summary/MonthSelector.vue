@@ -6,7 +6,7 @@
             </v-btn>
     
             <div class="current-month text-h6 text-center"> 
-                {{ formattedMonthDisplay }} 
+                {{ useMonth.formattedMonthDisplay }} 
             </div>
     
             <v-btn icon variant="plain" :ripple="false" @click="nextMonth">
@@ -18,30 +18,9 @@
 </template>
 
 <script lang="ts" setup name="MonthSelector">
-import { computed, onMounted } from 'vue';
 import { useMonthStore } from '@/stores/month';
 
 const useMonth = useMonthStore();
-
-const formattedMonthDisplay = computed(() => {
-    const dateParts = useMonth.selectedDate.split('-');
-    const year = parseInt(dateParts[0]);
-    const month = parseInt(dateParts[1]) - 1;
-
-    const monthNames = [
-        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-    ];
-
-    const monthName = monthNames[month];
-
-    if (year !== new Date().getFullYear()) {
-        const shortYear = year.toString().slice(-2);
-        return `${monthName}/${shortYear}`;
-    }
-
-    return monthName;
-});
 
 function previousMonth() {
     useMonth.previousMonth();
