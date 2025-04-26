@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { type Summary } from "@/@types/Summary";
+import { markRaw } from "vue";
 
 import ArrowTopCircle from "@/components/icons/ArrowTopCircle.vue";
 import ArrowBottomCircle from '@/components/icons/ArrowBottomCircle.vue';
@@ -11,19 +12,19 @@ export const useSummaryStore = defineStore("summaryStore", {
             {
                 caption: 'Entradas',
                 value: '17400',
-                icon: ArrowTopCircle,
+                icon: markRaw(ArrowTopCircle),
                 prefix: '+ R$ ',
             },
             {
                 caption: 'Saldo',
                 value: '16400',
-                icon: CheckmarkCircle,
+                icon: markRaw(CheckmarkCircle),
                 prefix: 'R$ ',
             },
             {
                 caption: 'Saídas',
                 value: '1000',
-                icon: ArrowBottomCircle,
+                icon: markRaw(ArrowBottomCircle),
                 prefix: '- R$ ',
             },
         ] as Summary[],
