@@ -1,3 +1,5 @@
+import type { RevenuesOverrides } from "./RevenuesOverrides";
+
 type Revenues = {
     id: string;
     title: string;
@@ -8,6 +10,7 @@ type Revenues = {
     description: string;
     user_id: string;
     category_id?: string;
+    revenues_overrides?: RevenuesOverrides[];
 };
 
 export type { Revenues };
