@@ -17,6 +17,9 @@
                         :headers="headers"
                         :items="items"
                         :loading="loading"
+                        @edit="onEdit"
+                        @remove="onRemove"
+                        @info="onInfo"
                     />
                 </v-expansion-panel-text>
             </v-expansion-panel>
@@ -47,7 +50,21 @@ defineProps({
     },
 });
 
+const emit = defineEmits([
+    'info',
+    'edit',
+    'remove',
+]);
+
 const loading = shallowRef(false);
+
+function onEdit(id: string | number) {
+    emit('edit', id);
+}
+
+function onRemove(id: string | number) {
+    emit('remove', id);
+}
 
 </script>
 

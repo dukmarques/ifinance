@@ -8,8 +8,6 @@
         prepend-icon=""
         :display-format="format"
         density="comfortable"
-        divided
-        show-adjacent-months
     ></v-date-input>
 </template>
 
