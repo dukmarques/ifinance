@@ -5,7 +5,7 @@
         :close-on-click-outside="true"
         :activator="activatorRef"
     >
-        <template #default="{ props }">
+        <template #default>
             <v-color-picker
                 v-model="color"
                 @update:model-value="onColorUpdate"
@@ -15,7 +15,6 @@
                 hide-canvas
                 hide-inputs
                 hide-sliders
-                v-bind="props"
             />
             <v-btn @click="menu = false">Fechar</v-btn>
         </template>
@@ -51,9 +50,9 @@ const props = defineProps({
 
 const emit = defineEmits(["update:modelValue"]);
   
-const color = toRef(props.modelValue)
-const menu = ref(false)
-const activatorRef = ref(null)
+const color = toRef(props.modelValue);
+const menu = ref(false);
+const activatorRef = ref<HTMLElement | undefined>(undefined);
   
 const onColorUpdate = (newColor: string) => {
     color.value = newColor;
