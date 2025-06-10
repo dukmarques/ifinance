@@ -11,6 +11,7 @@
                 @update:model-value="onColorUpdate"
                 mode="hexa"
                 show-swatches
+                :swatches="swatches"
                 hide-canvas
                 hide-inputs
                 hide-sliders
@@ -42,21 +43,48 @@
 <script setup lang="ts">
 import { ref, toRef } from 'vue'
 
+import colors from 'vuetify/util/colors'
+
 const props = defineProps({
     modelValue: String,
 });
 
 const emit = defineEmits(["update:modelValue"]);
   
-// Variáveis reativas
-const color = toRef(props.modelValue) // Valor inicial da cor
-const menu = ref(false) // Controla o menu do color picker
-const activatorRef = ref(null) // Ref do ativador
+const color = toRef(props.modelValue)
+const menu = ref(false)
+const activatorRef = ref(null)
   
-// Atualiza a cor ao selecionar
 const onColorUpdate = (newColor: string) => {
     color.value = newColor;
     emit('update:modelValue', newColor);
 }
+
+const swatches = Object.entries(colors).reduce<string[][]>((acc, [
+    key,
+    color
+], index) => {
+    if (key === 'shades') {
+        const shades = Object.entries(color)
+            .filter(([ shadeKey ]) => shadeKey !== 'transparent')
+            .map(([
+                ,
+                shadeValue
+            ]) => shadeValue);
+        shades.forEach((shade, i) => {
+            const columnIndex = (index + i) % 5;
+            if (!acc[columnIndex]) {
+                acc[columnIndex] = [];
+            }
+            acc[columnIndex].push(shade);
+        });
+    } else if ('base' in color) {
+        const columnIndex = index % 5;
+        if (!acc[columnIndex]) {
+            acc[columnIndex] = [];
+        }
+        acc[columnIndex].push(color.base);
+    }
+    return acc;
+}, []);
 </script>
-  
