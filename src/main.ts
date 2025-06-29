@@ -11,6 +11,7 @@ import App from './App.vue';
 import router from './router/router';
 
 import { PrimeVue, config } from './plugins/primevue';
+import './styles.css';
 
 const app = createApp(App);
 
