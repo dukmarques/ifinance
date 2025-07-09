@@ -21,6 +21,7 @@
     "maska": "^3.0.2",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
+    "primeicons": "^7.0.0",
     "primevue": "^4.3.5",
     "tailwindcss": "^4.1.11",
     "tailwindcss-primeui": "^0.6.1",
