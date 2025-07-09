@@ -1,36 +1,31 @@
 <template>
-    <VContainer
-        fluid height="100vh"
-        class="container d-flex justify-center align-center"
-    >
-        <VRow class="d-flex flex-column justify-center align-center ga-10">
-            <VImg
-                :src="logoImg"
+    <div class="flex justify-center items-center h-screen">
+        <div class="flex flex-col justify-center items-center gap-10">
+            <Image 
+                :src="logoImg" 
+                alt="Logo" 
                 width="600"
-                cover
-                transition="scroll-y-transition"
             />
 
-            <VBtn
+            <BaseButton 
+                title="Acessar"
+                type="button"
+                icon="pi pi-sign-in"
+                iconPos="right"
                 size="large"
-                rounded="lg"
-                width="245"
-                height="50"
+                class="bg-primary text-white w-[245px] h-[50px] py-3 rounded-lg shadow-md "
                 @click="router.push('/login')"
-                color="primary"
-            >
-                Acessar
-                <template v-slot:append>
-                    <v-icon icon="fa-solid fa-arrow-right-to-bracket" color="white"/>
-                </template>
-            </VBtn>
-        </VRow>
-    </VContainer>
+            />
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import logoImg from '@/assets/logo-name-primary.png';
+import BaseButton from '@/components/BaseForm/BaseButton.vue';
+import Image from 'primevue/image';
+
 
 const router = useRouter();
 </script>
