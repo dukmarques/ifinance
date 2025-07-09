@@ -1,2 +1,9 @@
 @import "tailwindcss";
 @import "tailwindcss-primeui";
+@import "primeicons/primeicons.css";
+
+@theme {
+    --color-primary: #359766;
+    --color-primary-darken: #10393b;
+    --color-secondary: #202223;
+}
