@@ -6,4 +6,7 @@
     --color-primary: #359766;
     --color-primary-darken: #10393b;
     --color-secondary: #202223;
+
+    --font-poppins: Poppins, sans-serif;
+    --font-quick: Quicksand, sans-serif;
 }
