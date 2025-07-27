@@ -1,19 +1,3 @@
-<template>
-    <Button 
-        :label="props.title" 
-        :type="props.type" 
-        :icon="props.icon" 
-        :iconPos="props.iconPos" 
-        :loading="props.loading"
-        :disabled="props.disabled"
-        raised
-        :severity="props.severity"
-        :variant="props.variant"
-        :size="props.size"
-        :fluid="props.fluid"
-    />
-</template>
-
 <script lang="ts" setup>
 import Button from 'primevue/button';
 
@@ -30,7 +14,7 @@ interface ButtonProps {
     fluid?: boolean;
 }
 
-const props = withDefaults(defineProps<ButtonProps>(), {
+withDefaults(defineProps<ButtonProps>(), {
     loading: false,
     disabled: false,
     title: 'Salvar',
@@ -38,5 +22,23 @@ const props = withDefaults(defineProps<ButtonProps>(), {
     icon: '',
     iconPos: 'right',
     fluid: false,
-})
+    variant: 'outlined',
+    size: 'large',
+});
 </script>
+
+<template>
+    <Button 
+        :label="title" 
+        :type="type" 
+        :icon="icon" 
+        :iconPos="iconPos" 
+        :loading="loading"
+        :disabled="disabled"
+        :severity="severity"
+        :variant="variant"
+        :size="size"
+        :fluid="fluid"
+        class="border-none"
+    />
+</template>

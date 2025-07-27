@@ -5,7 +5,7 @@ import { axios } from '../services/axios';
 type loginData = {
     email: string;
     password: string;
-    device_name: string;
+    device_name?: string;
 };
 
 export const useUserStore = defineStore('userStore', {
@@ -24,6 +24,8 @@ export const useUserStore = defineStore('userStore', {
     },
     actions: {
         async login(authData: loginData) {
+            authData.device_name = 'web';
+
             // eslint-disable-next-line no-useless-catch
             try {
                 const { data } = await axios.post('/auth/login', authData);
@@ -37,10 +39,10 @@ export const useUserStore = defineStore('userStore', {
                 throw err;
             }
         },
-        logout() {
+        async logout() {
             // eslint-disable-next-line no-useless-catch
             try {
-                const { data } = axios.post('/auth/logout');
+                await axios.post('/auth/logout');
                 this.user = null;
                 this.accessToken = null;
             } catch (err: any) {

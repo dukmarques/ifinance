@@ -4,15 +4,27 @@ import { definePreset } from '@primeuix/themes';
 
 const MyPreset = definePreset(Aura, {
     semantic: {
-        primary: '#359766',
-        'primary-darken': '#10393B',
-        secondary: '#202223',
-        focusRing: {
-            width: '1px',
-            style: 'dashed',
-            color: '#359766',
-            offset: '1px'
-        }
+        primary: {
+            first: '#359766',
+            secondary: '#10393b',
+            thertiary: '#202223',
+        },
+    },
+    components: {
+        inputtext: {
+            colorScheme: {
+                light: {
+                    root: {
+                        background: '{secondary}',
+                        borderColor: '{gray.600}',
+                        hoverBorderColor: '{gray.400}',
+                        focusBorderColor: '{primary.first}',
+                        color: '{gray.50}',
+                        disabledBackground: '{gray.700}',
+                    }
+                }
+            }
+        },
     }
 });
 
