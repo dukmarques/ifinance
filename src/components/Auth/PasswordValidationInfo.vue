@@ -5,6 +5,7 @@ const props = defineProps({
     password: {
         type: String,
         required: true,
+        default: ''
     },
 });
 
