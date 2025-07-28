@@ -69,7 +69,7 @@
 
                 <RouterLink
                     to="/register"
-                    class="text-gray-400 font-poppins hover:text-gray-300 transition-all duration-200 "
+                    class="text-gray-400 font-poppins hover:text-gray-300 transition-all duration-200"
                 >
                     Não tem uma conta? Registre-se
                 </RouterLink>
