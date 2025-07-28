@@ -163,7 +163,7 @@ const menuItems = [
 
 const showDrawer = computed(() => {
     const excludedRoutesName = [
-        'home', 'login', 'register', 'not-found', 'new-login'
+        'home', 'login', 'register', 'not-found',
     ];
     return !excludedRoutesName.includes(route.name as string);
 });

@@ -20,11 +20,6 @@ const routes: Readonly<RouteRecordRaw[]> = [
         component: Login,
     },
     {
-        path: '/login/new',
-        name: 'new-login',
-        component: () => import('@/views/Auth/NewLoginView.vue'),
-    },
-    {
         path: '/register',
         name: 'register',
         component: Register,

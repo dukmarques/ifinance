@@ -1,182 +1,148 @@
 <template>
-    <VContainer fluid id="register" tag="section">
-        <v-row>
-            <v-col
-                class="illustration bg-primary d-flex flex-column justify-center align-center"
-                cols="6"
+    <section id="register" class="flex flex-col md:flex-row h-screen">
+        <div class="illustration bg-primary flex flex-col justify-center items-center w-full md:w-1/2">
+            <BaseImage
+                :src="loginImg"
+                alt="Login Illustration"
+            />
+
+            <div class="info flex flex-col gap-5 text-center">
+                <h3 class="font-poppins text-3xl font-bold text-white">Organize suas finanças</h3>
+
+                <p class="font-quick text-lg text-white">
+                    Fácil e intuitivo, com o Prosperify você se <br />
+                    organiza e mantém o controle financeiro!
+                </p>
+            </div>
+        </div>
+
+        <div class="form-content flex justify-center items-center w-full md:w-1/2">
+            <Form 
+                v-slot="$form" 
+                :initialValues="initialValues"
+                :resolver="resolver"
+                @submit="login" 
+                class="form flex flex-col items-center rounded-[12px] w-full !p-[14px] !m-[8px] gap-4"
             >
-                <v-img
-                    :src="loginImg"
-                    width="500"
-                    max-height="500"
-                    transition="scroll-y-transition"
-                    aspect-ratio="16/9"
+
+                <div class="mb-4">
+                    <Image 
+                        :src="prosperifyLogo"
+                        :width="226"
+                        class="mb-5 mx-auto"
+                        alt="Prosperify Logo"
+                    />
+                </div>
+
+                <div class="w-full">
+                    <BaseInputEmail
+                        name="email"
+                        label="E-mail"
+                        size="large"
+                        :invalid="$form.email?.invalid"
+                        :errorMessage="$form.email?.error?.message"
+                        :disabled="loading"
+                    />
+                </div>
+
+                <div class="w-full">
+                    <BaseInputPassword
+                        name="password"
+                        label="Senha"
+                        size="large"
+                        :invalid="$form.password?.invalid"
+                        :errorMessage="$form.password?.error?.message"
+                        :disabled="loading"
+                    />
+                </div>
+
+                <BaseButton 
+                    title="Acessar"
+                    type="submit"
+                    icon="pi pi-sign-in"
+                    iconPos="right"
+                    size="large"
+                    class="bg-primary font-poppins text-white w-full"
+                    :loading="loading"
+                    fluid
                 />
 
-                <div class="info d-flex flex-column ga-5">
-                    <h3 class="text-h3 font-weight-bold">
-                        Organize suas finanças
-                    </h3>
-
-                    <p class="text-h5">
-                        Fácil e intuítivo, com o Prosperify você se <br>
-                        organiza e mantém o controle financeiro!
-                    </p>
-                </div>
-            </v-col>
-
-            <v-col class="form-content" cols="6">
-                <v-form
-                    ref="form"
-                    class="form ma-2 pa-8"
+                <BaseButton
+                    title="Registre-se"
+                    type="button"
+                    size="small"
+                    variant="text"
+                    severity="secondary"
+                    @click="router.push('/register')"
                     :disabled="loading"
-                    @submit.prevent="login"
-                >
-                    <v-row>
-                        <v-col cols="12">
-                            <v-img
-                                :src="prosperifyLogo"
-                                class="mb-5 mx-auto"
-                                width="226"
-                                cover
-                            >
-                            </v-img>
-                        </v-col>
-                    </v-row>
-
-                    <v-row>
-                        <v-col cols="12">
-                            <InputEmail
-                                v-model="email"
-                                label="E-mail"
-                                placeholder="Digite seu e-mail"
-                                required
-                            />
-                        </v-col>
-
-                        <v-col cols="12">
-                            <InputPassword
-                                v-model="password"
-                                label="Senha"
-                                placeholder="********"
-                                required
-                                :rules="passwordRules"
-                            />
-                        </v-col>
-                    </v-row>
-
-                    <v-row>
-                        <v-col cols="12">
-                            <ButtonForm
-                                :loading="loading"
-                                block
-                                class="text-none text-subtitle-1"
-                            >
-                                <div class="d-flex justify-center ga-2">
-                                    <LoginIcon />
-                                    Acessar
-                                </div>
-                            </ButtonForm>
-                        </v-col>
-                    </v-row>
-
-                    <v-row>
-                        <v-col cols="12">
-                            <div class="d-flex justify-center">
-                                <v-btn
-                                    variant="plain"
-                                    class="text-none text-subtitle-1"
-                                    color="#A8A8B3"
-                                    @click="router.push('/register')"
-                                >
-                                    Registre-se
-                                </v-btn>
-                            </div>
-                        </v-col>
-                    </v-row>
-                </v-form>
-            </v-col>
-        </v-row>
-    </VContainer>
+                />
+            </Form>
+        </div>
+    </section>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { Form, type FormSubmitEvent } from '@primevue/forms';
+import { zodResolver } from '@primevue/forms/resolvers/zod';
+import * as z from 'zod';
+
 import loginImg from '@/assets/Auth/login-illustration.png';
-import InputEmail from '@/components/form/InputEmail.vue';
-import InputPassword from '@/components/form/InputPassword.vue';
-import ButtonForm from '@/components/form/ButtonForm.vue';
+import BaseImage from '@/components/Base/BaseImage.vue';
+import BaseButton from '@/components/BaseForm/BaseButton.vue';
+import BaseInputEmail from '@/components/BaseForm/BaseInputEmail.vue';
+import BaseInputPassword from '@/components/BaseForm/BaseInputPassword.vue';
 
 import prosperifyLogo from '@/assets/logo-name-primary.png';
-import LoginIcon from '@/components/icons/IconLogin.vue';
-import { useToast } from '@/stores/toast';
 import { useUserStore } from '@/stores/user';
+import { useToast } from '@/composables/useToast';
+
 
 const router = useRouter();
-const toast = useToast();
+const { showError } = useToast();
 
-const form = ref();
 const loading = ref(false);
-const email = ref('');
-const password = ref('');
-
 const userStore = useUserStore();
 
-const passwordRules = [
-    (v: string) => !!v || 'Senha é obrigatório',
-    (v: string) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(v)
-    || 'A senha deve conter: 8 caracteres, uma letra maiuscula, uma minuscula, um numero e caracter especial',
-];
+const resolver = ref(zodResolver(
+    z.object({
+        email: z.email('Email inválido'),
+        password: z.string().min(8, 'A senha deve ter pelo menos 8 caracteres'),
+    })
+));
 
-async function login() {
-    const { valid } = await form.value.validate();
+const initialValues = ref({
+    email: '',
+    password: ''
+});
 
+async function login({ valid, values }: FormSubmitEvent<typeof initialValues.value>) {
     if (valid) {
         try {
             loading.value = true;
 
-            await userStore.login({
-                email: email.value,
-                password: password.value,
-                device_name: 'web',
-            });
+            await userStore.login(values);
 
             router.push('/dashboard');
         } catch (error: any) {
-            toast.show(error.response.data.message, 'error');
+            showError({
+                message: 'Erro ao fazer login', 
+                description: error.response.data.message
+            });
         } finally {
             loading.value = false;
         }
-    } else {
-        toast.show('Preencha os campos corretamente', 'error');
     }
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 #register {
-    height: 100%;
-    padding: 0px;
-
-    .illustration {
-        height: 101vh;
-    }
-
     .form-content {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
         .form {
-            border: 1px solid rgb(var(--v-theme-primary), 0.3);
-            border-radius: 12px;
             max-width: 355px;
-            width: 100%;
-
-            .v-col {
-                padding: 0px;
-            }
+            border: 1px solid rgba(53,151,102, 0.3);
         }
     }
 }
