@@ -67,15 +67,12 @@
                     fluid
                 />
 
-                <BaseButton
-                    title="Registre-se"
-                    type="button"
-                    size="small"
-                    variant="text"
-                    severity="secondary"
-                    @click="router.push('/register')"
-                    :disabled="loading"
-                />
+                <RouterLink
+                    to="/register"
+                    class="text-gray-400 font-poppins hover:text-gray-300 transition-all duration-200 "
+                >
+                    Não tem uma conta? Registre-se
+                </RouterLink>
             </Form>
         </div>
     </section>
