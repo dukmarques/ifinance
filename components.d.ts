@@ -72,6 +72,8 @@ declare module 'vue' {
     SummaryFinance: typeof import('./src/components/Summary/SummaryFinance.vue')['default']
     Switch: typeof import('./src/components/form/Switch.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
+    ToastMessage: typeof import('./src/components/Common/ToastMessage.vue')['default']
+    ToastNotification: typeof import('./src/components/Common/ToastNotification.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
   }
 }
