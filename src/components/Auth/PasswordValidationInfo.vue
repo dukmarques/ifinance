@@ -1,27 +1,3 @@
-<template>
-    <v-list 
-        density="compact" 
-        bg-color="transparent"
-        slim
-    >
-        <v-list-item
-            v-for="(item, index) in validations"
-            :key="`valid-${index}`"
-            height="40"
-        >
-            <template v-slot:prepend>
-                <v-icon 
-                    icon="fa solid fa-circle-check"
-                    :color="item.valid ? 'primary' : 'white'"
-                ></v-icon>
-            </template>
-            <v-list-item-title>
-                {{ item.message }}
-            </v-list-item-title>
-        </v-list-item>
-    </v-list>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue';
 
@@ -31,7 +7,6 @@ const props = defineProps({
         required: true,
     },
 });
-
 
 const rules = {
     uppercase: /[A-Z]/,
@@ -58,23 +33,30 @@ const validations = computed(() => ({
         message: 'Mínimo um caractere especial',
     },
     minLength: {
-        valid: props.password.length >= 8,
+        valid: props.password?.length >= 8,
         message: 'Mínimo de 8 caracteres',
     }
 }));
 </script>
 
-<style scoped>
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-li {
-  color: red;
-}
-.valid {
-  color: green;
-  font-weight: bold;
-}
-</style>
+<template>
+    <div>
+        <ul class="list-disc pl-5">
+            <li 
+                v-for="(item, key) in validations" 
+                :key="key"
+                class="flex items-center gap-4 mb-4"
+            >
+                <div 
+                    class="rounded-full w-6 h-6 flex items-center justify-center"
+                    :class="item.valid ? 'bg-primary' : 'bg-white'">
+                    <i 
+                        class="pi pi-check text-secondary !text-[12px] !font-black" 
+                        :class="item.valid ? 'text-primary' : 'text-white'"
+                    ></i>
+                </div>
+                <span :class="item.valid ? 'text-primary' : 'text-white'">{{ item.message }}</span>
+            </li>
+        </ul>
+    </div>
+</template>
