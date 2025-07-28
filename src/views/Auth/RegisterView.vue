@@ -1,222 +1,192 @@
-<template>
-    <VContainer fluid id="register" tag="section">
-        <v-row>
-            <v-col
-                class="illustration bg-primary d-flex flex-column justify-center align-center"
-                cols="6"
-            >
-                <v-img
-                    :src="registerImg"
-                    width="500"
-                    max-height="500"
-                    transition="scroll-y-transition"
-                    aspect-ratio="16/9"
-                />
-
-                <div class="info d-flex flex-column ga-5">
-                    <h3 class="text-h3 font-weight-bold">
-                        Tenha o controle <br>
-                        financeiro na palma <br>
-                        das suas mãos
-                    </h3>
-
-                    <p class="text-h5">
-                        Fácil e intuítivo, com o Prosperify você se <br>
-                        organiza e mantém o controle financeiro!
-                    </p>
-                </div>
-            </v-col>
-
-            <v-col class="form-content" cols="6">
-                <v-form
-                    ref="form"
-                    class="form ma-2 pa-8"
-                    :disabled="loading"
-                    @submit.prevent="register"
-                >
-                    <v-row>
-                        <v-col cols="12">
-                            <v-img
-                                :src="prosperifyLogo"
-                                class="mb-5 mx-auto"
-                                width="226"
-                                cover
-                            >
-                            </v-img>
-                        </v-col>
-                    </v-row>
-
-                    <v-row>
-                        <v-col cols="12">
-                            <InputText
-                                v-model="name"
-                                label="Nome"
-                                placeholder="Digite seu nome"
-                                required
-                                :rules="nameRules"
-                            />
-                        </v-col>
-
-                        <v-col cols="12">
-                            <InputEmail
-                                v-model="email"
-                                label="E-mail"
-                                placeholder="Digite seu e-mail"
-                                required
-                            />
-                        </v-col>
-
-                        <v-col cols="12">
-                            <InputPassword
-                                v-model="password"
-                                label="Senha"
-                                placeholder="********"
-                                required
-                                :rules="passwordRules"
-                            />
-                        </v-col>
-
-                        <v-col cols="12">
-                            <InputPassword
-                                v-model="confirmPassword"
-                                label="Confirme a senha"
-                                placeholder="********"
-                                required
-                                :rules="confirmPasswordRules"
-                            />
-                        </v-col>
-                    </v-row>
-
-                    <v-row>
-                        <v-col cols="12">
-                            <PasswordValidationInfo :password="password" />
-                        </v-col>
-                    </v-row>
-
-                    <v-row>
-                        <v-col cols="12">
-                            <ButtonForm
-                                :loading="loading"
-                                block
-                                class="text-none text-subtitle-1"
-                            >
-                                <div class="d-flex justify-center ga-2">
-                                    <RegisterIcon />
-                                    Criar conta
-                                </div>
-                            </ButtonForm>
-                        </v-col>
-                    </v-row>
-
-                    <v-row>
-                        <v-col cols="12">
-                            <div class="d-flex justify-center">
-                                <v-btn
-                                    variant="plain"
-                                    class="text-none text-subtitle-1"
-                                    color="#A8A8B3"
-                                    @click="router.push('/login')"
-                                >
-                                    Já possui conta? Faça login
-                                </v-btn>
-                            </div>
-                        </v-col>
-                    </v-row>
-                </v-form>
-            </v-col>
-        </v-row>
-    </VContainer>
-</template>
-
 <script setup lang="ts">
-import { ref, inject } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import registerImg from '@/assets/Auth/register-illustration.png';
-import InputText from '@/components/form/InputText.vue';
-import InputEmail from '@/components/form/InputEmail.vue';
-import InputPassword from '@/components/form/InputPassword.vue';
-import ButtonForm from '@/components/form/ButtonForm.vue';
+import { Form, type FormSubmitEvent } from '@primevue/forms';
+import { zodResolver } from '@primevue/forms/resolvers/zod';
+import * as z from 'zod';
 
+import registerImg from '@/assets/Auth/register-illustration.png';
 import prosperifyLogo from '@/assets/logo-name-primary.png';
-import RegisterIcon from '@/components/icons/IconRegister.vue';
-import { useToast } from '@/stores/toast';
+import BaseImage from '@/components/Base/BaseImage.vue';
+import BaseButton from '@/components/BaseForm/BaseButton.vue';
+import BaseInputText from '@/components/BaseForm/BaseInputText.vue';
+import BaseInputEmail from '@/components/BaseForm/BaseInputEmail.vue';
+import BaseInputPassword from '@/components/BaseForm/BaseInputPassword.vue';
 import PasswordValidationInfo from '@/components/Auth/PasswordValidationInfo.vue';
 
+import { useUserStore } from '@/stores/user';
+import { useToast } from '@/composables/useToast';
+
 const router = useRouter();
-const toast = useToast();
-const axios: any = inject('axios');
+const { showSuccess, showError } = useToast();
 
-const form = ref();
 const loading = ref(false);
-const name = ref('');
-const email = ref('');
-const confirmPassword = ref('');
-const password = ref('');
+const { register } = useUserStore();
 
-const nameRules = [
-    (v: string) => !!v || 'Nome é obrigatório',
-    (v: string) => v.length >= 3 || 'Nome deve conter no mínimo 3 caracteres',
-];
+const resolver = ref(zodResolver(
+    z.object({
+        name: z.string('Nome é obrigatório.')
+            .min(3, 'Nome deve ter pelo menos 3 caracteres.'),
+        email: z.email('Email inválido.'),
+        password: z.string()
+            .regex(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, 
+                ''
+            ),
+        confirmPassword: z.string(),
+    }).refine((data) => data.password === data.confirmPassword, {
+        message: 'As senhas não coincidem.',
+        path: ['confirmPassword'],
+    })
+));
 
-const passwordRules = [
-    (v: string) => !!v || 'Senha é obrigatório',
-    (v: string) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(v)
-    || 'A senha deve conter: 8 caracteres, uma letra maiuscula, uma minuscula, um numero e caracter especial',
-];
+const initialValues = ref({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+});
 
-const confirmPasswordRules = [
-    (v: string) => !!v || 'Confirmação de senha é obrigatório',
-    (v: string) => v === password.value || 'As senhas não coincidem',
-];
-
-async function register() {
-    const { valid } = await form.value.validate();
+async function handleSubmit(event: FormSubmitEvent) {
+    const { valid, values } = event as FormSubmitEvent<typeof initialValues.value>;
 
     if (valid) {
         try {
             loading.value = true;
-            const { data } = await axios.post('/users', {
-                name: name.value,
-                email: email.value,
-                password: password.value,
-            });
 
-            toast.show('Conta criada com sucesso', 'success');
-            router.push('/login');
+            await register(values);
+
+            showSuccess({
+                message: 'Conta criada!', 
+                description: 'Você já pode fazer login.'
+            });
+            router.push('/dashboard');
         } catch (error: any) {
-            toast.show(error.response.data.message, 'error');
+            showError({
+                message: 'Erro ao fazer login', 
+                description: error.response.data.message
+            });
         } finally {
             loading.value = false;
         }
-    } else {
-        toast.show('Preencha os campos corretamente', 'error');
     }
 }
 </script>
 
-<style lang="scss" scoped>
+<template>
+    <section id="register" class="flex flex-col md:flex-row h-screen">
+        <div class="illustration bg-primary flex flex-col justify-center items-center w-full md:w-1/2">
+            <BaseImage
+                :src="registerImg"
+                alt="Register Illustration"
+            />
+
+            <div class="info flex flex-col gap-5 text-center">
+                <h3 class="font-poppins text-3xl text-left font-bold text-white">
+                    Tenha o controle financeiro <br>
+                    na palma das suas mãos
+                </h3>
+
+                <p class="font-quick text-lg text-left text-white">
+                    Fácil e intuítivo, com o Prosperify você se organiza <br>
+                    e mantém o controle financeiro!
+                </p>
+            </div>
+        </div>
+
+        <div class="form-content flex justify-center items-center w-full md:w-1/2">
+            <Form 
+                v-slot="$form" 
+                :initialValues="initialValues"
+                :resolver="resolver"
+                @submit="handleSubmit" 
+                class="form flex flex-col items-center rounded-[12px] w-full !p-[14px] !m-[8px] gap-4"
+            >
+
+                <div class="mb-4">
+                    <Image 
+                        :src="prosperifyLogo"
+                        :width="226"
+                        class="mb-5 mx-auto"
+                        alt="Prosperify Logo"
+                    />
+                </div>
+
+                <div class="w-full">
+                    <BaseInputText
+                        name="name"
+                        label="Nome"
+                        size="large"
+                        :invalid="$form.name?.invalid"
+                        :errorMessage="$form.name?.error?.message"
+                        :disabled="loading"
+                    />
+                </div>
+
+                <div class="w-full">
+                    <BaseInputEmail
+                        name="email"
+                        label="E-mail"
+                        size="large"
+                        :invalid="$form.email?.invalid"
+                        :errorMessage="$form.email?.error?.message"
+                        :disabled="loading"
+                    />
+                </div>
+
+                <div class="w-full">
+                    <BaseInputPassword
+                        name="password"
+                        label="Senha"
+                        size="large"
+                        :invalid="$form.password?.invalid"
+                        :disabled="loading"
+                    />
+                </div>
+
+                <div class="w-full">
+                    <BaseInputPassword
+                        name="confirmPassword"
+                        label="Confirmar Senha"
+                        size="large"
+                        :invalid="$form.confirmPassword?.invalid"
+                        :errorMessage="$form.confirmPassword?.error?.message"
+                        :disabled="loading"
+                    />
+                </div>
+
+                <div class="w-full">
+                    <PasswordValidationInfo :password="$form.password?.value" newDesign/>
+                </div>
+
+                <BaseButton 
+                    title="Criar conta"
+                    type="submit"
+                    icon="pi pi-user-plus"
+                    iconPos="left"
+                    size="large"
+                    class="bg-primary font-poppins text-white w-full"
+                    :loading="loading"
+                    fluid
+                />
+
+                <RouterLink
+                    to="/login"
+                    class="text-gray-400 font-poppins hover:text-gray-300 transition-all duration-200"
+                >
+                    Já possui conta? Faça login
+                </RouterLink>
+            </Form>
+        </div>
+    </section>
+</template>
+
+<style scoped>
 #register {
-    height: 100%;
-    padding: 0px;
-
-    .illustration {
-        height: 101vh;
-    }
-
     .form-content {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
         .form {
-            border: 1px solid rgb(var(--v-theme-primary), 0.3);
-            border-radius: 12px;
             max-width: 355px;
-            width: 100%;
-
-            .v-col {
-                padding: 0px;
-            }
+            border: 1px solid rgba(53,151,102, 0.3);
         }
     }
 }
