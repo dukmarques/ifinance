@@ -1,4 +1,6 @@
 <template>
+    <ToastNotification />
+    
     <VApp class="bg-secondary">
         <NavigationDrawer/>
 
@@ -11,6 +13,7 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
 import NavigationDrawer from './components/Navigation/NavigationDrawer.vue';
+import ToastNotification from './components/Common/ToastNotification.vue';
 </script>
 
 <style lang="scss">

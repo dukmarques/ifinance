@@ -1,6 +1,7 @@
 import PrimeVue, { type PrimeVueConfiguration } from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
 import { definePreset } from '@primeuix/themes';
+import ToastService from 'primevue/toastservice';
 
 const MyPreset = definePreset(Aura, {
     semantic: {
@@ -35,4 +36,4 @@ const config: PrimeVueConfiguration = {
     }
 };
 
-export { PrimeVue, config };
+export { PrimeVue, config, ToastService };
