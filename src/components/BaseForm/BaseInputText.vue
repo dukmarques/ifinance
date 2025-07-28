@@ -5,7 +5,7 @@ import InputText from 'primevue/inputtext';
 export interface BaseInputTextProps {
     label?: string;
     name: string;
-    type: 'text' | 'email';
+    type?: 'text' | 'email';
     placeholder?: string;
     size?: 'small' | 'large';
     disabled?: boolean;
