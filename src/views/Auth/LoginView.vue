@@ -114,7 +114,9 @@ const initialValues = ref({
     password: ''
 });
 
-async function login({ valid, values }: FormSubmitEvent<typeof initialValues.value>) {
+async function login(event: FormSubmitEvent) {
+    const { valid, values } = event as FormSubmitEvent<typeof initialValues.value>;
+
     if (valid) {
         try {
             loading.value = true;
