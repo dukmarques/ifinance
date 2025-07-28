@@ -2,9 +2,14 @@ import { defineStore } from 'pinia';
 import { type User } from '@/@types/User';
 import { axios } from '../services/axios';
 
-type loginData = {
+type RegisterForm = {
+    name: string;
     email: string;
     password: string;
+}
+
+type LoginForm = Omit<RegisterForm, 'name'> & 
+{
     device_name?: string;
 };
 
@@ -23,7 +28,7 @@ export const useUserStore = defineStore('userStore', {
         },
     },
     actions: {
-        async login(authData: loginData) {
+        async login(authData: LoginForm) {
             authData.device_name = 'web';
 
             // eslint-disable-next-line no-useless-catch
@@ -35,6 +40,14 @@ export const useUserStore = defineStore('userStore', {
                     email: data.email,
                 };
                 this.accessToken = data.token;
+            } catch (err: any) {
+                throw err;
+            }
+        },
+        async register(dataForm: RegisterForm) {
+            // eslint-disable-next-line no-useless-catch
+            try {
+                await axios.post('/users', dataForm);
             } catch (err: any) {
                 throw err;
             }
