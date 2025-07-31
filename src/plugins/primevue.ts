@@ -2,6 +2,7 @@ import PrimeVue, { type PrimeVueConfiguration } from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
 import { definePreset } from '@primeuix/themes';
 import ToastService from 'primevue/toastservice';
+import Tooltip from 'primevue/tooltip';
 
 const MyPreset = definePreset(Aura, {
     semantic: {
@@ -36,4 +37,4 @@ const config: PrimeVueConfiguration = {
     }
 };
 
-export { PrimeVue, config, ToastService };
+export { PrimeVue, config, ToastService, Tooltip };

@@ -10,7 +10,7 @@ import vuetify from './plugins/vuetify';
 import App from './App.vue';
 import router from './router/router';
 
-import { PrimeVue, config, ToastService } from './plugins/primevue';
+import { PrimeVue, config, ToastService, Tooltip } from './plugins/primevue';
 import './styles.css';
 
 const app = createApp(App);
@@ -23,6 +23,7 @@ app.use(vuetify);
 
 app.use(PrimeVue, config);
 app.use(ToastService);
+app.directive('tooltip', Tooltip);
 app.use(pinia);
 app.use(router);
 app.use(VueAxios, axios);
