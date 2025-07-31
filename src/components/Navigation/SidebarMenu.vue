@@ -71,7 +71,7 @@ async function logout() {
 </script>
 
 <template>
-    <div v-if="showDrawer" class="mx-2 static shrink-0 z-10">
+    <div v-if="showDrawer" class="h-screen !flex items-center mx-2 static shrink-0 z-10">
         <div
             v-show="drawer"
             class="bg-secondary m-2 ps-2 pe-2 border border-surface-200 rounded-xl transition-all duration-300 h-[95vh] overflow-hidden flex flex-col"
