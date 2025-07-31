@@ -6,8 +6,6 @@ import { useToast } from '@/composables/useToast';
 import { useNavigationStore } from '@/stores/navigation';
 
 import Divider from 'primevue/divider';
-import Button from 'primevue/button';
-
 import IconOverview from '@/components/icons/IconOverview.vue';
 import IconCard from '@/components/icons/IconCard.vue';
 import IconCategory from '@/components/icons/IconCategory.vue';
@@ -117,7 +115,6 @@ async function logout() {
                 </div>
             </div>
 
-            <!-- Footer actions -->
             <div class="p-2">
                 <Divider class="mb-2" />
         
@@ -132,13 +129,16 @@ async function logout() {
 
                 <Divider class="mt-2"/>
 
-                <div class="flex justify-center mb-2">
-                    <Button
-                        :icon="!navigation.getRail ? 'pi pi-angle-double-left' : 'pi pi-angle-double-right'"
-                        :label="!navigation.getRail ? 'Recolher menu' : ''"
-                        text
+                <div class="flex justify-center mb-4">
+                    <i 
+                        v-tooltip.bottom="{
+                            value: navigation.getRail ? 'Expandir menu' : 'Recolher menu',
+                            showDelay: '1000'
+                        }"
+                        class="pi pi-angle-double-left cursor-pointer text-primary hover:brightness-[1.3] transition-all duration-300" 
+                        :class="!navigation.getRail ? 'rotate-0' : 'rotate-180'"
                         @click="navigation.toggleRail"
-                    />
+                    ></i>
                 </div>
             </div>
         </div>
