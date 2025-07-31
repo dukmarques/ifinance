@@ -1,27 +1,5 @@
-<template>
-    <div
-        id="header"
-        class="d-flex justify-space-between align-center mt-5 mb-3 ml-2"
-    >
-        <div class="content">
-            <h1 class="text-h3 font-weight-bold">
-                {{ title }}
-            </h1>
-            <p v-if="subtitle" class="text-h6">
-                {{ subtitle }}
-            </p>
-        </div>
-
-        <FabButton
-            v-if="hasFabButton"
-            :title="fabButtonTitle"
-            @click="fabButtonClick"
-        />
-    </div>
-    <v-divider class="mt-3" color="primary"></v-divider>
-</template>
-
-<script setup lang="ts">
+<script lang="ts" setup>
+import Divider from 'primevue/divider';
 import FabButton from '../form/FabButton.vue';
 
 defineProps({
@@ -51,8 +29,27 @@ defineProps({
 });
 </script>
 
-<style lang="scss" scoped>
-#header {
-    width: 100%;
-}
-</style>
+<template>
+    <div
+        id="header"
+        class="w-full flex justify-between items-center mt-5 mb-3 ml-2"
+    >
+        <div>
+            <h1 class="text-3xl font-bold">
+                {{ title }}
+            </h1>
+            <p v-if="subtitle" class="text-lg font-medium text-gray-300">
+                {{ subtitle }}
+            </p>
+        </div>
+
+        <FabButton
+            v-if="hasFabButton"
+            :title="fabButtonTitle"
+            @click="fabButtonClick"
+            location="top end"
+        />
+    </div>
+
+    <Divider class="mt-3 mb-3"></Divider>
+</template>
