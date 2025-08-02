@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { Form, type FormSubmitEvent } from '@primevue/forms';
@@ -16,6 +16,7 @@ import PasswordValidationInfo from '@/components/Auth/PasswordValidationInfo.vue
 
 import { useUserStore } from '@/stores/user';
 import { useToast } from '@/composables/useToast';
+import ToggleDarkMode from '@/components/Common/ToggleDarkMode.vue';
 
 const router = useRouter();
 const { showSuccess, showError } = useToast();
@@ -74,7 +75,7 @@ async function handleSubmit(event: FormSubmitEvent) {
 </script>
 
 <template>
-    <section id="register" class="flex flex-col md:flex-row h-screen">
+    <section id="register" class="flex flex-col md:flex-row w-screen h-screen">
         <div class="illustration bg-primary flex flex-col justify-center items-center w-full md:w-1/2">
             <BaseImage
                 :src="registerImg"
@@ -165,7 +166,7 @@ async function handleSubmit(event: FormSubmitEvent) {
                     icon="pi pi-user-plus"
                     iconPos="left"
                     size="large"
-                    class="bg-primary font-poppins text-white w-full"
+                    class="bg-primary hover:brightness-[1.1] transition-all duration-300 font-poppins text-white w-full"
                     :loading="loading"
                     fluid
                 />
@@ -177,6 +178,10 @@ async function handleSubmit(event: FormSubmitEvent) {
                     Já possui conta? Faça login
                 </RouterLink>
             </Form>
+        </div>
+
+        <div class="absolute top-4 right-4">
+            <ToggleDarkMode />
         </div>
     </section>
 </template>
