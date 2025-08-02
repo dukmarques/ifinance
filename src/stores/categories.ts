@@ -1,7 +1,7 @@
+/* eslint-disable no-useless-catch */
 import { defineStore } from "pinia";
 import { type Category } from "@/@types/Category";
 import { axios } from "../services/axios";
-import { useToast } from "@/composables/useToast";
 
 export const useCategoriesStore = defineStore("categoriesStore", {
     state: () => ({
@@ -17,7 +17,6 @@ export const useCategoriesStore = defineStore("categoriesStore", {
                 const { data } = await axios.get("/categories");
                 this.categories = data.data;
             } catch (err: any) {
-                useToast().showError({ message: err.response.data.message });
                 throw err;
             } finally {
                 this.toggleLoading();
@@ -27,12 +26,8 @@ export const useCategoriesStore = defineStore("categoriesStore", {
         async createCategory(category: Category) {
             try {
                 await axios.post("/categories", category);
-                useToast().showSuccess({
-                    message: 'Categoria criada com sucesso',
-                });
                 this.fetchCategories();
             } catch (err: any) {
-                useToast().showError({ message: err.response.data.message });
                 throw err;
             }
         },
@@ -42,7 +37,6 @@ export const useCategoriesStore = defineStore("categoriesStore", {
                 await axios.put(`/categories/${category.id}`, category);
                 this.fetchCategories();
             } catch (err: any) {
-                useToast().showError({ message: err.response.data.message });
                 throw err;
             }
         },
@@ -50,10 +44,8 @@ export const useCategoriesStore = defineStore("categoriesStore", {
         async deleteCategory(categoryId: string) {
             try {
                 await axios.delete(`/categories/${categoryId}`);
-                useToast().showSuccess({message: "Categoria deletada com sucesso" });
                 this.fetchCategories();
             } catch (err: any) {
-                useToast().showError(err.response.data.message);
                 throw err;
             }
         },
