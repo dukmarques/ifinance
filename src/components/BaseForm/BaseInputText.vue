@@ -32,7 +32,7 @@ withDefaults(defineProps<BaseInputTextProps>(), {
             fluid
         />
 
-        <label v-if="label" :for="name" class="bg-secondary">{{ label }}</label>
+        <label v-if="label" :for="name">{{ label }}</label>
 
         <Message severity="error" size="small" variant="simple">{{ errorMessage }}</Message>
     </FloatLabel>

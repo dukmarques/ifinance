@@ -32,7 +32,7 @@ withDefaults(defineProps<{
             inputClass="w-full"  
         />
 
-        <label class="bg-secondary z-50" v-if="label" :for="name">{{ label }}</label>
+        <label class="z-50" v-if="label" :for="name">{{ label }}</label>
         
         <Message v-if="invalid" severity="error" size="small" variant="simple">{{ errorMessage }}</Message>
     </FloatLabel>
