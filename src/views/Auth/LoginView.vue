@@ -1,5 +1,64 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { Form, type FormSubmitEvent } from '@primevue/forms';
+import { zodResolver } from '@primevue/forms/resolvers/zod';
+import * as z from 'zod';
+
+import loginImg from '@/assets/Auth/login-illustration.png';
+import BaseImage from '@/components/Base/BaseImage.vue';
+import BaseButton from '@/components/BaseForm/BaseButton.vue';
+import BaseInputEmail from '@/components/BaseForm/BaseInputEmail.vue';
+import BaseInputPassword from '@/components/BaseForm/BaseInputPassword.vue';
+
+import prosperifyLogo from '@/assets/logo-name-primary.png';
+import { useUserStore } from '@/stores/user';
+import { useToast } from '@/composables/useToast';
+import ToggleDarkMode from '@/components/Common/ToggleDarkMode.vue';
+
+
+const router = useRouter();
+const { showError } = useToast();
+
+const loading = ref(false);
+const userStore = useUserStore();
+
+const resolver = ref(zodResolver(
+    z.object({
+        email: z.email('Email inválido'),
+        password: z.string().min(8, 'A senha deve ter pelo menos 8 caracteres'),
+    })
+));
+
+const initialValues = ref({
+    email: '',
+    password: ''
+});
+
+async function login(event: FormSubmitEvent) {
+    const { valid, values } = event as FormSubmitEvent<typeof initialValues.value>;
+
+    if (valid) {
+        try {
+            loading.value = true;
+
+            await userStore.login(values);
+
+            router.push('/dashboard');
+        } catch (error: any) {
+            showError({
+                message: 'Erro ao fazer login', 
+                description: error.response.data.message
+            });
+        } finally {
+            loading.value = false;
+        }
+    }
+}
+</script>
+
 <template>
-    <section id="register" class="flex flex-col md:flex-row h-screen">
+    <section id="register" class="w-full h-screen flex flex-col md:flex-row">
         <div class="illustration bg-primary flex flex-col justify-center items-center w-full md:w-1/2">
             <BaseImage
                 :src="loginImg"
@@ -62,7 +121,7 @@
                     icon="pi pi-sign-in"
                     iconPos="right"
                     size="large"
-                    class="bg-primary font-poppins text-white w-full"
+                    class="bg-primary hover:brightness-[1.1] transition-all duration-300 font-poppins text-white w-full"
                     :loading="loading"
                     fluid
                 />
@@ -75,66 +134,12 @@
                 </RouterLink>
             </Form>
         </div>
+
+        <div class="absolute top-4 right-4">
+            <ToggleDarkMode />
+        </div>
     </section>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { Form, type FormSubmitEvent } from '@primevue/forms';
-import { zodResolver } from '@primevue/forms/resolvers/zod';
-import * as z from 'zod';
-
-import loginImg from '@/assets/Auth/login-illustration.png';
-import BaseImage from '@/components/Base/BaseImage.vue';
-import BaseButton from '@/components/BaseForm/BaseButton.vue';
-import BaseInputEmail from '@/components/BaseForm/BaseInputEmail.vue';
-import BaseInputPassword from '@/components/BaseForm/BaseInputPassword.vue';
-
-import prosperifyLogo from '@/assets/logo-name-primary.png';
-import { useUserStore } from '@/stores/user';
-import { useToast } from '@/composables/useToast';
-
-
-const router = useRouter();
-const { showError } = useToast();
-
-const loading = ref(false);
-const userStore = useUserStore();
-
-const resolver = ref(zodResolver(
-    z.object({
-        email: z.email('Email inválido'),
-        password: z.string().min(8, 'A senha deve ter pelo menos 8 caracteres'),
-    })
-));
-
-const initialValues = ref({
-    email: '',
-    password: ''
-});
-
-async function login(event: FormSubmitEvent) {
-    const { valid, values } = event as FormSubmitEvent<typeof initialValues.value>;
-
-    if (valid) {
-        try {
-            loading.value = true;
-
-            await userStore.login(values);
-
-            router.push('/dashboard');
-        } catch (error: any) {
-            showError({
-                message: 'Erro ao fazer login', 
-                description: error.response.data.message
-            });
-        } finally {
-            loading.value = false;
-        }
-    }
-}
-</script>
 
 <style scoped>
 #register {
