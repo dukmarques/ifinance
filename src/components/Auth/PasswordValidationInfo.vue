@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useNavigationStore } from '@/stores/navigation';
 import { computed } from 'vue';
 
 const props = defineProps({
@@ -8,6 +9,8 @@ const props = defineProps({
         default: ''
     },
 });
+
+const navigation = useNavigationStore();
 
 const rules = {
     uppercase: /[A-Z]/,
@@ -38,6 +41,16 @@ const validations = computed(() => ({
         message: 'Mínimo de 8 caracteres',
     }
 }));
+
+const itemIsValid = computed(() => {
+    return (item: { valid: boolean }) => {
+        if (item.valid) {
+            return 'bg-primary';
+        }
+    
+        return navigation.isDarkMode ? 'bg-white' : 'bg-gray-200';
+    }
+});
 </script>
 
 <template>
@@ -49,14 +62,19 @@ const validations = computed(() => ({
                 class="flex items-center gap-4 mb-4"
             >
                 <div 
-                    class="rounded-full w-6 h-6 flex items-center justify-center"
-                    :class="item.valid ? 'bg-primary' : 'bg-white'">
-                    <i 
-                        class="pi pi-check text-secondary !text-[12px] !font-black" 
-                        :class="item.valid ? 'text-primary' : 'text-white'"
+                    :class="[
+                        'rounded-full w-6 h-6 flex items-center justify-center',
+                        itemIsValid(item)
+                    ]
+                    ">
+                    <i  
+                        :class="[
+                            'pi pi-check text-secondary !text-[12px] !font-black',
+                            item.valid ? 'text-primary' : 'text-white'
+                        ]"
                     ></i>
                 </div>
-                <span :class="item.valid ? 'text-primary' : 'text-white'">{{ item.message }}</span>
+                <span :class="item.valid ? 'text-primary' : ''">{{ item.message }}</span>
             </li>
         </ul>
     </div>
