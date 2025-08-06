@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { defineProps, withDefaults } from 'vue';
 import Password from 'primevue/password';
 
 withDefaults(defineProps<{
