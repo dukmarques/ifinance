@@ -23,8 +23,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits } from 'vue';
-
 export interface DataTableHeader {
     title: string;
     align?: 'start' | 'end' | 'center';

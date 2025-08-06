@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { defineProps, withDefaults } from 'vue';
 import InputText from 'primevue/inputtext';
 
 export interface BaseInputTextProps {
