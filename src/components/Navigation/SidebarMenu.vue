@@ -158,7 +158,7 @@ async function logout() {
         
                 <div  
                     :class="[
-                        'w-full !p-[10px] flex justify-center items-center rounded-md cursor-pointer',
+                        'w-full !p-[10px] flex justify-center items-center gap-2 rounded-md cursor-pointer',
                         navigation.rail ? 'justify-center w-full' : 'justify-start',
                         !navigation.isDarkMode ? 'hover:bg-surface-100' : 'hover:bg-surface-900 hover:brightness-[1.3]',
                     ]"
