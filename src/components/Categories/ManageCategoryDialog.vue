@@ -1,78 +1,21 @@
-<template>
-    <v-dialog
-        :model-value="modelValue"
-        persistent
-        max-width="400"
-    >
-        <v-form
-            ref="form"
-            @submit.prevent="submit"
-            :disabled="loading"
-        >
-            <v-card>
-                <v-card-title class="d-flex ga-3 align-center pt-5 pl-5">
-                    {{ title }}
-                </v-card-title>
-
-                <v-divider></v-divider>
-
-                <v-card-text>
-                    <v-row dense>
-                        <v-col cols="12">
-                            <InputText
-                                v-model="localCategory.name"
-                                label="Nome da categoria"
-                                with-rules
-                            ></InputText>
-                        </v-col>
-                    </v-row>
-                </v-card-text>
-
-                <v-divider></v-divider>
-
-                <v-card-actions class="px-5">
-                    <ButtonForm
-                        color="error"
-                        @click="close"
-                        :disabled="loading"
-                        type="button"
-                    >
-                        Cancelar
-                    </ButtonForm>
-
-                    <v-spacer></v-spacer>
-
-                    <ButtonForm
-                        :loading="loading"
-                        variant="tonal"
-                        type="submit"
-                    >
-                        Salvar
-                    </ButtonForm>
-                </v-card-actions>
-            </v-card>
-        </v-form>
-
-
-    </v-dialog>
-</template>
-
 <script setup lang="ts">
-import { ref, toRef, type PropType } from 'vue';
+import { ref, type PropType } from 'vue';
 import type { Category } from '@/@types/Category';
-import { useToast } from '@/stores/toast';
 
-import InputText from '@/components/form/InputText.vue';
-import ButtonForm from '@/components/form/ButtonForm.vue';
-
-const emit = defineEmits(["update:modelValue"]);
-const toast = useToast();
+import Dialog from 'primevue/dialog';
+import { Form, type FormSubmitEvent } from '@primevue/forms';
+import { zodResolver } from '@primevue/forms/resolvers/zod';
+import * as z from 'zod';
+import BaseInputText from '@/components/BaseForm/BaseInputText.vue';
+import BaseButton from '@/components/BaseForm/BaseButton.vue';
 
 const props = defineProps({
-    modelValue: Boolean,
     title: {
         type: String,
         default: 'Adicionar categoria',
+    },
+    description: {
+        type: String,
     },
     category: {
         type: Object as PropType<Category>,
@@ -90,29 +33,75 @@ const props = defineProps({
     },
 });
 
-const form = ref();
-const localCategory = toRef(props, "category");
+const resolver = ref(zodResolver(
+    z.object({
+        name: z.string().min(1, 'O nome da categoria é obrigatório'),
+    })
+));
 
-async function submit() {
-    const { valid } = await form.value.validate();
+const initialValues = ref({ 
+    name: props.category.name,
+});
 
-    if (!valid) {
-        toast.show('Verifique se todos os campos estão preenchidos corretamente', 'error');
-        return;
+const visible = ref(false);
+
+async function submit(event: FormSubmitEvent) {
+    const { valid, values, reset } = event as FormSubmitEvent<typeof initialValues.value>;
+    
+    if (valid) {
+        await props.provider(values);
+        reset();
+        visible.value = false;
     }
-
-    await props.provider(localCategory.value);
-    sanitize();
 }
 
 function close() {
-    emit('update:modelValue', false);
-    sanitize();
+    visible.value = false;
 }
 
-function sanitize() {
-    if (!localCategory.value.id) {
-        localCategory.value.name = '';
-    }
-}
+defineExpose({ visible });
 </script>
+
+<template>
+    <Dialog
+        v-model:visible="visible"
+        modal
+        header="Adicionar categoria" 
+        class="bg-secondary border border-primary w-lg"
+    >
+        <Form 
+            v-slot="$form" 
+            :initialValues="initialValues"
+            :resolver="resolver"
+            @submit="submit"
+        >
+            <span v-if="description" class="text-surface-500 dark:text-surface-400 block mb-4">{{ description }}</span>
+            <div class="flex items-center mb-4 mt-1">
+                <BaseInputText 
+                    label="Nome da categoria"
+                    name="name"
+                    :invalid="$form.name?.invalid"
+                    :errorMessage="$form.name?.error?.message"
+                    :disabled="loading"
+                />
+            </div>
+
+            <div class="flex justify-between">
+                <BaseButton 
+                    type="button" 
+                    label="Cancelar" 
+                    severity="danger" 
+                    size="small"
+                    @click="close"
+                />
+
+                <BaseButton 
+                    type="submit" 
+                    label="Salvar" 
+                    :loading="loading"
+                    size="small"
+                />
+            </div>
+        </Form>
+    </Dialog>
+</template>
