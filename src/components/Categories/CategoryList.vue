@@ -36,19 +36,19 @@ const navigation = useNavigationStore();
                         !navigation.isDarkMode ? '!border !border-surface-400 !rounded-sm' : ''
                     ]"
                 >
-                    <div class="!p-6 relative flex justify-between gap-2 border rounded">
+                    <div class="!p-3 relative flex flex-col justify-between items-start gap-2 border rounded">
                         <div class="flex justify-center items-center gap-2">
                             <i class="pi pi-tag" />
                             <span class="text-lg text-center">{{ item.name }}</span>
                         </div>
 
-                        <div class="flex flex-col justify-around gap-1">
+                        <div class="w-full flex justify-between gap-1">
                             <Tag class="text-sm !w-auto !text-[12px]" severity="success" :value="`Receitas: ${item.revenues_count}`"></Tag>
                             <Tag class="text-sm !w-auto !text-[12px]" severity="danger" :value="`Despesas: ${item.expenses_count}`"></Tag>
                             <Tag class="text-sm !w-auto !text-[12px]" severity="warn" :value="`Cartões: ${item.card_expenses_count}`"></Tag>
                         </div>
 
-                        <div class="flex justify-center items-center absolute bottom-1 left-4">
+                        <div class="flex justify-center items-center absolute top-1 right-1">
                             <BaseButton 
                                 label=""
                                 severity="success"
