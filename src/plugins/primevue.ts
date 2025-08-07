@@ -1,8 +1,10 @@
+import type { App } from 'vue';
 import PrimeVue, { type PrimeVueConfiguration } from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
 import { definePreset } from '@primeuix/themes';
 import ToastService from 'primevue/toastservice';
 import Tooltip from 'primevue/tooltip';
+import ConfirmationService from 'primevue/confirmationservice';
 
 const MyPreset = definePreset(Aura, {
     semantic: {
@@ -67,4 +69,9 @@ const config: PrimeVueConfiguration = {
     }
 };
 
-export { PrimeVue, config, ToastService, Tooltip };
+export const configPrimevue = (app: App<Element>) => {
+    app.use(PrimeVue, config);
+    app.use(ToastService);
+    app.use(ConfirmationService);
+    app.directive('tooltip', Tooltip);
+};
