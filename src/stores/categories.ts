@@ -6,7 +6,7 @@ import { axios } from "../services/axios";
 export const useCategoriesStore = defineStore("categoriesStore", {
     state: () => ({
         categories: [] as Category[],
-        loading: false as boolean,
+        loading: false,
     }),
     getters: {},
     actions: {

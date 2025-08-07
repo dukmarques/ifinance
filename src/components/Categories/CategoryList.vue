@@ -1,19 +1,17 @@
 <script lang="ts" setup>
-import type { Category } from '@/@types/Category';
-import DataView from 'primevue/dataview';
-import type { PropType } from 'vue';
-import Tag from 'primevue/tag';
-import BaseButton from '@/components/BaseForm/BaseButton.vue';
+import { storeToRefs } from 'pinia';
 import { useNavigationStore } from '@/stores/navigation';
-
-defineProps({
-    categories: {
-        type: Array as PropType<Category[]>,
-        required: true,
-    },
-});
+import { useCategoriesStore } from '@/stores/categories';
+import DataView from 'primevue/dataview';
+import CategoryListItem from '@/components/Categories/CategoryListItem.vue';
+import type { Category } from '@/@types/Category';
+import CategoryListItemSkeleton from '@/components/Categories/CategoryListItemSkeleton.vue';
 
 const navigation = useNavigationStore();
+const { categories, loading } = storeToRefs(useCategoriesStore());
+const { fetchCategories } = useCategoriesStore();
+
+fetchCategories();
 </script>
 
 <template>
@@ -36,36 +34,15 @@ const navigation = useNavigationStore();
                         !navigation.isDarkMode ? '!border !border-surface-400 !rounded-sm' : ''
                     ]"
                 >
-                    <div class="!p-3 relative flex flex-col justify-between items-start gap-2 border rounded">
-                        <div class="flex justify-center items-center gap-2">
-                            <i class="pi pi-tag" />
-                            <span class="text-lg text-center">{{ item.name }}</span>
-                        </div>
+                    <CategoryListItemSkeleton 
+                        v-if="loading"
+                    />
 
-                        <div class="w-full flex justify-between gap-1">
-                            <Tag class="text-sm !w-auto !text-[12px]" severity="success" :value="`Receitas: ${item.revenues_count}`"></Tag>
-                            <Tag class="text-sm !w-auto !text-[12px]" severity="danger" :value="`Despesas: ${item.expenses_count}`"></Tag>
-                            <Tag class="text-sm !w-auto !text-[12px]" severity="warn" :value="`Cartões: ${item.card_expenses_count}`"></Tag>
-                        </div>
-
-                        <div class="flex justify-center items-center absolute top-1 right-1">
-                            <BaseButton 
-                                label=""
-                                severity="success"
-                                size="small"
-                                icon="pi pi-pencil"
-                                @click="() => console.log('Edit', item)"
-                            />
-
-                            <BaseButton 
-                                label=""
-                                severity="danger"
-                                size="small"
-                                icon="pi pi-trash"
-                                @click="() => console.log('Delete', item)"
-                            />
-                        </div>
-                    </div>
+                    <CategoryListItem
+                        v-else
+                        :category="item"
+                        :loading="loading"
+                    />
                 </div>
             </div>
         </template>
