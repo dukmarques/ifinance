@@ -57,13 +57,16 @@ export const useCardsStore = defineStore('cardsStore', {
         },
 
         fillCardsForLoading() {
-            this.cards = Array(12).fill({
-                id: '1',
+            this.cards = Array(12).fill(null).map((_, index) => ({
+                id: `placeholder-${index}`,
                 name: 'Cartão de Crédito',
-                closing_date: '',
-                due_date: '',
+                closing_day: 0,
+                due_day: 0,
+                limit: 0,
                 user_id: '123',
-            });
+                background_color: '#000000',
+                card_flag: 'defaultCard',
+            }));
         },
 
         toggleLoading() {
