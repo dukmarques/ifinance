@@ -16,6 +16,11 @@ import vuetify from './plugins/vuetify';
 
 const app = createApp(App);
 
+// TODO: remove soon
+app.use(vuetify);
+app.use(Vue3Toastify, { autoClose: 3000 } as ToastContainerOptions);
+// TODO: remove soon
+
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 
@@ -25,10 +30,5 @@ app.use(pinia);
 app.use(router);
 app.use(VueAxios, axios);
 app.provide('axios', app.config.globalProperties.axios);
-
-// TODO: remove soon
-app.use(vuetify);
-app.use(Vue3Toastify, { autoClose: 3000 } as ToastContainerOptions);
-// TODO: remove soon
 
 app.mount('#app');
