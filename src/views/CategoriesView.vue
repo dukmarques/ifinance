@@ -43,7 +43,7 @@ async function create(category: Category) {
     <Container fluid>
         <HeaderViews 
             title="Categorias"
-            subtitle="Aqui estão todas as suas categorias"
+            subtitle="Gerencie suas categorias"
             hasFabButton
             fabButtonTitle="Adicionar categoria"
             :fabButtonClick="toggleCreateDialog"
