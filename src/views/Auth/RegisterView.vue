@@ -7,7 +7,7 @@ import * as z from 'zod';
 
 import registerImg from '@/assets/Auth/register-illustration.png';
 import prosperifyLogo from '@/assets/logo-name-primary.png';
-import BaseImage from '@/components/Base/BaseImage.vue';
+import BaseImage from '@/components/Common/BaseImage.vue';
 import BaseButton from '@/components/BaseForm/BaseButton.vue';
 import BaseInputText from '@/components/BaseForm/BaseInputText.vue';
 import BaseInputEmail from '@/components/BaseForm/BaseInputEmail.vue';

@@ -6,7 +6,7 @@ import { zodResolver } from '@primevue/forms/resolvers/zod';
 import * as z from 'zod';
 
 import loginImg from '@/assets/Auth/login-illustration.png';
-import BaseImage from '@/components/Base/BaseImage.vue';
+import BaseImage from '@/components/Common/BaseImage.vue';
 import BaseButton from '@/components/BaseForm/BaseButton.vue';
 import BaseInputEmail from '@/components/BaseForm/BaseInputEmail.vue';
 import BaseInputPassword from '@/components/BaseForm/BaseInputPassword.vue';
