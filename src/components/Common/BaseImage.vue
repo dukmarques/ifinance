@@ -1,11 +1,3 @@
-<template>
-    <Image 
-        :src="props.src" 
-        :width="props.width" 
-        :alt="props.alt"
-    />
-</template>
-
 <script lang="ts" setup>
 import Image from 'primevue/image';
 
@@ -23,3 +15,11 @@ const props = withDefaults(defineProps<BaseImageProps>(), {
 });
 
 </script>
+
+<template>
+    <Image 
+        :src="props.src" 
+        :width="props.width" 
+        :alt="props.alt"
+    />
+</template>
