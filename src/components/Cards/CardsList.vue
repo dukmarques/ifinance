@@ -2,11 +2,15 @@
 import { storeToRefs } from 'pinia';
 import { useCardsStore } from '@/stores/cards';
 import CardsListItem from '@/components/Cards/CardsListItem.vue';
+import { onMounted } from 'vue';
+import CardsListItemSkeleton from '@/components/Cards/CardsListItemSkeleton.vue';
 
 const { cards, loading } = storeToRefs(useCardsStore());
 const { fetchCards } = useCardsStore();
 
-fetchCards();
+onMounted(() => {
+    fetchCards();
+});
 </script>
 
 <template>
@@ -14,9 +18,11 @@ fetchCards();
         <div 
             v-for="(card, index) in cards"
             :key="`card-${index}`"
-            class="col-span-12 sm:col-span-6 md:col-span-4 xl:col-span-3"
+            class="col-span-12 md:col-span-6 lg:col-span-4 2xl:col-span-2"
         >
-            <CardsListItem :card="card" :loading="loading" />
+            <CardsListItemSkeleton v-if="loading" />
+
+            <CardsListItem v-else :card="card" />
         </div>
     </div>
 </template>
