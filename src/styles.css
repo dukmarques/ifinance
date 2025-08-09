@@ -9,4 +9,6 @@
 
     --font-poppins: Poppins, sans-serif;
     --font-quick: Quicksand, sans-serif;
+
+    --breakpoint-3xl: 120rem;
 }
