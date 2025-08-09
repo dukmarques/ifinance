@@ -23,6 +23,7 @@ declare module 'vue' {
     Card: typeof import('primevue/card')['default']
     CardsList: typeof import('./src/components/Cards/CardsList.vue')['default']
     CardsListItem: typeof import('./src/components/Cards/CardsListItem.vue')['default']
+    CardsListItemSkeleton: typeof import('./src/components/Cards/CardsListItemSkeleton.vue')['default']
     CategoryItem: typeof import('./src/components/Categories/CategoryItem.vue')['default']
     CategoryList: typeof import('./src/components/Categories/CategoryList.vue')['default']
     CategoryListItem: typeof import('./src/components/Categories/CategoryListItem.vue')['default']
