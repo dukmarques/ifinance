@@ -1,7 +1,7 @@
+/* eslint-disable no-useless-catch */
 import { defineStore } from 'pinia';
 import { type Card } from '@/@types/Card';
 import { axios } from '../services/axios';
-import { useToast } from './toast';
 
 export const useCardsStore = defineStore('cardsStore', {
     state: () => ({
@@ -13,14 +13,13 @@ export const useCardsStore = defineStore('cardsStore', {
         async fetchCards() {
             this.fillCardsForLoading();
             try {
-                this.toggleLoading();
+                this.loading = true;
                 const { data } = await axios.get('/cards');
                 this.cards = data.data;
             } catch (err: any) {
-                useToast().showError(err.response.data.message);
                 throw err;
             } finally {
-                this.toggleLoading();
+                this.loading = false;
             }
         },
 
@@ -29,7 +28,6 @@ export const useCardsStore = defineStore('cardsStore', {
                 await axios.post('/cards', card);
                 this.fetchCards();
             } catch (err: any) {
-                useToast().showError(err.response.data.message);
                 throw err;
             }
         },
@@ -37,10 +35,8 @@ export const useCardsStore = defineStore('cardsStore', {
         async updateCard(card: Card) {
             try {
                 await axios.put(`/cards/${card.id}`, card);
-                useToast().showSuccess('Cartão atualizado com sucesso');
                 this.fetchCards();
             } catch (err: any) {
-                useToast().showError(err.response.data.message);
                 throw err;
             }
         },
@@ -48,16 +44,14 @@ export const useCardsStore = defineStore('cardsStore', {
         async deleteCard(cardId: string) {
             try {
                 await axios.delete(`/cards/${cardId}`);
-                useToast().showSuccess('Cartão deletado com sucesso');
                 this.fetchCards();
             } catch (err: any) {
-                useToast().showError(err.response.data.message);
                 throw err;
             }
         },
 
         fillCardsForLoading() {
-            this.cards = Array(12).fill(null).map((_, index) => ({
+            this.cards = Array(9).fill(null).map((_, index) => ({
                 id: `placeholder-${index}`,
                 name: 'Cartão de Crédito',
                 closing_day: 0,
@@ -67,10 +61,6 @@ export const useCardsStore = defineStore('cardsStore', {
                 background_color: '#000000',
                 card_flag: 'defaultCard',
             }));
-        },
-
-        toggleLoading() {
-            this.loading = !this.loading;
         },
     },
 });
