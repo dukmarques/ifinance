@@ -1,35 +1,42 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
-import { storeToRefs } from 'pinia';
+import { onMounted, ref, useTemplateRef, watch } from 'vue';
 import HeaderViews from '@/components/Header/HeaderViews.vue';
 import CreditCard from '@/components/Cards/CreditCard.vue';
 import { useCardsStore } from '@/stores/cards';
-import ManageCardDialog from '@/components/Cards/ManageCardDialog.vue';
+import ManageCardDialog from '@/components/Cards/ManageCardDialogNew.vue';
 import type { Card } from '@/@types/Card';
 import Container from '@/components/Common/Container.vue';
 import CardsList from '@/components/Cards/CardsList.vue';
 import { useRoute } from 'vue-router';
+import { useToast } from '@/composables/useToast';
 
-const { cards, loading } = storeToRefs(useCardsStore());
-const { fetchCards, createCard } = useCardsStore();
+const { createCard } = useCardsStore();
+const { showSuccess, showError } = useToast();
 
 const createDialog = ref(false);
 const loadingDialog = ref(false);
+const createDialogRef = useTemplateRef('createDialog');
 
 const toggleCreateDialog = () => {
-    createDialog.value = !createDialog.value;
+    createDialogRef.value!.visible = true;
 }
-
-fetchCards();
 
 async function create(card: Card) {
     loadingDialog.value = true;
     try {
         await createCard(card);
-        toggleCreateDialog();
-    } finally{
+        showSuccess({
+            message: 'Sucesso!',
+            description: 'Cartão criado com sucesso.',
+        })
+    } catch(err: any) {
+        showError({
+            message: 'Erro!',
+            description: err.response?.data?.message || 'Ocorreu um erro ao criar o cartão.',
+        });
+    } finally {
         loadingDialog.value = false;
-    };
+    }
 }
 
 // Remove soon
@@ -59,6 +66,7 @@ onMounted(() => {
         <CardsList />
     </Container>
 
+    <!-- Remove soon -->
     <v-container
         v-else
         fluid class="ml-5"
@@ -97,4 +105,11 @@ onMounted(() => {
             @close="toggleCreateDialog()"
         ></ManageCardDialog>
     </v-container>
+    <!-- Remove soon -->
+
+    <ManageCardDialog 
+        ref="createDialog"
+        :loading="loadingDialog"
+        :provider="create"
+    />
 </template>

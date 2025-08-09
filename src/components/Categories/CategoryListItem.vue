@@ -103,6 +103,7 @@ const confirmDelete = () => {
 
     <ManageCategoryDialog
         ref="updateDialog"
+        title="Editar categoria"
         :category="category"
         :loading="loading"
         :provider="update"
