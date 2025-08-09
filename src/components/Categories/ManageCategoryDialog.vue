@@ -66,8 +66,8 @@ defineExpose({ visible });
     <Dialog
         v-model:visible="visible"
         modal
-        header="Adicionar categoria" 
-        class="bg-secondary border border-primary w-lg"
+        :header="title"
+        class="w-lg"
     >
         <Form 
             v-slot="$form" 
