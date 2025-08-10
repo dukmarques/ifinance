@@ -7,6 +7,9 @@ import Dialog from 'primevue/dialog';
 import { ref, type PropType } from 'vue';
 import BaseButton from '@/components/BaseForm/BaseButton.vue';
 import BaseInputText from '@/components/BaseForm/BaseInputText.vue';
+import BaseInputNumber from '../BaseForm/BaseInputNumber.vue';
+import BaseInputCurrency from '../BaseForm/BaseInputCurrency.vue';
+import BaseInputColorPicker from '../BaseForm/BaseInputColorPicker.vue';
 
 const props = defineProps({
     title: {
@@ -63,12 +66,14 @@ defineExpose({ visible });
 
 async function submit(event: FormSubmitEvent) {
     const { valid, values, reset } = event as FormSubmitEvent<typeof initialValues.value>;
+
+    console.log(values);
     
-    if (valid) {
-        await props.provider(values);
-        reset();
-        visible.value = false;
-    }
+    // if (valid) {
+    //     await props.provider(values);
+    //     reset();
+    //     visible.value = false;
+    // }
 }
 
 function close() {
@@ -95,7 +100,49 @@ function close() {
                     name="name"
                     :invalid="$form.name?.invalid"
                     :errorMessage="$form.name?.error?.message"
-                    :disabled="props.loading"
+                    :disabled="loading"
+                />
+            </div>
+
+            <div class="flex items-center gap-4 mb-4">
+                <BaseInputCurrency 
+                    label="Limite do Cartão"
+                    name="limit"
+                    :invalid="$form.limit?.invalid"
+                    :errorMessage="$form.limit?.error?.message"
+                    :disabled="loading"
+                />
+
+                <BaseInputNumber
+                    label="Data de fechamento"
+                    name="closing_day"
+                    :min="1"
+                    :max="31"
+                    showButtons
+                    :invalid="$form.closing_day?.invalid"
+                    :errorMessage="$form.closing_day?.error?.message"
+                    :disabled="loading"
+                />
+
+                <BaseInputNumber
+                    label="Data de vencimento"
+                    name="due_day"
+                    :min="1"
+                    :max="31"
+                    showButtons
+                    :invalid="$form.due_day?.invalid"
+                    :errorMessage="$form.due_day?.error?.message"
+                    :disabled="loading"
+                />
+            </div>
+
+            <div class="flex items-center mb-4 gap-4">
+                <BaseInputColorPicker 
+                    label="Cor do cartão"
+                    name="background_color"
+                    :invalid="$form.background_color?.invalid"
+                    :errorMessage="$form.background_color?.error?.message"
+                    :disabled="loading"
                 />
             </div>
 
