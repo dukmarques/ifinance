@@ -19,5 +19,7 @@ withDefaults(defineProps<Omit<BaseInputTextProps, 'type'>>(), {
         :disabled="disabled"
         :invalid="invalid"
         :errorMessage="errorMessage"
+        :showPrefixIcon="showPrefixIcon"
+        prefix="@"
     />
 </template>
