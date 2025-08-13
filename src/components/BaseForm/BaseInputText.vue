@@ -14,19 +14,21 @@ export interface BaseInputTextProps {
     invalid?: boolean;
     errorMessage?: string;
     showPrefixIcon?: boolean;
+    prefix?: string;
 }
 
 withDefaults(defineProps<BaseInputTextProps>(), {
     type: 'text',
     size: 'large',
     disabled: false,
-    showPrefixIcon: false
+    showPrefixIcon: false,
+    prefix: 'Aa'
 });
 </script>
 
 <template>
     <InputGroup>
-        <InputGroupAddon v-if="showPrefixIcon">Aa</InputGroupAddon>
+        <InputGroupAddon v-if="showPrefixIcon">{{ prefix }}</InputGroupAddon>
         <FloatLabel variant="on">
             <InputText 
                 :id="name" 
@@ -40,7 +42,7 @@ withDefaults(defineProps<BaseInputTextProps>(), {
     
             <label v-if="label" :for="name">{{ label }}</label>
     
-            <Message severity="error" size="small" variant="simple">{{ errorMessage }}</Message>
         </FloatLabel>
     </InputGroup>
+    <Message severity="error" size="small" variant="simple">{{ errorMessage }}</Message>
 </template>
