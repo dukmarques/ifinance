@@ -10,7 +10,7 @@ import BaseInputText from '@/components/BaseForm/BaseInputText.vue';
 import BaseInputNumber from '@/components/BaseForm/BaseInputNumber.vue';
 import BaseInputCurrency from '@/components/BaseForm/BaseInputCurrency.vue';
 import SelectCardsTags from '@/components/Cards/SelectCardsTags.vue';
-import BaseInputColorPicker from '@/components/BaseForm/BaseInputColorPicker.vue.vue';
+import BaseInputColorPicker from '@/components/BaseForm/BaseInputColorPicker.vue';
 
 const props = defineProps({
     title: {
