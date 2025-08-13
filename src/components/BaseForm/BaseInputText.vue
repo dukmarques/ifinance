@@ -1,5 +1,8 @@
 <script lang="ts" setup>
+import InputGroup from 'primevue/inputgroup';
+import InputGroupAddon from 'primevue/inputgroupaddon';
 import InputText from 'primevue/inputtext';
+import Message from 'primevue/message';
 
 export interface BaseInputTextProps {
     label?: string;
@@ -10,29 +13,34 @@ export interface BaseInputTextProps {
     disabled?: boolean;
     invalid?: boolean;
     errorMessage?: string;
+    showPrefixIcon?: boolean;
 }
 
 withDefaults(defineProps<BaseInputTextProps>(), {
     type: 'text',
     size: 'large',
     disabled: false,
+    showPrefixIcon: false
 });
 </script>
 
 <template>
-    <FloatLabel variant="on">
-        <InputText 
-            :id="name" 
-            :name="name" 
-            :placeholder="placeholder"
-            :type="type"
-            :size="size" 
-            :disabled="disabled"
-            fluid
-        />
-
-        <label v-if="label" :for="name">{{ label }}</label>
-
-        <Message severity="error" size="small" variant="simple">{{ errorMessage }}</Message>
-    </FloatLabel>
+    <InputGroup>
+        <InputGroupAddon v-if="showPrefixIcon">Aa</InputGroupAddon>
+        <FloatLabel variant="on">
+            <InputText 
+                :id="name" 
+                :name="name" 
+                :placeholder="placeholder"
+                :type="type"
+                :size="size" 
+                :disabled="disabled"
+                fluid
+            />
+    
+            <label v-if="label" :for="name">{{ label }}</label>
+    
+            <Message severity="error" size="small" variant="simple">{{ errorMessage }}</Message>
+        </FloatLabel>
+    </InputGroup>
 </template>
