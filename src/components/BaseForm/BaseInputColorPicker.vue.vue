@@ -3,6 +3,8 @@ import { ref, watch } from 'vue';
 import ColorPicker from 'primevue/colorpicker';
 import OverlayPanel from 'primevue/overlaypanel';
 import InputText from 'primevue/inputtext';
+import InputGroup from 'primevue/inputgroup';
+import InputGroupAddon from 'primevue/inputgroupaddon';
 
 export interface BaseInputColorPickerProps {
     modelValue: string;
@@ -89,29 +91,33 @@ const selectSwatch = (colorValue: string) => {
 <template>
     <div class="w-full">
         <div class="relative">
-            <FloatLabel class="w-full !h-12" variant="on">
-                <InputText
-                    ref="inputRef"
-                    v-model="inputValue"
-                    :style="{ color: inputValue }"
-                    readonly
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                    @click="toggleColorPicker"
-                    :size="size"
-                >
-                </InputText>
-
-                <label v-if="label">{{ label }}</label>
-
-                <Message v-if="invalid && errorMessage" severity="error" size="small" variant="simple">{{ errorMessage }}</Message>
-            </FloatLabel>
+            <InputGroup>
+                <InputGroupAddon>
+                    <i class="pi pi-palette"></i>
+                </InputGroupAddon>
+                <FloatLabel class="w-full !h-12" variant="on">
+                    <InputText
+                        ref="inputRef"
+                        v-model="inputValue"
+                        :style="{ color: inputValue }"
+                        readonly
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                        @click="toggleColorPicker"
+                        :size="size"
+                    >
+                    </InputText>
+    
+                    <label v-if="label">{{ label }}</label>
+    
+                    <Message v-if="invalid && errorMessage" severity="error" size="small" variant="simple">{{ errorMessage }}</Message>
+                </FloatLabel>
+            </InputGroup>
             <div 
                 v-if="inputValue" 
                 class="absolute inset-y-0 left-3 flex items-center pointer-events-none"
             >
                 <i class="pi pi-palette mr-2"></i>
             </div>
-            <!-- Mostra um pequeno indicador de cor -->
             <div 
                 v-if="inputValue" 
                 class="absolute inset-y-0 right-3 flex items-center"
