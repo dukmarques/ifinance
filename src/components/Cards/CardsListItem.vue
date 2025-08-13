@@ -91,6 +91,30 @@ async function update(card: Card) {
     }
 }
 
+const progressValue = ref(0);
+const calculateProgressValue = () => {
+    const availableLimit = props.card.limit / 2 + (props.card.limit * 0.3);
+    const totalLimit = props.card.limit;
+    return Math.round(((totalLimit - availableLimit) / totalLimit) * 100);
+};
+
+const animateProgress = () => {
+    const targetValue = calculateProgressValue();
+    const duration = 1500;
+    const interval = 20;
+    const steps = duration / interval;
+    const increment = targetValue / steps;
+    
+    let current = 0;
+    const timer = setInterval(() => {
+        current += increment;
+        progressValue.value = Math.min(current, targetValue);
+        
+        if (current >= targetValue) {
+            clearInterval(timer);
+        }
+    }, interval);
+};
 
 const countUp = ref<CountUp | null>(null);
 onMounted(() => {
@@ -98,7 +122,7 @@ onMounted(() => {
 
     countUp.value = new CountUp(
         elementId,
-        20897,
+        props.card.limit / 2 + (props.card.limit * 0.3),
         {
             decimalPlaces: 2,
             duration: 2,
@@ -110,6 +134,8 @@ onMounted(() => {
     );
 
     countUp.value?.start();
+
+    animateProgress();
 })
 </script>
 
@@ -152,7 +178,7 @@ onMounted(() => {
             <ProgressBar 
                 class="!h-1 mt-1" 
                 :showValue="false" 
-                :value="70" 
+                :value="progressValue" 
                 :pt="{
                     root: { class: textColor === '#000000' ? '!bg-black/20 rounded-full' : '!bg-white/40 rounded-full' },
                     value: { class: textColor === '#000000' ? '!bg-black/60 rounded-full' : '!bg-white rounded-full' },
