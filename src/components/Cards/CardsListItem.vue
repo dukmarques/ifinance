@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { Card as CreditCard } from '@/@types/Card';
-import { computed, onMounted, ref, type PropType } from 'vue';
+import type { Card, Card as CreditCard } from '@/@types/Card';
+import { computed, onMounted, ref, useTemplateRef, type PropType } from 'vue';
 import CreditCardBg from '@/assets/credit-card-bg.png';
 import BaseImage from '../Common/BaseImage.vue';
 import { icons } from '@/utils/creditIcons';
@@ -13,6 +13,7 @@ import { useConfirm } from 'primevue/useconfirm';
 import { getContrastColor } from '@/utils/colorUtils';
 import { useCardsStore } from '@/stores/cards';
 import { useToast } from '@/composables/useToast';
+import ManageCardDialogNew from '@/components/Cards/ManageCardDialogNew.vue';
 
 const props = defineProps({
     card: {
@@ -39,9 +40,7 @@ const menuOptions = ref<MenuItem[]>([
     {
         label: 'Editar',
         icon: 'pi pi-pencil',
-        command: () => {
-            // toggleUpdateDialog();
-        },
+        command: () => toggleUpdateDialog(),
     }, {
         label: 'Excluir',
         icon: 'pi pi-trash',
@@ -70,6 +69,28 @@ const toggleCardOptions = (event: Event) => {
     menu.value.toggle(event);
 };
 
+const updateCardDialogRef = useTemplateRef<InstanceType<typeof ManageCardDialogNew>>('updateCardDialog');
+const toggleUpdateDialog = () => updateCardDialogRef.value!.visible = true;
+const loadingDialog = ref(false);
+
+async function update(card: Card) {
+    loadingDialog.value = true;
+    try {
+        await updateCard({...card, id: props.card.id });
+        showSuccess({ 
+            message: 'Sucesso!', 
+            description: 'Cartão atualizado com sucesso' 
+        });
+    } catch (err: any) {
+        showError({ 
+            message: 'Erro ao atualizar cartão', 
+            description: err.response?.data?.message 
+        });
+    } finally {
+        loadingDialog.value = false;
+    }
+}
+
 
 const countUp = ref<CountUp | null>(null);
 onMounted(() => {
@@ -94,6 +115,15 @@ onMounted(() => {
 
 <template>
     <ConfirmPopup group="card-options" />
+
+    <ManageCardDialogNew
+        ref="updateCardDialog"
+        title="Editar Cartão"
+        :card="card"
+        :loading="loadingDialog"
+        :provider="update"
+    />
+
     <div 
         class="w-full h-[230px] flex flex-col justify-center rounded-2xl bg-cover bg-position-[-8px] !p-5 relative" 
         :style="`
