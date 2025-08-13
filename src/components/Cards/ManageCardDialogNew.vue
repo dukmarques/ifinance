@@ -9,9 +9,8 @@ import BaseButton from '@/components/BaseForm/BaseButton.vue';
 import BaseInputText from '@/components/BaseForm/BaseInputText.vue';
 import BaseInputNumber from '@/components/BaseForm/BaseInputNumber.vue';
 import BaseInputCurrency from '@/components/BaseForm/BaseInputCurrency.vue';
-import BaseInputColorPicker from '@/components/BaseForm/BaseInputColorPicker.vue';
 import SelectCardsTags from '@/components/Cards/SelectCardsTags.vue';
-import InputColorPicker from '../BaseForm/InputColorPicker.vue';
+import BaseInputColorPicker from '@/components/BaseForm/BaseInputColorPicker.vue.vue';
 
 const props = defineProps({
     title: {
@@ -66,14 +65,13 @@ const initialValues = ref({
 const visible = ref(false);
 defineExpose({ visible });
 
-const backgroundColor = toRef(props.card, 'background_color');
+const backgroundColor = toRef(props.card, 'background_color', '');
 
 async function submit(event: FormSubmitEvent) {
     const { valid, values, reset } = event as FormSubmitEvent<typeof initialValues.value>;
 
     const payload = { 
-        ...values, 
-        // background_color: values?.background_color ? `#${values.background_color}` : null,
+        ...values,
         limit: values?.limit ? Number(values.limit.replace(/[.,]/g, '')) : 0,
         background_color: backgroundColor.value,
     };
@@ -147,7 +145,7 @@ function close() {
             </div>
 
             <div class="w-full flex items-center mb-4 gap-4">
-                <InputColorPicker 
+                <BaseInputColorPicker 
                     label="Cor do cartão"
                     name="background_color"
                     v-model="backgroundColor"
