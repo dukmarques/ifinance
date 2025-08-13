@@ -13,7 +13,7 @@ import { useConfirm } from 'primevue/useconfirm';
 import { getContrastColor } from '@/utils/colorUtils';
 import { useCardsStore } from '@/stores/cards';
 import { useToast } from '@/composables/useToast';
-import ManageCardDialogNew from '@/components/Cards/ManageCardDialogNew.vue';
+import ManageCardDialog from '@/components/Cards/ManageCardDialog.vue';
 
 const props = defineProps({
     card: {
@@ -69,7 +69,7 @@ const toggleCardOptions = (event: Event) => {
     menu.value.toggle(event);
 };
 
-const updateCardDialogRef = useTemplateRef<InstanceType<typeof ManageCardDialogNew>>('updateCardDialog');
+const updateCardDialogRef = useTemplateRef<InstanceType<typeof ManageCardDialog>>('updateCardDialog');
 const toggleUpdateDialog = () => updateCardDialogRef.value!.visible = true;
 const loadingDialog = ref(false);
 
@@ -116,7 +116,7 @@ onMounted(() => {
 <template>
     <ConfirmPopup group="card-options" />
 
-    <ManageCardDialogNew
+    <ManageCardDialog
         ref="updateCardDialog"
         title="Editar Cartão"
         :card="card"
