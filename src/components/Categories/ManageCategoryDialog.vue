@@ -83,6 +83,7 @@ defineExpose({ visible });
                     :invalid="$form.name?.invalid"
                     :errorMessage="$form.name?.error?.message"
                     :disabled="loading"
+                    showPrefixIcon
                 />
             </div>
 
