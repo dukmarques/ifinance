@@ -1,122 +1,24 @@
-<template>
-    <v-dialog
-        :model-value="modelValue"
-        persistent
-        max-width="700"
-    >
-        <v-form
-            ref="form"
-            @submit.prevent="submit"
-            :disabled="loading"
-        >
-            <v-card>
-                <v-card-title class="d-flex ga-3 align-center pt-5 pl-5">
-                    <v-icon icon="fa-solid fa-credit-card"></v-icon>
-                    {{ title }}
-                </v-card-title>
-
-                <v-divider></v-divider>
-
-                <v-card-text>
-                    <v-row dense>
-                        <v-col cols="12">
-                            <InputText
-                                v-model="localCard.name"
-                                label="Nome do cartão"
-                                with-rules
-                            ></InputText>
-                        </v-col>
-
-                        <v-col cols="12" sm="4">
-                            <InputNumber
-                                v-model="localCard.closing_day"
-                                label="Data de fechamento"
-                                :max="31"
-                                :min="1"
-                                with-rules
-                            ></InputNumber>
-                        </v-col>
-
-                        <v-col cols="12" sm="4">
-                            <InputNumber
-                                v-model="localCard.due_day"
-                                label="Data de vencimento"
-                                :max="31"
-                                :min="1"
-                                with-rules
-                            ></InputNumber>
-                        </v-col>
-
-                        <v-col cols="12" sm="4">
-                            <InputColorPicker 
-                                v-model="localCard.background_color"
-                            />
-                        </v-col>
-                        
-                        <v-col cols="12" sm="6">
-                            <InputMoney
-                                v-model="localCard.limit"
-                                label="Limite do cartão"
-                            />
-                        </v-col>
-
-                        <v-col cols="12" sm="6">
-                            <AutocompleteCard
-                                v-model="localCard.card_flag"
-                            />
-                        </v-col>
-                    </v-row>
-                </v-card-text>
-
-                <v-divider></v-divider>
-
-                <v-card-actions class="px-5">
-                    <ButtonForm
-                        color="error"
-                        @click="close"
-                        :disabled="loading"
-                        type="button"
-                    >
-                        Cancelar
-                    </ButtonForm>
-
-                    <v-spacer></v-spacer>
-
-                    <ButtonForm
-                        :loading="loading"
-                        variant="tonal"
-                        type="submit"
-                    >
-                        Salvar
-                    </ButtonForm>
-                </v-card-actions>
-            </v-card>
-        </v-form>
-
-
-    </v-dialog>
-</template>
-
-<script setup lang="ts">
-import { ref, type PropType } from 'vue';
+<script lang="ts" setup>
 import type { Card } from '@/@types/Card';
-import { useToast } from '@/stores/toast';
-
-import InputText from '@/components/form/InputText.vue';
-import InputNumber from '../form/InputNumber.vue';
-import InputMoney from '@/components/form/InputMoney.vue';
-import ButtonForm from '@/components/form/ButtonForm.vue';
-import InputColorPicker from '@/components/form/InputColorPicker.vue';
-import AutocompleteCard from '@/components/form/AutocompleteCard.vue';
-
-const emit = defineEmits(["update:modelValue"]);
-const toast = useToast();
+import { Form, type FormSubmitEvent } from '@primevue/forms';
+import { zodResolver } from '@primevue/forms/resolvers/zod';
+import * as z from 'zod';
+import Dialog from 'primevue/dialog';
+import { ref, toRef, type PropType } from 'vue';
+import BaseButton from '@/components/BaseForm/BaseButton.vue';
+import BaseInputText from '@/components/BaseForm/BaseInputText.vue';
+import BaseInputNumber from '@/components/BaseForm/BaseInputNumber.vue';
+import BaseInputCurrency from '@/components/BaseForm/BaseInputCurrency.vue';
+import SelectCardsTags from '@/components/Cards/SelectCardsTags.vue';
+import BaseInputColorPicker from '@/components/BaseForm/BaseInputColorPicker.vue.vue';
 
 const props = defineProps({
-    modelValue: Boolean,
     title: {
         type: String,
-        default: 'Adicionar cartão',
+        default: 'Adicionar Cartão',
+    },
+    description: {
+        type: String,
     },
     card: {
         type: Object as PropType<Card>,
@@ -140,38 +42,144 @@ const props = defineProps({
     },
 });
 
-const form = ref();
-const localCard = ref({ ...props.card });
+const resolver = ref(zodResolver(
+    z.object({
+        name: z.string().min(1, 'O nome do cartão é obrigatório'),
+        closing_day: z.number().min(1, 'O dia de fechamento deve ser maior que 0').max(31, 'O dia de fechamento deve ser menor ou igual a 31'),
+        due_day: z.number().min(1, 'O dia de vencimento deve ser maior que 0').max(31, 'O dia de vencimento deve ser menor ou igual a 31'),
+        limit: z.string(),
+        background_color: z.string().optional(),
+        card_flag: z.string().optional(),
+    })
+));
 
-async function submit() {
-    const { valid } = await form.value.validate();
+const initialValues = ref({
+    name: props.card.name,
+    closing_day: props.card.closing_day,
+    due_day: props.card.due_day,
+    limit: `${props.card.limit}`,
+    background_color: props.card.background_color,
+    card_flag: props.card.card_flag,
+});
 
-    if (!valid) {
-        toast.show('Verifique se todos os campos estão preenchidos corretamente', 'error');
-        return;
+const visible = ref(false);
+defineExpose({ visible });
+
+const backgroundColor = toRef(props.card, 'background_color', '');
+
+async function submit(event: FormSubmitEvent) {
+    const { valid, values, reset } = event as FormSubmitEvent<typeof initialValues.value>;
+
+    const payload = { 
+        ...values,
+        limit: values?.limit ? Number(values.limit.replace(/[.,]/g, '')) : 0,
+        background_color: backgroundColor.value,
+    };
+        
+    if (valid) {
+        await props.provider(payload);
+        reset();
+        backgroundColor.value = '';
+        visible.value = false;
     }
-    
-    await props.provider(localCard.value);
-    sanitizeCard();
 }
 
 function close() {
-    emit('update:modelValue', false);
-    sanitizeCard();
-}
-
-function sanitizeCard() {
-    if (!localCard.value.id) {
-        localCard.value = { 
-            id: '',
-            name: '',
-            closing_day: 1,
-            due_day: 1,
-            limit: 0,
-            background_color: '',
-            card_flag: 'defaultCard',
-            user_id: '',
-        };
-    }
+    visible.value = false;
 }
 </script>
+
+<template>
+    <Dialog
+        v-model:visible="visible"
+        modal
+        :header="title"
+        class="w-2xl"
+    >
+        <Form
+            v-slot="$form"
+            :initialValues="initialValues"
+            :resolver="resolver"
+            @submit="submit"
+        >
+            <div class="flex items-center mb-4 mt-1">
+                <BaseInputText 
+                    label="Nome do Cartão"
+                    name="name"
+                    :invalid="$form.name?.invalid"
+                    :errorMessage="$form.name?.error?.message"
+                    :disabled="loading"
+                    showPrefixIcon
+                />
+            </div>
+
+            <div class="flex items-center gap-4 mb-4">
+                <BaseInputCurrency 
+                    label="Limite do Cartão"
+                    name="limit"
+                    :invalid="$form.limit?.invalid"
+                    :errorMessage="$form.limit?.error?.message"
+                    :disabled="loading"
+                />
+
+                <BaseInputNumber
+                    label="Data de fechamento"
+                    name="closing_day"
+                    :min="1"
+                    :max="31"
+                    showButtons
+                    :invalid="$form.closing_day?.invalid"
+                    :errorMessage="$form.closing_day?.error?.message"
+                    :disabled="loading"
+                />
+
+                <BaseInputNumber
+                    label="Data de vencimento"
+                    name="due_day"
+                    :min="1"
+                    :max="31"
+                    showButtons
+                    :invalid="$form.due_day?.invalid"
+                    :errorMessage="$form.due_day?.error?.message"
+                    :disabled="loading"
+                />
+            </div>
+
+            <div class="w-full flex items-center mb-4 gap-4">
+                <BaseInputColorPicker 
+                    label="Cor do cartão"
+                    name="background_color"
+                    v-model="backgroundColor"
+                    :invalid="$form.background_color?.invalid"
+                    :errorMessage="$form.background_color?.error?.message"
+                    :disabled="loading"
+                />
+
+                <SelectCardsTags 
+                    label="Bandeira do Cartão"
+                    name="card_flag"
+                    :invalid="$form.card_flag?.invalid"
+                    :errorMessage="$form.card_flag?.error?.message"
+                    :disabled="loading"
+                />
+            </div>
+
+            <div class="flex justify-between">
+                <BaseButton 
+                    type="button"
+                    label="Cancelar"
+                    severity="danger"
+                    size="small"
+                    @click="close"
+                />
+    
+                <BaseButton 
+                    type="submit"
+                    label="Salvar"
+                    :loading="loading"
+                    size="small"
+                />
+            </div>
+        </Form>
+    </Dialog>
+</template>
