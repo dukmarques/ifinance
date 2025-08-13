@@ -28,7 +28,11 @@ withDefaults(defineProps<{
             :feedback="false"
             :invalid="invalid"
             class="w-full"
-            inputClass="w-full"  
+            inputClass="w-full cursor-text" 
+            :pt="{
+                maskIcon: 'cursor-pointer',
+                unmaskIcon: 'cursor-pointer'
+            }"
         />
 
         <label class="z-50" v-if="label" :for="name">{{ label }}</label>
