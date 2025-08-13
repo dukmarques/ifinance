@@ -4,12 +4,14 @@ import { Form, type FormSubmitEvent } from '@primevue/forms';
 import { zodResolver } from '@primevue/forms/resolvers/zod';
 import * as z from 'zod';
 import Dialog from 'primevue/dialog';
-import { ref, type PropType } from 'vue';
+import { ref, toRef, type PropType } from 'vue';
 import BaseButton from '@/components/BaseForm/BaseButton.vue';
 import BaseInputText from '@/components/BaseForm/BaseInputText.vue';
-import BaseInputNumber from '../BaseForm/BaseInputNumber.vue';
-import BaseInputCurrency from '../BaseForm/BaseInputCurrency.vue';
-import BaseInputColorPicker from '../BaseForm/BaseInputColorPicker.vue';
+import BaseInputNumber from '@/components/BaseForm/BaseInputNumber.vue';
+import BaseInputCurrency from '@/components/BaseForm/BaseInputCurrency.vue';
+import BaseInputColorPicker from '@/components/BaseForm/BaseInputColorPicker.vue';
+import SelectCardsTags from '@/components/Cards/SelectCardsTags.vue';
+import InputColorPicker from '../BaseForm/InputColorPicker.vue';
 
 const props = defineProps({
     title: {
@@ -46,7 +48,7 @@ const resolver = ref(zodResolver(
         name: z.string().min(1, 'O nome do cartão é obrigatório'),
         closing_day: z.number().min(1, 'O dia de fechamento deve ser maior que 0').max(31, 'O dia de fechamento deve ser menor ou igual a 31'),
         due_day: z.number().min(1, 'O dia de vencimento deve ser maior que 0').max(31, 'O dia de vencimento deve ser menor ou igual a 31'),
-        limit: z.number().min(0, 'O limite do cartão não pode ser negativo'),
+        limit: z.string(),
         background_color: z.string().optional(),
         card_flag: z.string().optional(),
     })
@@ -56,7 +58,7 @@ const initialValues = ref({
     name: props.card.name,
     closing_day: props.card.closing_day,
     due_day: props.card.due_day,
-    limit: props.card.limit,
+    limit: `${props.card.limit}`,
     background_color: props.card.background_color,
     card_flag: props.card.card_flag,
 });
@@ -64,16 +66,24 @@ const initialValues = ref({
 const visible = ref(false);
 defineExpose({ visible });
 
+const backgroundColor = toRef(props.card, 'background_color');
+
 async function submit(event: FormSubmitEvent) {
     const { valid, values, reset } = event as FormSubmitEvent<typeof initialValues.value>;
 
-    console.log(values);
-    
-    // if (valid) {
-    //     await props.provider(values);
-    //     reset();
-    //     visible.value = false;
-    // }
+    const payload = { 
+        ...values, 
+        // background_color: values?.background_color ? `#${values.background_color}` : null,
+        limit: values?.limit ? Number(values.limit.replace(/[.,]/g, '')) : 0,
+        background_color: backgroundColor.value,
+    };
+        
+    if (valid) {
+        await props.provider(payload);
+        reset();
+        backgroundColor.value = '';
+        visible.value = false;
+    }
 }
 
 function close() {
@@ -136,12 +146,21 @@ function close() {
                 />
             </div>
 
-            <div class="flex items-center mb-4 gap-4">
-                <BaseInputColorPicker 
+            <div class="w-full flex items-center mb-4 gap-4">
+                <InputColorPicker 
                     label="Cor do cartão"
                     name="background_color"
+                    v-model="backgroundColor"
                     :invalid="$form.background_color?.invalid"
                     :errorMessage="$form.background_color?.error?.message"
+                    :disabled="loading"
+                />
+
+                <SelectCardsTags 
+                    label="Bandeira do Cartão"
+                    name="card_flag"
+                    :invalid="$form.card_flag?.invalid"
+                    :errorMessage="$form.card_flag?.error?.message"
                     :disabled="loading"
                 />
             </div>
