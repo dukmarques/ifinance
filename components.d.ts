@@ -79,7 +79,6 @@ declare module 'vue' {
     InputText: typeof import('./src/components/form/InputText.vue')['default']
     InputTextArea: typeof import('./src/components/form/InputTextArea.vue')['default']
     ManageCardDialog: typeof import('./src/components/Cards/ManageCardDialog.vue')['default']
-    ManageCardDialogNew: typeof import('./src/components/Cards/ManageCardDialogNew.vue')['default']
     ManageCategoryDialog: typeof import('./src/components/Categories/ManageCategoryDialog.vue')['default']
     ManageRevenuesDialog: typeof import('./src/components/Revenues/ManageRevenuesDialog.vue')['default']
     Message: typeof import('primevue/message')['default']
