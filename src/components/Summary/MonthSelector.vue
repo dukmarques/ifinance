@@ -1,29 +1,14 @@
-<template>
-    <div id="container" class="d-flex flex-column align-center justify-center mb-3">
-        <div class="month-selector d-flex align-center justify-center gap-4">
-            <v-btn icon variant="plain" :ripple="false" @click="() => changeMonth(-1)">
-                <v-icon icon="fa-solid fa-angle-left"></v-icon>
-            </v-btn>
-
-            <div class="current-month text-h6 text-center"> 
-                {{ formattedMonthDisplay }} 
-            </div>
-
-            <v-btn icon variant="plain" :ripple="false" @click="() => changeMonth(1)">
-                <v-icon icon="fa-solid fa-angle-right"></v-icon>
-            </v-btn>
-        </div>
-        <v-divider thickness="1" length="100" />
-    </div>
-</template>
-
 <script lang="ts" setup name="MonthSelector">
 import { ref, computed, defineEmits, onMounted } from 'vue';
+import Button from 'primevue/button';
+import DatePicker from 'primevue/datepicker';
 
 const emit = defineEmits<{ (e: 'month-change', date: string): void }>();
 
 const currentDate = new Date();
 const selectedDate = ref(formatDate(currentDate));
+const calendarVisible = ref(false);
+const calendarDate = ref(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1));
 
 const monthNames = [
     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
@@ -35,7 +20,7 @@ const formattedMonthDisplay = computed(() => formatMonthDisplay(selectedDate.val
 function formatDate(date: Date): string {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    return `${year}-${month}-01`;
+    return `${year}-${month}`;
 }
 
 function formatMonthDisplay(date: string): string {
@@ -55,18 +40,66 @@ function changeMonth(offset: number): void {
     emit('month-change', selectedDate.value);
 }
 
+function toggleCalendar() {
+    calendarVisible.value = !calendarVisible.value;
+}
+
+function handleDateSelect(event: any) {
+    if (event) {
+        const newDate = new Date(event);
+        selectedDate.value = formatDate(newDate);
+        emit('month-change', selectedDate.value);
+        calendarVisible.value = false;
+    }
+}
+
 onMounted(() => emit('month-change', selectedDate.value));
 </script>
 
-<style scoped lang="scss">
-#container {
-    .month-selector {
-        gap: 30px;
-    }
+<template>
+    <div class="flex flex-col items-center justify-center mb-3 mt-3">
+        <div class="flex items-center justify-center gap-10 mb-3">
+            <Button 
+                icon="pi pi-chevron-left" 
+                text 
+                rounded 
+                aria-label="Mês anterior"
+                @click="() => changeMonth(-1)"
+            />
 
-    .current-month {
-        margin: 0;
-        padding: 12px 0;
-    }
-}
-</style>
+            <div class="relative">
+                <div 
+                    class="text-xl py-3 cursor-pointer hover:text-primary-500 transition-colors" 
+                    @click="toggleCalendar"
+                > 
+                    {{ formattedMonthDisplay }} 
+                </div>
+                
+                <DatePicker 
+                    v-model="calendarDate" 
+                    view="month" 
+                    dateFormat="mm/yy"
+                    :showIcon="false"
+                    :manualInput="false"
+                    :inline="calendarVisible"
+                    @date-select="handleDateSelect"
+                    class="absolute top-full left-1/2 transform -translate-x-1/2 z-10 min-w-60"
+                    v-show="calendarVisible"
+                    :pt="{
+                        header: 'p-[.5rem]'
+                    }"
+                />
+            </div>
+
+            <Button 
+                icon="pi pi-chevron-right" 
+                text 
+                rounded 
+                aria-label="Próximo mês"
+                @click="() => changeMonth(1)"
+            />
+
+            
+        </div>
+    </div>
+</template>
