@@ -59,10 +59,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.content {
-    @apply mx-auto;
-}
-
 .row-text .column-text .value {
     animation: opacityAnimation 3s linear;
 }
