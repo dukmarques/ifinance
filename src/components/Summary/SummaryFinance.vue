@@ -1,35 +1,3 @@
-<template>
-    <v-container fluid>
-        <div class="content d-flex flex-column justify-center">
-            <v-row class="row-text">
-                <v-col
-                    cols="4"
-                    v-for="(item, index) in summary"
-                    :key="index"
-                    class="column-text d-flex flex-column justify-center align-center"
-                >
-                    <span :id="`value-${index}`" class="value">0</span>
-                    <span class="caption">{{ item.caption }}</span>
-                    <component :is="item.icon" class="icon" />
-                </v-col>
-            </v-row>
-            <v-row class="row-icons">
-                <v-col cols="2"></v-col>
-
-                <v-col cols="4">
-                    <div class="rectangle first"></div>
-                </v-col>
-
-                <v-col cols="4">
-                    <div class="rectangle last"></div>
-                </v-col>
-
-                <v-col cols="2"></v-col>
-            </v-row>
-        </div>
-    </v-container>
-</template>
-
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { CountUp } from 'countup.js';
@@ -62,93 +30,94 @@ onMounted(() => {
         countUp.value.start();
     });
 });
-
 </script>
 
-<style scoped lang="scss">
+<template>
+    <div class="content flex flex-col justify-center">
+        <div class="grid grid-cols-3 gap-4 z-10 row-text">
+            <div
+                v-for="(item, index) in summary"
+                :key="index"
+                class="flex flex-col justify-center items-center column-text"
+            >
+                <span :id="`value-${index}`" class="text-2xl font-medium value">0</span>
+                <span class="text-sm font-normal caption">{{ item.caption }}</span>
+                <component :is="item.icon" class="icon" />
+            </div>
+        </div>
+        <div class="flex justify-center items-center !mt-[-27px] row-icons">
+            <div class="w-1/6"></div>
+            <div class="w-1/3">
+                <div class="h-2 rounded-full rectangle first"></div>
+            </div>
+            <div class="w-1/3">
+                <div class="h-2 rounded-full rectangle last"></div>
+            </div>
+            <div class="w-1/6"></div>
+        </div>
+    </div>
+</template>
+
+<style scoped>
 .content {
-    margin: 0 auto;
+    @apply mx-auto;
+}
 
-    .row-text {
-        z-index: 99;
-        
-        .column-text {
-            .value {
-                font-size: 24px;
-                font-weight: 500;
-                animation: opacityAnimation 3s linear;
-            }
-            
-            .caption {
-                font-size: 14px;
-                font-weight: 400;
-                animation: opacityAnimation 3s linear;
-            }
+.row-text .column-text .value {
+    animation: opacityAnimation 3s linear;
+}
 
-            &:first-child .icon,
-            &:last-child .icon {
-                visibility: hidden;
-                animation-name: iconAnimation;
-                animation-duration: 1s;
-                animation-timing-function: linear;
-                animation-fill-mode: forwards;
-                animation-delay: 0.8s;
-            }
-        }
+.row-text .column-text .caption {
+    animation: opacityAnimation 3s linear;
+}
+
+.row-text .column-text:first-child .icon,
+.row-text .column-text:last-child .icon {
+    visibility: hidden;
+    animation-name: iconAnimation;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    animation-delay: 0.8s;
+}
+
+.rectangle.first {
+    background: linear-gradient(90deg, #359766 27%, #197BBD 100%);
+    transform-origin: right;
+    transform: scaleX(0);
+    animation: grow-line 1s ease-out forwards;
+}
+
+.rectangle.last {
+    background: linear-gradient(90deg, #197BBD 0%, #E52E4D 72.5%);
+    transform-origin: left center;
+    transform: scaleX(0);
+    animation: grow-line 1s ease-out forwards;
+}
+
+@keyframes grow-line {
+    to {
+        transform: scaleX(1);
     }
+}
 
-    .row-icons {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        margin-top: -41px;
-
-        .rectangle {
-            height: 8px;
-            border-radius: 8px;
-            
-            &.first {
-                background: linear-gradient(90deg, #359766 27%, #197BBD 100%);
-                transform-origin: right;
-                transform: scaleX(0);
-                animation: grow-line 1s ease-out forwards;
-            }
-            
-            &.last {
-                background: linear-gradient(90deg, #197BBD 0%, #E52E4D 72.5%);
-                
-                transform-origin: left center;
-                transform: scaleX(0);
-                animation: grow-line 1s ease-out forwards;
-            }
-        }
+@keyframes iconAnimation {
+    0% {
+        transform: scale(0.5);
+        visibility: hidden;
     }
-
-    @keyframes grow-line {
-        to {
-            transform: scaleX(1);
-        }
+    100% {
+        transform: scale(1);
+        visibility: visible;
     }
+}
 
-    @keyframes iconAnimation {
-        0% {
-            transform: scale(0.5);
-            visibility: hidden;
-        }
-        100% {
-            transform: scale(1);
-            visibility: visible;
-        }
+@keyframes opacityAnimation {
+    0% {
+        opacity: 0;
     }
-
-    @keyframes opacityAnimation {
-        0% {
-            opacity: 0;
-        }
-        100% {
-            opacity: 1;
-        }
+    100% {
+        opacity: 1;
     }
 }
 </style>
