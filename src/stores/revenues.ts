@@ -1,7 +1,6 @@
 import type { Revenues } from "@/@types/Revenues";
 import { axios } from "@/services/axios";
 import { defineStore } from "pinia";
-import { useToast } from "./toast";
 import type { AxiosError } from "axios";
 
 export const useRevenuesStore = defineStore("revenuesStore", {
@@ -12,7 +11,7 @@ export const useRevenuesStore = defineStore("revenuesStore", {
     getters: {},
     actions: {
         async fetchRevenues(date: string | Date) {
-            this.toggleLoading();
+            this.loading = true;
 
             try {
                 const { data } = await axios.get(`/revenues?date=${date}`);
@@ -20,10 +19,9 @@ export const useRevenuesStore = defineStore("revenuesStore", {
             } catch (err: unknown) {
                 const error = err as AxiosError;
                 const errorMessage = (error.response?.data as { message?: string })?.message || "Erro ao buscar receitas";
-                useToast().showError(errorMessage);
-                throw error;
+                throw new Error(errorMessage);
             } finally {
-                this.toggleLoading();
+                this.loading = false;
             }
         },
 
@@ -33,37 +31,28 @@ export const useRevenuesStore = defineStore("revenuesStore", {
             } catch (err: unknown) {
                 const error = err as AxiosError;
                 const errorMessage = (error.response?.data as { message?: string })?.message || "Erro ao criar receita";
-                useToast().showError(errorMessage);
-                throw error;
+                throw new Error(errorMessage);
             }
         },
 
         async update(revenue: Revenues) {
             try {
                 await axios.put(`/revenues/${revenue.id}`, revenue);
-                useToast().showSuccess("Receita atualizada com sucesso");
             } catch (err: unknown) {
                 const error = err as AxiosError;
                 const errorMessage = (error.response?.data as { message?: string })?.message || "Erro ao atualizar receita";
-                useToast().showError(errorMessage);
-                throw error;
+                throw new Error(errorMessage);
             }
         },
 
         async delete(revenueId: string) {
             try {
                 await axios.delete(`/revenues/${revenueId}`);
-                useToast().showSuccess("Receita deletada com sucesso");
             } catch (err: unknown) {
                 const error = err as AxiosError;
                 const errorMessage = (error.response?.data as { message?: string })?.message || "Erro ao deletar receita";
-                useToast().showError(errorMessage);
-                throw error;
+                throw new Error(errorMessage);
             }
-        },
-
-        toggleLoading() {
-            this.loading = !this.loading;
         },
     },
 });
