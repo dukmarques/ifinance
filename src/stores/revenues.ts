@@ -8,7 +8,14 @@ export const useRevenuesStore = defineStore("revenuesStore", {
         revenues: [] as Revenues[],
         loading: false,
     }),
-    getters: {},
+    getters: {
+        getTotalRevenuesAmount: (state) => {
+            return state.revenues.reduce((acc, item) => {
+                const amount = item.amount ? parseFloat(String(item.amount)) : 0;
+                return acc + amount;
+            }, 0);
+        },
+    },
     actions: {
         async fetchRevenues(date: string | Date) {
             this.loading = true;
