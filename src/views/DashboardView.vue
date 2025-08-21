@@ -25,7 +25,6 @@ function handleMonthChange(date: string) {
         <SummaryFinance />
         <Divider class="mt-10 mb-10" />
         <DashFabSpeedDial />
-        
         <RevenuesList :date="currentMonth" />
     </Container>
 </template>
