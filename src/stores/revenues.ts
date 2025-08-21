@@ -1,4 +1,4 @@
-import type { Revenues } from "@/@types/Revenues";
+import type { RevenueModificationScope, Revenues } from "@/@types/Revenues";
 import { axios } from "@/services/axios";
 import { defineStore } from "pinia";
 import type { AxiosError } from "axios";
@@ -7,6 +7,7 @@ export const useRevenuesStore = defineStore("revenuesStore", {
     state: () => ({
         revenues: [] as Revenues[],
         loading: false,
+        currentSelectedMonth: '' as string | Date,
     }),
     getters: {
         getTotalRevenuesAmount: (state) => {
@@ -19,10 +20,11 @@ export const useRevenuesStore = defineStore("revenuesStore", {
     actions: {
         async fetchRevenues(date: string | Date) {
             this.loading = true;
+            this.currentSelectedMonth = date;
 
             try {
-                const { data } = await axios.get(`/revenues?date=${date}`);
-                this.revenues = data.data;
+                const { data } = await axios.get(`/revenues?date=${this.currentSelectedMonth}`);
+                this.revenues = this.filteredRevenues(data.data);
             } catch (err: unknown) {
                 const error = err as AxiosError;
                 const errorMessage = (error.response?.data as { message?: string })?.message || "Erro ao buscar receitas";
@@ -32,9 +34,16 @@ export const useRevenuesStore = defineStore("revenuesStore", {
             }
         },
 
+        filteredRevenues(data: Revenues[]) {
+            return data.filter(revenue => {
+                return revenue.recurrent && !revenue.override?.is_deleted;
+            });
+        },
+
         async create(revenue: Revenues) {
             try {
                 await axios.post("/revenues", revenue);
+                await this.fetchRevenues(this.currentSelectedMonth);
             } catch (err: unknown) {
                 const error = err as AxiosError;
                 const errorMessage = (error.response?.data as { message?: string })?.message || "Erro ao criar receita";
@@ -45,6 +54,7 @@ export const useRevenuesStore = defineStore("revenuesStore", {
         async update(revenue: Revenues) {
             try {
                 await axios.put(`/revenues/${revenue.id}`, revenue);
+                await this.fetchRevenues(this.currentSelectedMonth);
             } catch (err: unknown) {
                 const error = err as AxiosError;
                 const errorMessage = (error.response?.data as { message?: string })?.message || "Erro ao atualizar receita";
@@ -52,9 +62,12 @@ export const useRevenuesStore = defineStore("revenuesStore", {
             }
         },
 
-        async delete(revenueId: string) {
+        async delete(revenueId: string, exclusion_type: RevenueModificationScope = 'all_month') {
             try {
-                await axios.delete(`/revenues/${revenueId}`);
+                await axios.delete(`/revenues/${revenueId}`, { 
+                    data: { date: this.currentSelectedMonth, exclusion_type } 
+                });
+                await this.fetchRevenues(this.currentSelectedMonth);
             } catch (err: unknown) {
                 const error = err as AxiosError;
                 const errorMessage = (error.response?.data as { message?: string })?.message || "Erro ao deletar receita";
