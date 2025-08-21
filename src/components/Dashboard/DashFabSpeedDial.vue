@@ -5,9 +5,9 @@ import type { Revenues } from '@/@types/Revenues';
 import { useRevenuesStore } from '@/stores/revenues';
 import { useToast } from '@/composables/useToast';
 import BaseFabSpeedDial from '../BaseForm/BaseFabSpeedDial.vue';
-import ManageRevenuesDialogNew from '@/components/Revenues/ManageRevenuesDialogNew.vue';
+import ManageRevenuesDialog from '@/components/Revenues/ManageRevenuesDialog.vue';
 
-const createRevenueDialogRef = useTemplateRef<InstanceType<typeof ManageRevenuesDialogNew>>('createRevenueDialog');
+const createRevenueDialogRef = useTemplateRef<InstanceType<typeof ManageRevenuesDialog>>('createRevenueDialog');
 
 const items = ref<MenuItem[]>([
     {
@@ -60,7 +60,7 @@ async function handleCreateRevenue(revenue: Revenues) {
         class="!fixed bottom-5 right-3"
     />
 
-    <ManageRevenuesDialogNew 
+    <ManageRevenuesDialog 
         ref="createRevenueDialog"
         :loading="loadingCreateRevenue"
         :provider="handleCreateRevenue"
