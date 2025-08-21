@@ -83,7 +83,7 @@ onMounted(() => emit('month-change', selectedDate.value));
                     :manualInput="false"
                     :inline="calendarVisible"
                     @date-select="handleDateSelect"
-                    class="absolute top-full left-1/2 transform -translate-x-1/2 z-10 min-w-60"
+                    class="absolute top-full left-1/2 transform -translate-x-1/2 min-w-60 z-50"
                     v-show="calendarVisible"
                     :pt="{
                         header: 'p-[.5rem]'
