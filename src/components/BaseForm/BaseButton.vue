@@ -22,7 +22,6 @@ withDefaults(defineProps<ButtonProps>(), {
     icon: '',
     iconPos: 'right',
     fluid: false,
-    variant: 'outlined',
     size: 'large',
 });
 </script>
