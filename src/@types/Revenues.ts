@@ -10,7 +10,17 @@ type Revenues = {
     description: string;
     user_id: string;
     category_id?: string;
+    category?: {
+        id: string;
+        name: string;
+    };
     revenues_overrides?: RevenuesOverrides[];
 };
 
-export type { Revenues };
+enum RevenuesActionsTypes {
+    ONLY_MONTH = 'only_month',
+    CURRENT_MONTH_AND_FOLLOWERS = 'current_month_and_followers',
+    ALL_MONTH = 'all_month',
+};
+
+export { type Revenues, RevenuesActionsTypes };
