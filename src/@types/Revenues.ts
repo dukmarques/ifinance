@@ -1,5 +1,3 @@
-import type { RevenuesOverrides } from "./RevenuesOverrides";
-
 type Revenues = {
     id: string;
     title: string;
@@ -14,13 +12,19 @@ type Revenues = {
         id: string;
         name: string;
     };
-    revenues_overrides?: RevenuesOverrides[];
+    override?: RevenuesOverrides;
 };
 
-enum RevenuesActionsTypes {
-    ONLY_MONTH = 'only_month',
-    CURRENT_MONTH_AND_FOLLOWERS = 'current_month_and_followers',
-    ALL_MONTH = 'all_month',
+type RevenuesOverrides = {
+    id: string;
+    title?: string;
+    amount: number | string;
+    receiving_date: string;
+    description?: string;
+    revenues_id: string;
+    is_deleted: boolean;
 };
 
-export { type Revenues, RevenuesActionsTypes };
+type RevenueModificationScope = 'only_month' | 'current_month_and_followers' | 'all_month';
+
+export type { Revenues, RevenuesOverrides, RevenueModificationScope };
