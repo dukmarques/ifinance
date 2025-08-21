@@ -1,39 +1,16 @@
-<template>
-    <ExpasionPanels
-        title="Entradas"
-        icon="fa solid fa-arrow-trend-up"
-        :headers="headers"
-        :items="useRevenues.revenues"
-        :loading="useRevenues.loading"
-        @edit="onEdit"
-        @remove="onRemove"
-    />
-
-    <ManageRevenuesDialog
-        v-model="openDialog"
-        :loading="loading"
-        title="Editar entrada"
-        @close="openDialog = false"
-        :provider="update"
-    />
-
-    <ConfirmDialog
-        v-model="openConfirmDialog"
-        title="Excluir entrada"
-        text="Tem certeza que deseja excluir esta entrada?"
-        @confirm="handleDelete"
-        :loading="loadingConfirmDialog"
-    />
-</template>
-
 <script lang="ts" setup>
-import { defineProps, watch, toRef, ref } from 'vue';
+import { ref, toRef, watch } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useRevenuesStore } from '@/stores/revenues';
-import ExpasionPanels from '../Dashboard/ExpasionPanels.vue';
-import type { DataTableHeader } from '@/components/Dashboard/DataTable.vue';
-import ManageRevenuesDialog from '@/components/Revenues/ManageRevenuesDialog.vue';
+import { formatCurrency } from '@/helpers/currencyFormat';
 import type { Revenues } from '@/@types/Revenues';
-import ConfirmDialog from '@/components/form/ConfirmDialog.vue';
+
+import Accordion from 'primevue/accordion';
+import AccordionPanel from 'primevue/accordionpanel';
+import AccordionHeader from 'primevue/accordionheader';
+import AccordionContent from 'primevue/accordioncontent';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
 
 const props = defineProps({
     date: {
@@ -46,17 +23,6 @@ const props = defineProps({
 });
 
 const selectedDate = toRef(props, 'date');
-
-const headers = [
-    { title: "Título", key: "title" },
-    { title: "Valor", key: "amount" },
-    { title: "Data de Recebimento", key: "receiving_date" },
-    { title: "Fixa", key: "recurrent" },
-    { title: 'Ações', key: 'actions', align: 'end', sortable: false },
-] as DataTableHeader[];
-
-const useRevenues = useRevenuesStore();
-
 watch(
     () => selectedDate.value,
     (newDate) => {
@@ -64,53 +30,109 @@ watch(
     },
 );
 
-const loading = ref(false);
-const openDialog = ref(false);
-const revenueItem = ref<Revenues>();
+const { revenues, loading, getTotalRevenuesAmount } = storeToRefs(useRevenuesStore());
+const useRevenues = useRevenuesStore();
 
-const openConfirmDialog = ref(false);
-const loadingConfirmDialog = ref(false);
+const expandedRows = ref({});
 
-async function update(revenue: Revenues) {
-    loading.value = true;
-    try {
-        await useRevenues.update(revenue);
-        useRevenues.fetchRevenues(selectedDate.value);
-        openDialog.value = false;
-    } catch (error) {
-        console.error(error);
-    } finally {
-        loading.value = false;
-    }
+async function onEdit(revenue: Revenues) {
+    console.log('Editing revenue:', revenue);
 }
 
-async function onEdit(id: string) {
-    const revenue = useRevenues.revenues.find((item) => item.id === id);
-    if (revenue) {
-        openDialog.value = true;
-        revenueItem.value = revenue;
-    }
+async function onDelete(revenue: Revenues) {
+    console.log('Deleting revenue:', revenue);
 }
-
-async function onRemove(id: string) {
-    const revenue = useRevenues.revenues.find((item) => item.id === id);
-    if (revenue) {
-        openConfirmDialog.value = true;
-        revenueItem.value = revenue;
-    }
-}
-
-async function handleDelete() {
-    loadingConfirmDialog.value = true;
-    try {
-        await useRevenues.delete(revenueItem.value?.id!);
-        useRevenues.fetchRevenues(selectedDate.value);
-        openConfirmDialog.value = false;
-    } catch (error) {
-        console.error(error);
-    } finally {
-        loadingConfirmDialog.value = false;
-    }
-}
-
 </script>
+
+<template>
+    <Accordion>
+        <AccordionPanel
+            value="0" 
+            :pt="{ root: { style: { borderBottom: 'none' } } }"
+            class="!bg-surface-800 !rounded-lg"
+        >
+            <AccordionHeader class="!bg-surface-800">
+                <div class="w-full flex justify-between items-center mr-5">
+                    <div>
+                        <i class="pi pi-arrow-up"></i>
+                        Entradas
+                    </div>
+                    <span>Total: {{ formatCurrency(getTotalRevenuesAmount) }}</span>
+                </div>
+            </AccordionHeader>
+
+            <AccordionContent 
+                class="rounded-sm "
+                :pt="{
+                    content: { 
+                        class: '!border-[1px] !border-surface-800 !border-t-0 !rounded-lg',
+                    }
+                }"
+            >
+                <DataTable 
+                    v-if="revenues.length > 0"
+                    v-model:expandedRows="expandedRows"
+                    :value="revenues" 
+                    dataKey="id"
+                    size="large"
+                    removableSort
+                    :loading="loading"
+                >
+                    <Column expander style="width: 5rem" />
+                    <Column field="title" header="Título" sortable></Column>
+
+                    <Column field="amount" header="Valor" sortable>
+                        <template #body="{ data }">
+                            <span>{{ formatCurrency(data.amount) }}</span>
+                        </template>
+                    </Column>
+
+                    <Column field="recurrent" header="Receita fixa" sortable>
+                        <template #body="{ data }">
+                            <span>{{ data.recurrent ? 'Sim' : 'Não' }}</span>
+                        </template>
+                    </Column>
+
+                    <Column field="category" header="Categoria" sortable>
+                        <template #body="{ data }">
+                            <Tag v-if="data.category" :value="data.category?.name" severity="info" />
+                        </template>
+                    </Column>
+
+                    <Column header="Ações">
+                        <template #body="{ data }">
+                            <div class="flex gap-5">
+                                <i 
+                                    class="pi pi-pencil cursor-pointer hover:text-blue-700 transition-all duration-200" 
+                                    @click="onEdit(data)"
+                                ></i>
+                                <i 
+                                    class="pi pi-trash cursor-pointer hover:text-red-700 transition-all duration-200" 
+                                    @click="onDelete(data)"
+                                ></i>
+                            </div>
+                        </template>
+                    </Column>
+
+                    <template #expansion="{ data }">
+                        <Card 
+                            class="!bg-surface-800"
+                            :pt="{
+                                root: { class: 'rounded' },
+                                body: { class: '!p-3' },
+                            }"
+                        >
+                            <template #content>
+                                <span>{{ data.description }}</span>
+                            </template>
+                        </Card>
+                    </template>
+                </DataTable>
+
+                <div v-else class="flex pt-4">
+                    <span class="text-center">Nenhum dado disponível</span>
+                </div>
+            </AccordionContent>
+        </AccordionPanel>
+    </Accordion>
+</template>
