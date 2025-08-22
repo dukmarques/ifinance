@@ -1,10 +1,14 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
+import { storeToRefs } from 'pinia';
 import { Form, type FormSubmitEvent } from '@primevue/forms';
 import { zodResolver } from '@primevue/forms/resolvers/zod';
 import * as z from 'zod';
-import type { Revenues } from '@/@types/Revenues';
+import type { RevenueModificationScope, Revenues } from '@/@types/Revenues';
+import { useCategoriesStore } from '@/stores/categories';
+
 import Dialog from 'primevue/dialog';
+import Divider from 'primevue/divider';
 import BaseInputText from '@/components/BaseForm/BaseInputText.vue';
 import BaseInputCurrency from '@/components/BaseForm/BaseInputCurrency.vue';
 import BaseInputDatePicker from '@/components/BaseForm/BaseInputDatePicker.vue';
@@ -12,9 +16,6 @@ import BaseButton from '@/components/BaseForm/BaseButton.vue';
 import BaseToggleSwitch from '@/components/BaseForm/BaseToggleSwitch.vue';
 import BaseTextArea from '@/components/BaseForm/BaseTextArea.vue';
 import BaseInputSelect from '@/components/BaseForm/BaseInputSelect.vue';
-import Divider from 'primevue/divider';
-import { useCategoriesStore } from '@/stores/categories';
-import { storeToRefs } from 'pinia';
 
 type RevenueForm = Omit<Revenues, 'id' | 'user_id' | 'revenues_overrides'>;
 
@@ -24,6 +25,7 @@ type ManageRevenuesDialogProps = {
     revenue?: RevenueForm;
     provider: Function;
     loading?: boolean;
+    updateScope?: RevenueModificationScope;
 };
 
 const props = withDefaults(defineProps<ManageRevenuesDialogProps>(), {
@@ -45,7 +47,7 @@ function close() {
     visible.value = false;
 }
 
-const { categories, loading: loadingCategories } = storeToRefs(useCategoriesStore());
+const { getFormattedCategories, loading: loadingCategories } = storeToRefs(useCategoriesStore());
 const { fetchCategories } = useCategoriesStore();
 const categoriesSelect = ref<{ name: string; value: string }[]>([]);
 
@@ -86,11 +88,7 @@ async function submit(event: FormSubmitEvent) {
 
 onMounted(async () => {
     await fetchCategories();
-
-    categoriesSelect.value = categories.value.map(category => ({
-        name: category.name,
-        value: category.id
-    }));
+    categoriesSelect.value = getFormattedCategories.value;
 });
 
 </script>
