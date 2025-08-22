@@ -1,24 +1,16 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
-import type { Revenues } from '@/@types/Revenues';
 import { useRevenuesStore } from '@/stores/revenues';
 import { formatCurrency } from '@/helpers/currencyFormat';
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import RevenuesListItemDeleteIcon from './RevenuesListItemDeleteIcon.vue';
+import RevenuesListItemUpdateIcon from '@/components/Revenues/RevenuesListItemUpdateIcon.vue';
+import RevenuesListItemDeleteIcon from '@/components/Revenues/RevenuesListItemDeleteIcon.vue';
 
 const { revenues, loading } = storeToRefs(useRevenuesStore());
-const { update } = useRevenuesStore();
-
 const expandedRows = ref({});
-
-async function onEdit(revenue: Revenues) {
-    // TODO: em receitas recorrentes com deprecated_date, exibir o input do deprecated_date,
-    // para caso usuário deseje alterar até quando a receita será recorrente
-    console.log('Editing revenue:', revenue);
-}
 </script>
 
 <template>
@@ -55,10 +47,7 @@ async function onEdit(revenue: Revenues) {
         <Column header="Ações">
             <template #body="{ data }">
                 <div class="flex gap-5">
-                    <i 
-                        class="pi pi-pencil cursor-pointer hover:text-blue-700 transition-all duration-200" 
-                        @click="onEdit(data)"
-                    ></i>
+                    <RevenuesListItemUpdateIcon :revenue="data" />
                     <RevenuesListItemDeleteIcon :revenue="data" />
                 </div>
             </template>
