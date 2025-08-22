@@ -8,7 +8,14 @@ export const useCategoriesStore = defineStore("categoriesStore", {
         categories: [] as Category[],
         loading: false,
     }),
-    getters: {},
+    getters: {
+        getFormattedCategories(state) {
+            return state.categories.map(category => ({
+                name: category.name,
+                value: category.id
+            }));
+        }
+    },
     actions: {
         async fetchCategories() {
             this.fillCategoriesForLoading();
