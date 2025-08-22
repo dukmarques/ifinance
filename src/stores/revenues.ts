@@ -35,9 +35,7 @@ export const useRevenuesStore = defineStore("revenuesStore", {
         },
 
         filteredRevenues(data: Revenues[]) {
-            return data.filter(revenue => {
-                return revenue.recurrent && !revenue.override?.is_deleted;
-            });
+            return data.filter(revenue => !revenue.recurrent || !revenue.override?.is_deleted);
         },
 
         async create(revenue: Revenues) {
