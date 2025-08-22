@@ -49,9 +49,9 @@ export const useRevenuesStore = defineStore("revenuesStore", {
             }
         },
 
-        async update(revenue: Revenues) {
+        async update(revenue: Revenues, update_type: RevenueModificationScope) {
             try {
-                await axios.put(`/revenues/${revenue.id}`, revenue);
+                await axios.put(`/revenues/${revenue.id}`, { ...revenue, update_type });
                 await this.fetchRevenues(this.currentSelectedMonth);
             } catch (err: unknown) {
                 const error = err as AxiosError;
@@ -60,7 +60,7 @@ export const useRevenuesStore = defineStore("revenuesStore", {
             }
         },
 
-        async delete(revenueId: string, exclusion_type: RevenueModificationScope = 'all_month') {
+        async delete(revenueId: string, exclusion_type: RevenueModificationScope) {
             try {
                 await axios.delete(`/revenues/${revenueId}`, { 
                     data: { date: this.currentSelectedMonth, exclusion_type } 

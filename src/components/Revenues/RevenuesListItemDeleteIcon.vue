@@ -52,7 +52,7 @@ async function onDelete() {
         acceptProps: {
             icon: 'pi pi-trash',
         },
-        accept: () => deleteRevenue(props.revenue.id)
+        accept: () => deleteRevenue(props.revenue.id, 'all_month')
             .then(() => {
                 showSuccess({ message: 'Sucesso!', description: 'Receita excluída com sucesso' });
             }).catch((err: any) => {
