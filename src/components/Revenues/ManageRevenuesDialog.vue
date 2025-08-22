@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { Form, type FormSubmitEvent } from '@primevue/forms';
 import { zodResolver } from '@primevue/forms/resolvers/zod';
@@ -17,7 +17,7 @@ import BaseToggleSwitch from '@/components/BaseForm/BaseToggleSwitch.vue';
 import BaseTextArea from '@/components/BaseForm/BaseTextArea.vue';
 import BaseInputSelect from '@/components/BaseForm/BaseInputSelect.vue';
 
-type RevenueForm = Omit<Revenues, 'id' | 'user_id' | 'revenues_overrides'>;
+type RevenueForm = Omit<Revenues, 'user_id' | 'revenues_overrides'>;
 
 type ManageRevenuesDialogProps = {
     title?: string;
@@ -42,10 +42,18 @@ const props = withDefaults(defineProps<ManageRevenuesDialogProps>(), {
 });
 
 const visible = ref(false);
-defineExpose({ visible });
+
+function show() {
+    visible.value = true;
+}
+
 function close() {
     visible.value = false;
 }
+
+defineExpose({ visible, show });
+
+const isUpdateAction = computed(() => !!props.revenue.id);
 
 const { getFormattedCategories, loading: loadingCategories } = storeToRefs(useCategoriesStore());
 const { fetchCategories } = useCategoriesStore();
