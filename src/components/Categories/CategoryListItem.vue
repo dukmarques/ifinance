@@ -89,6 +89,7 @@ const confirmDelete = () => {
                 size="small"
                 icon="pi pi-pencil"
                 @click="toggleUpdateDialog"
+                variant="outlined"
             />
 
             <BaseButton 
@@ -97,6 +98,7 @@ const confirmDelete = () => {
                 size="small"
                 icon="pi pi-trash"
                 @click="confirmDelete"
+                variant="outlined"
             />
         </div>
     </div>
