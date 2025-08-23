@@ -1,7 +1,7 @@
 type Revenues = {
     id: string;
     title: string;
-    amount: number;
+    amount: number|string;
     receiving_date: string|Date;
     deprecated_date?: string|Date;
     recurrent: boolean;
@@ -19,8 +19,8 @@ type RevenuesOverrides = {
     id: string;
     title?: string;
     amount: number | string;
-    receiving_date: string;
     description?: string;
+    receiving_date: string;
     revenues_id: string;
     is_deleted: boolean;
 };
