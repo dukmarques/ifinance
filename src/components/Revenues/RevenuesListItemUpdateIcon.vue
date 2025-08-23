@@ -17,7 +17,7 @@ const { update } = useRevenuesStore();
 const { showSuccess, showError } = useToast();
 
 const modificationsTypeDialogRef = useTemplateRef<InstanceType<typeof ModificationsTypeDialog>>('modificationsTypeDialog');
-const createRevenueDialogRef = useTemplateRef<InstanceType<typeof ManageRevenuesDialog>>('createRevenueDialog');    
+const updateRevenueDialogRef = useTemplateRef<InstanceType<typeof ManageRevenuesDialog>>('updateRevenueDialog');
 const loadingUpdate = ref(false);
 const updateType = ref<RevenueModificationTypes | undefined>(undefined);
 
@@ -40,17 +40,21 @@ const modificationsOptions = ref<Array<ModificationsTypeItem>>([
 ]);
 
 function openUpdateDialog() {
-    if (props.revenue.recurrent) {
+    if (props.revenue.recurrent && !props.revenue.override) {
         modificationsTypeDialogRef.value!.show();
         return;
     }
 
-    createRevenueDialogRef.value?.show();
+    if (props.revenue.override) {
+        updateType.value = 'only_month';
+    }
+
+    updateRevenueDialogRef.value?.show();
 }
 
 function handleUpdateTypeRecurrentRevenue(type: RevenueModificationTypes) {
     updateType.value = type;
-    createRevenueDialogRef.value?.show();
+    updateRevenueDialogRef.value?.show();
 }
 
 async function handleUpdateSubmit(payload: Revenues) {
@@ -87,10 +91,11 @@ async function handleUpdateSubmit(payload: Revenues) {
     />
 
     <ManageRevenuesDialog 
-        ref="createRevenueDialog"
+        ref="updateRevenueDialog"
         :revenue="props.revenue"
         :loading="loadingUpdate"
         :provider="handleUpdateSubmit"
+        isUpdateAction
         :updateType="updateType"
     />
 </template>
