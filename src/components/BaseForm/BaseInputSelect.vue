@@ -15,6 +15,7 @@ export interface BaseInputBaseInputSelectProps {
     errorMessage?: string;
     showPrefixIcon?: boolean;
     prefixIcon?: string;
+    showClear?: boolean;
 }
 
 withDefaults(defineProps<BaseInputBaseInputSelectProps>(), {
@@ -22,6 +23,7 @@ withDefaults(defineProps<BaseInputBaseInputSelectProps>(), {
     disabled: false,
     showPrefixIcon: false,
     prefixIcon: 'pi-tag',
+    showClear: true,
 });
 </script>
 
@@ -40,6 +42,7 @@ withDefaults(defineProps<BaseInputBaseInputSelectProps>(), {
                 :size="size"
                 :disabled="disabled"
                 :invalid="invalid"
+                :showClear="showClear"
                 filter 
                 fluid
             />
