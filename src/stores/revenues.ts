@@ -51,7 +51,11 @@ export const useRevenuesStore = defineStore("revenuesStore", {
 
         async update(revenue: Revenues, update_type: RevenueModificationTypes) {
             try {
-                await axios.put(`/revenues/${revenue.id}`, { ...revenue, update_type });
+                await axios.put(`/revenues/${revenue.id}`, { 
+                    ...revenue, 
+                    update_type,
+                    date: this.currentSelectedMonth,
+                });
                 await this.fetchRevenues(this.currentSelectedMonth);
             } catch (err: unknown) {
                 const error = err as AxiosError;
