@@ -24,11 +24,16 @@ const expandedRows = ref({});
         :loading="loading"
     >
         <Column expander style="width: 5rem" />
-        <Column field="title" header="Título" sortable></Column>
+
+        <Column field="title" header="Título" sortable>
+            <template #body="{ data }">
+                <span>{{ data.override?.title ? data.override?.title : data.title }}</span>
+            </template>
+        </Column>
 
         <Column field="amount" header="Valor" sortable>
             <template #body="{ data }">
-                <span>{{ formatCurrency(data.amount) }}</span>
+                <span>{{ data.override?.amount ? formatCurrency(data.override?.amount) : formatCurrency(data.amount) }}</span>
             </template>
         </Column>
 
@@ -49,6 +54,8 @@ const expandedRows = ref({});
                 <div class="flex gap-5">
                     <RevenuesListItemUpdateIcon :revenue="data" />
                     <RevenuesListItemDeleteIcon :revenue="data" />
+                    <!-- TODO: exibir a receita original quando houver uma override -->
+                    <i v-if="data.override" class="pi pi-file-excel"></i>
                 </div>
             </template>
         </Column>
@@ -62,7 +69,7 @@ const expandedRows = ref({});
                 }"
             >
                 <template #content>
-                    <span>{{ data.description }}</span>
+                    <span>{{ data.override?.description ? data.override?.description : data.description }}</span>
                 </template>
             </Card>
         </template>
