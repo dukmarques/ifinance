@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, useTemplateRef } from 'vue';
-import type { RevenueModificationScope, Revenues } from '@/@types/Revenues';
+import type { RevenueModificationTypes, Revenues } from '@/@types/Revenues';
 import { useRevenuesStore } from '@/stores/revenues';
 import ModificationsTypeDialog, { type ModificationsTypeItem } from '@/components/Common/ModificationsTypeDialog.vue';
 import { useToast } from '@/composables/useToast';
@@ -19,27 +19,27 @@ const { showSuccess, showError } = useToast();
 const modificationsTypeDialogRef = useTemplateRef<InstanceType<typeof ModificationsTypeDialog>>('modificationsTypeDialog');
 const createRevenueDialogRef = useTemplateRef<InstanceType<typeof ManageRevenuesDialog>>('createRevenueDialog');    
 const loadingUpdate = ref(false);
-const updateScope = ref<RevenueModificationScope | undefined>(undefined);
+const updateType = ref<RevenueModificationTypes | undefined>(undefined);
 
 const modificationsOptions = ref<Array<ModificationsTypeItem>>([
     {
         title: 'Apenas atual',
         severity: 'info',
-        onClick: () => handleUpdateRevenue('only_month'),
+        onClick: () => handleUpdateTypeRecurrentRevenue('only_month'),
     },
     {
         title: 'Atual e próximos meses',
         severity: 'warn',
-        onClick: () => handleUpdateRevenue('current_month_and_followers'),
+        onClick: () => handleUpdateTypeRecurrentRevenue('current_month_and_followers'),
     },
     {
         title: 'Todos os meses',
         severity: 'danger',
-        onClick: () => handleUpdateRevenue('all_month'),
+        onClick: () => handleUpdateTypeRecurrentRevenue('all_month'),
     },
 ]);
 
-function openDialog() {
+function openUpdateDialog() {
     if (props.revenue.recurrent) {
         modificationsTypeDialogRef.value!.show();
         return;
@@ -48,15 +48,15 @@ function openDialog() {
     createRevenueDialogRef.value?.show();
 }
 
-function handleUpdateRevenue(updateType: RevenueModificationScope) {
-    updateScope.value = updateType;
+function handleUpdateTypeRecurrentRevenue(type: RevenueModificationTypes) {
+    updateType.value = type;
     createRevenueDialogRef.value?.show();
 }
 
-async function handleSubmit(payload: Revenues) {
+async function handleUpdateSubmit(payload: Revenues) {
     try {
         loadingUpdate.value = true;
-        await update(payload, updateScope.value || 'all_month');
+        await update(payload, updateType.value || 'all_month');
         showSuccess({
             message: 'Sucesso!',
             description: 'A receita foi atualizada com sucesso.'
@@ -76,7 +76,7 @@ async function handleSubmit(payload: Revenues) {
 <template>
     <i 
         class="pi pi-pencil cursor-pointer hover:text-blue-700 transition-all duration-200" 
-        @click="openDialog"
+        @click="openUpdateDialog"
     ></i>
 
     <ModificationsTypeDialog
@@ -90,7 +90,7 @@ async function handleSubmit(payload: Revenues) {
         ref="createRevenueDialog"
         :revenue="props.revenue"
         :loading="loadingUpdate"
-        :provider="handleSubmit"
-        :updateScope="updateScope"
+        :provider="handleUpdateSubmit"
+        :updateType="updateType"
     />
 </template>

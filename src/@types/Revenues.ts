@@ -25,6 +25,6 @@ type RevenuesOverrides = {
     is_deleted: boolean;
 };
 
-type RevenueModificationScope = 'only_month' | 'current_month_and_followers' | 'all_month';
+type RevenueModificationTypes = 'only_month' | 'current_month_and_followers' | 'all_month';
 
-export type { Revenues, RevenuesOverrides, RevenueModificationScope };
+export type { Revenues, RevenuesOverrides, RevenueModificationTypes };

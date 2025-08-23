@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia';
 import { Form, type FormSubmitEvent } from '@primevue/forms';
 import { zodResolver } from '@primevue/forms/resolvers/zod';
 import * as z from 'zod';
-import type { RevenueModificationScope, Revenues } from '@/@types/Revenues';
+import type { RevenueModificationTypes, Revenues } from '@/@types/Revenues';
 import { useCategoriesStore } from '@/stores/categories';
 
 import Dialog from 'primevue/dialog';
@@ -25,7 +25,7 @@ type ManageRevenuesDialogProps = {
     revenue?: RevenueForm;
     provider: Function;
     loading?: boolean;
-    updateScope?: RevenueModificationScope;
+    updateType?: RevenueModificationTypes;
 };
 
 const props = withDefaults(defineProps<ManageRevenuesDialogProps>(), {

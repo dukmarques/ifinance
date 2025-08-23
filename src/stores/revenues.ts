@@ -1,4 +1,4 @@
-import type { RevenueModificationScope, Revenues } from "@/@types/Revenues";
+import type { RevenueModificationTypes, Revenues } from "@/@types/Revenues";
 import { axios } from "@/services/axios";
 import { defineStore } from "pinia";
 import type { AxiosError } from "axios";
@@ -49,7 +49,7 @@ export const useRevenuesStore = defineStore("revenuesStore", {
             }
         },
 
-        async update(revenue: Revenues, update_type: RevenueModificationScope) {
+        async update(revenue: Revenues, update_type: RevenueModificationTypes) {
             try {
                 await axios.put(`/revenues/${revenue.id}`, { ...revenue, update_type });
                 await this.fetchRevenues(this.currentSelectedMonth);
@@ -60,7 +60,7 @@ export const useRevenuesStore = defineStore("revenuesStore", {
             }
         },
 
-        async delete(revenueId: string, exclusion_type: RevenueModificationScope) {
+        async delete(revenueId: string, exclusion_type: RevenueModificationTypes) {
             try {
                 await axios.delete(`/revenues/${revenueId}`, { 
                     data: { date: this.currentSelectedMonth, exclusion_type } 
