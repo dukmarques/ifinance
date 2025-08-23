@@ -8,6 +8,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import RevenuesListItemUpdateIcon from '@/components/Revenues/RevenuesListItemUpdateIcon.vue';
 import RevenuesListItemDeleteIcon from '@/components/Revenues/RevenuesListItemDeleteIcon.vue';
+import RevenuesListItemOverrideHistory from '@/components/Revenues/RevenuesListItemOverrideHistory.vue';
 
 const { revenues, loading } = storeToRefs(useRevenuesStore());
 const expandedRows = ref({});
@@ -54,8 +55,7 @@ const expandedRows = ref({});
                 <div class="flex gap-5">
                     <RevenuesListItemUpdateIcon :revenue="data" />
                     <RevenuesListItemDeleteIcon :revenue="data" />
-                    <!-- TODO: exibir a receita original quando houver uma override -->
-                    <i v-if="data.override" class="pi pi-file-excel"></i>
+                    <RevenuesListItemOverrideHistory v-if="data.override" :revenue="data" />
                 </div>
             </template>
         </Column>

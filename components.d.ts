@@ -100,6 +100,7 @@ declare module 'vue' {
     RevenueIcon: typeof import('./src/components/icons/revenue-icon.vue')['default']
     RevenuesList: typeof import('./src/components/Revenues/RevenuesList.vue')['default']
     RevenuesListItemDeleteIcon: typeof import('./src/components/Revenues/RevenuesListItemDeleteIcon.vue')['default']
+    RevenuesListItemOverrideHistory: typeof import('./src/components/Revenues/RevenuesListItemOverrideHistory.vue')['default']
     RevenuesListItems: typeof import('./src/components/Revenues/RevenuesListItems.vue')['default']
     RevenuesListItemUpdateIcon: typeof import('./src/components/Revenues/RevenuesListItemUpdateIcon.vue')['default']
     RevenuesTable: typeof import('./src/components/Revenues/RevenuesTable.vue')['default']
