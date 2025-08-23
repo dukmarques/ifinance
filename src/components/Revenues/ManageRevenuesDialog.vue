@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { Form, type FormSubmitEvent } from '@primevue/forms';
 import { zodResolver } from '@primevue/forms/resolvers/zod';
@@ -94,11 +94,12 @@ async function submit(event: FormSubmitEvent) {
     }
 }
 
-onMounted(async () => {
-    await fetchCategories();
-    categoriesSelect.value = getFormattedCategories.value;
+watch(visible, async (newVisible) => {
+    if (newVisible) {
+        await fetchCategories();
+        categoriesSelect.value = getFormattedCategories.value;
+    }
 });
-
 </script>
 
 <template>
