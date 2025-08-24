@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import Divider from 'primevue/divider';
-import FabButton from '../form/FabButton.vue';
+import FabButton from '@/components/Common/FabButton.vue';
 
 defineProps({
     title: {
