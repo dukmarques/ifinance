@@ -1,5 +1,5 @@
 <script lang="ts" setup name="MonthSelector">
-import { ref, computed, defineEmits, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import Button from 'primevue/button';
 import DatePicker from 'primevue/datepicker';
 
