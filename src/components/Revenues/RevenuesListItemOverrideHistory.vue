@@ -5,7 +5,6 @@ import { ref, type PropType } from 'vue';
 import Dialog from 'primevue/dialog';
 import Fieldset from 'primevue/fieldset';
 import { formatCurrency } from '@/helpers/currencyFormat';
-import { formatDateToMMYY } from '@/helpers/dateFormat';
 
 const props = defineProps({
     revenue: {
@@ -33,50 +32,37 @@ const toggleVisible = () => {
         header="Histórico da Receita"
         class="w-2xl"
     >
-        <Fieldset legend="Receita original" :toggleable="true">
+        <Fieldset legend="Histórico da receita">
             <ul class="flex flex-col gap-2">
-                <li class="flex justify-start items-center gap-1">
+                <li class="flex flex-col justify-start items-center gap-2">
                     <strong>Nome:</strong>
-                    <Tag severity="warn" :value="props.revenue.title" />
+                    <div class="flex justify-start items-center gap-2">
+                        <Tag severity="warn" :value="props.revenue.title" />
+                        <i v-if="props.revenue.override?.title" class="pi pi-arrow-right"></i>
+                        <Tag v-if="props.revenue.override?.title" severity="info" :value="props.revenue.override?.title" />
+                    </div>
                 </li>
 
-                <li class="flex justify-start items-center gap-1">
+                <Divider class="!my-0" />
+
+                <li class="flex flex-col justify-start items-center gap-2">
                     <strong>Valor:</strong>
-                    <Tag severity="warn" :value="formatCurrency(props.revenue.amount)" />
+                    <div class="flex justify-start items-center gap-2">
+                        <Tag severity="warn" :value="formatCurrency(props.revenue.amount)" />
+                        <i v-if="props.revenue.override?.amount" class="pi pi-arrow-right"></i>
+                        <Tag v-if="props.revenue.override?.amount" severity="info" :value="formatCurrency(props.revenue.override?.amount!)" />
+                    </div>
                 </li>
 
-                <li class="flex justify-start items-center gap-1">
-                    <strong>Data de computação:</strong>
-                    <Tag severity="warn" :value="formatDateToMMYY(props.revenue.receiving_date)" />
-                </li>
+                <Divider class="!my-0" />
 
-                <li class="flex flex-col justify-start items-start gap-1">
+                <li class="flex flex-col justify-start items-center gap-2">
                     <strong>Descrição:</strong>
-                    <span class="w-full border-[1px] border-gray-700 !rounded !p-3 text-justify">{{ props.revenue.description }}</span>
-                </li>
-            </ul>
-        </Fieldset>
-
-        <Fieldset class="mt-1" legend="Dados sobrescritos no mês atual" :toggleable="true">
-            <ul class="flex flex-col gap-2">
-                <li v-if="props.revenue.override?.title" class="flex justify-start items-center gap-1">
-                    <strong>Nome:</strong>
-                    <Tag severity="info" :value="props.revenue.override?.title" />
-                </li>
-
-                <li v-if="props.revenue.override?.amount" class="flex justify-start items-center gap-1">
-                    <strong>Valor:</strong>
-                    <Tag severity="info" :value="formatCurrency(props.revenue.override?.amount)" />
-                </li>
-
-                <li class="flex justify-start items-center gap-1">
-                    <strong>Data de computação:</strong>
-                    <Tag severity="info" :value="formatDateToMMYY(props.revenue.override?.receiving_date!)" />
-                </li>
-
-                <li v-if="props.revenue.override?.description" class="flex flex-col justify-start items-start gap-1">
-                    <strong>Descrição:</strong>
-                    <span class="w-full border-[1px] border-gray-700 !rounded !p-3 text-justify">{{ props.revenue.override?.description }}</span>
+                    <div class="h-72 flex justify-start items-center gap-2">
+                        <span class="w-full h-full border-[1px] border-gray-700 !rounded !p-3 text-justify">{{ props.revenue.description }}</span>
+                        <i v-if="props.revenue.override?.description" class="pi pi-arrow-right"></i>
+                        <span v-if="props.revenue.override?.description" class="w-full h-full border-[1px] border-gray-700 !rounded !p-3 text-justify">{{ props.revenue.override?.description }}</span>
+                    </div>
                 </li>
             </ul>
         </Fieldset>
