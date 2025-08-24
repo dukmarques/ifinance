@@ -70,7 +70,7 @@ const itemIsValid = computed(() => {
                     <i  
                         :class="[
                             'pi pi-check text-secondary !text-[12px] !font-black',
-                            item.valid ? 'text-primary' : 'text-white'
+                            item.valid ? 'text-primary' : 'text-secondary'
                         ]"
                     ></i>
                 </div>
