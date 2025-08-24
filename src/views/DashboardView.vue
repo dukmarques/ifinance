@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import Fieldset from 'primevue/fieldset';
 import Container from '@/components/Common/Container.vue';
 import MonthSelector from '@/components/Summary/MonthSelector.vue';
 import SummaryFinance from '@/components/Summary/SummaryFinance.vue';
 import DashFabSpeedDial from '@/components/Dashboard/DashFabSpeedDial.vue';
 import RevenuesList from '@/components/Revenues/RevenuesList.vue';
+import ExpensesList from '@/components/Expenses/ExpensesList.vue';
 
 const currentMonth = ref(new Date().toLocaleDateString('en', {
     year: 'numeric',
@@ -25,6 +27,13 @@ function handleMonthChange(date: string) {
         <SummaryFinance />
         <Divider class="!mt-10" />
         <DashFabSpeedDial />
-        <RevenuesList :date="currentMonth" />
+
+        <Fieldset legend="Entradas" :toggleable="true" class="pb-1">
+            <RevenuesList :date="currentMonth" />
+        </Fieldset>
+
+        <Fieldset legend="Saídas" :toggleable="true" class="pb-1">
+            <ExpensesList :date="currentMonth" />
+        </Fieldset>
     </Container>
 </template>
