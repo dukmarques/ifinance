@@ -171,6 +171,7 @@ function close() {
                     severity="danger"
                     size="small"
                     @click="close"
+                    variant="text"
                 />
     
                 <BaseButton 
@@ -178,6 +179,7 @@ function close() {
                     label="Salvar"
                     :loading="loading"
                     size="small"
+                    variant="text"
                 />
             </div>
         </Form>

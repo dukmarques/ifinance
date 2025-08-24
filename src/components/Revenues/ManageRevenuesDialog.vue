@@ -242,6 +242,7 @@ watch(visible, async (newVisible) => {
                     severity="danger" 
                     size="small"
                     @click="close"
+                    variant="text"
                 />
 
                 <BaseButton 
@@ -249,6 +250,7 @@ watch(visible, async (newVisible) => {
                     label="Salvar" 
                     :loading="loading"
                     size="small"
+                    variant="text"
                 />
             </div>
         </Form>
