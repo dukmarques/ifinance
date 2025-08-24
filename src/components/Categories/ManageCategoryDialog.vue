@@ -94,6 +94,7 @@ defineExpose({ visible });
                     severity="danger" 
                     size="small"
                     @click="close"
+                    variant="text"
                 />
 
                 <BaseButton 
@@ -101,6 +102,7 @@ defineExpose({ visible });
                     label="Salvar" 
                     :loading="loading"
                     size="small"
+                    variant="text"
                 />
             </div>
         </Form>

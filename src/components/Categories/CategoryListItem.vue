@@ -20,7 +20,7 @@ const props = defineProps({
 
 const { showSuccess, showError } = useToast();
 const confirmDialog = useConfirm();
-const updateDialogRef = useTemplateRef('updateDialog');
+const updateDialogRef = useTemplateRef<InstanceType<typeof ManageCategoryDialog>>('updateDialog');
 const { updateCategory, deleteCategory } = useCategoriesStore();
 
 const toggleUpdateDialog = () => updateDialogRef.value!.visible = true;
@@ -70,7 +70,7 @@ const confirmDelete = () => {
 </script>
 
 <template>
-    <div class="!p-3 relative flex flex-col justify-between items-start gap-2 border rounded">
+    <div class="!p-3 relative flex flex-col justify-between items-start gap-2 border rounded border-surface-700">
         <div class="flex justify-center items-center gap-2">
             <i class="pi pi-tag" />
             <span class="text-lg text-center">{{ category.name }}</span>
@@ -82,14 +82,14 @@ const confirmDelete = () => {
             <Tag class="text-sm !w-auto !text-[12px]" severity="warn" :value="`Cartões: ${category.card_expenses_count}`"></Tag>
         </div>
 
-        <div class="flex justify-center items-center absolute top-1 right-1">
+        <div class="flex justify-center items-center gap-1 absolute top-1 right-1">
             <BaseButton 
                 label=""
                 severity="success"
                 size="small"
                 icon="pi pi-pencil"
                 @click="toggleUpdateDialog"
-                variant="outlined"
+                variant="text"
             />
 
             <BaseButton 
@@ -98,7 +98,7 @@ const confirmDelete = () => {
                 size="small"
                 icon="pi pi-trash"
                 @click="confirmDelete"
-                variant="outlined"
+                variant="text"
             />
         </div>
     </div>
