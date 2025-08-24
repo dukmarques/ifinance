@@ -28,13 +28,9 @@
     "vue": "^3.5.13",
     "vue-axios": "^3.5.2",
     "vue-router": "^4.3.3",
-    "vue3-toastify": "^0.2.2",
-    "vuetify": "^3.8.3",
     "zod": "^4.0.10"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^6.7.2",
-    "@mdi/font": "^7.4.47",
     "@primevue/auto-import-resolver": "^4.3.5",
     "@rushstack/eslint-patch": "^1.8.0",
     "@tsconfig/node20": "^20.1.4",
