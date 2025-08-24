@@ -151,7 +151,7 @@ onMounted(() => {
     />
 
     <div 
-        class="w-full h-[230px] flex flex-col justify-center rounded-2xl bg-cover bg-position-[-8px] !p-5 relative" 
+        class="w-full h-[230px] flex flex-col justify-center rounded-2xl bg-cover bg-position-[-8px] bg-no-repeat !p-5 relative" 
         :style="`
             background-color: ${props.card.background_color!}; 
             background-image: url(${CreditCardBg});

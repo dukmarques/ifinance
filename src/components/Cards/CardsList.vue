@@ -18,7 +18,7 @@ onMounted(() => {
         <div 
             v-for="(card, index) in cards"
             :key="`card-${index}`"
-            class="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3 card3xl:col-span-2"
+            class="col-span-12 md:col-span-6 xl:col-span-4 2xl:col-span-3 3xl:col-span-2"
         >
             <CardsListItemSkeleton v-if="loading" />
 
