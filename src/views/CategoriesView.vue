@@ -13,7 +13,7 @@ const { createCategory } = useCategoriesStore();
 const { showSuccess, showError } = useToast();
 
 const loadingCreateDialog = ref(false);
-const createDialogRef = useTemplateRef('createDialog')
+const createDialogRef = useTemplateRef<InstanceType<typeof ManageCategoryDialog>>('createDialog');
 
 const toggleCreateDialog = () => {
     createDialogRef.value!.visible = true;

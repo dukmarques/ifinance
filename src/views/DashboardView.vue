@@ -20,10 +20,10 @@ function handleMonthChange(date: string) {
 </script>
 
 <template>
-    <Container fluid>
+    <Container fluid class="mr-3">
         <MonthSelector @month-change="handleMonthChange"/>
         <SummaryFinance />
-        <Divider class="mt-10 mb-10" />
+        <Divider class="!mt-10" />
         <DashFabSpeedDial />
         <RevenuesList :date="currentMonth" />
     </Container>
