@@ -16,7 +16,6 @@ import { useUserStore } from '@/stores/user';
 import { useToast } from '@/composables/useToast';
 import ToggleDarkMode from '@/components/Common/ToggleDarkMode.vue';
 
-
 const router = useRouter();
 const { showError } = useToast();
 
