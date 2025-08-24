@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import Button from 'primevue/button';
-import { defineProps } from 'vue';
 
 type FabButtonProps = {
     title?: string;
