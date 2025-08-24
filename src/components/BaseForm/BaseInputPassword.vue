@@ -17,7 +17,7 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-    <FloatLabel variant="on" class="w-full mb-[22px]">
+    <FloatLabel variant="on" class="w-full">
         <Password 
             toggleMask 
             :name="name" 
