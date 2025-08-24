@@ -11,7 +11,7 @@ import IconCard from '@/components/icons/IconCard.vue';
 import IconCategory from '@/components/icons/IconCategory.vue';
 import IconPerson from '@/components/icons/IconPerson.vue';
 import IconSettings from '@/components/icons/IconSettings.vue';
-import ToggleDarkMode from '../Common/ToggleDarkMode.vue';
+import ToggleDarkMode from '@/components/Common/ToggleDarkMode.vue';
 
 const drawer = ref(true);
 const navigation = useNavigationStore();
@@ -82,10 +82,10 @@ async function logout() {
     <div v-if="showDrawer" class="h-screen !flex items-center mx-2 static shrink-0 z-10">
         <div
             v-show="drawer"
-            class="m-2 ps-2 pe-2 border rounded-xl transition-all duration-300 h-[95vh] overflow-hidden flex flex-col"
             :class="[
+                'm-2 ps-2 pe-2 !border-[1px] rounded-3xl transition-all duration-300 h-[95vh] overflow-hidden flex flex-col',
                 navigation.rail ? 'w-[80px]' : 'w-[225px]',
-                !navigation.isDarkMode ? '!border-surface-500' : ''
+                !navigation.isDarkMode ? 'border-surface-500' : 'border-[rgb(47,47,47)]'
             ]"
         >
             <div 
@@ -128,7 +128,7 @@ async function logout() {
                     <router-link
                         :to="item.to"
                         :class="[
-                            'flex items-center p-4 rounded-md transition-colors cursor-pointer',
+                            'flex items-center rounded-md transition-colors cursor-pointer',
                             navigation.rail ? 'justify-center' : 'justify-start pl-5 gap-3'
                         ]"
                     >
@@ -154,12 +154,11 @@ async function logout() {
                     <ToggleDarkMode />
                 </div>
 
-                <Divider class="my-2" />
-        
+                <Divider class="!my-2" />
+
                 <div  
                     :class="[
                         'w-full !p-[10px] flex justify-center items-center gap-2 rounded-md cursor-pointer',
-                        navigation.rail ? 'justify-center w-full' : 'justify-start',
                         !navigation.isDarkMode ? 'hover:bg-surface-100' : 'hover:bg-surface-900 hover:brightness-[1.3]',
                     ]"
                     @click="logout"
@@ -168,7 +167,7 @@ async function logout() {
                     <span v-if="!navigation.getRail" class="text-sm font-light">Sair</span>
                 </div>
 
-                <Divider class="mt-2"/>
+                <Divider class="!my-2"/>
 
                 <div class="flex justify-center mb-4">
                     <i 
