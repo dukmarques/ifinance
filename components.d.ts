@@ -50,7 +50,7 @@ declare module 'vue' {
     Drawer: typeof import('primevue/drawer')['default']
     ExitIcon: typeof import('./src/components/icons/exit-icon.vue')['default']
     ExpasionPanels: typeof import('./src/components/Dashboard/ExpasionPanels.vue')['default']
-    FabButton: typeof import('./src/components/form/FabButton.vue')['default']
+    FabButton: typeof import('./src/components/Common/FabButton.vue')['default']
     FabSpeedDial: typeof import('./src/components/form/FabSpeedDial.vue')['default']
     Fieldset: typeof import('primevue/fieldset')['default']
     FloatLabel: typeof import('primevue/floatlabel')['default']
