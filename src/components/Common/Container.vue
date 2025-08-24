@@ -1,6 +1,5 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script lang="ts" setup>
-import { defineProps } from 'vue';
-
 defineProps({
     fluid: {
         type: Boolean,
@@ -27,7 +26,7 @@ defineProps({
         :class="[
             fluid ? 'w-full' : 'container',
             'mx-auto',
-            padding ? 'px-4 sm:px-6 md:px-8' : '',
+            padding ? 'px-1 sm:px-2 md:px-3' : '',
             maxWidth
         ]"
     >
