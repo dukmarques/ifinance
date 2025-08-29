@@ -4,7 +4,7 @@ import type { Category } from "./Category";
 type Expense = {
     id: string;
     title: string;
-    type: 'simple' | 'recurrent';
+    type: ExpenseType;
     amount: number|string;
     is_owner: boolean;
     paid: boolean;
@@ -28,4 +28,10 @@ type ExpenseOverride = {
     description?: string;
 };
 
-export type { Expense, ExpenseOverride };
+type ExpenseType = 'simple' | 'recurrent';
+
+export type { 
+    Expense, 
+    ExpenseOverride, 
+    ExpenseType,
+};
