@@ -1,5 +1,5 @@
-import type { Card } from "./Card";
 import type { Category } from "./Category";
+import type { ExpenseAssignee } from "./ExpensesAssignee";
 
 type Expense = {
     id: string;
@@ -7,14 +7,13 @@ type Expense = {
     type: ExpenseType;
     amount: number|string;
     is_owner: boolean;
+    assignee?: ExpenseAssignee;
     paid: boolean;
     payment_month: string|Date;
     deprecated_date: string|Date;
     description?: string;
     user_id: string;
-    card_id: string;
-    card: Card;
-    category_id: string;
+    category_id?: string;
     category: Category;
     override?: ExpenseOverride;
 };
