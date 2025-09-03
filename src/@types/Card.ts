@@ -12,8 +12,6 @@ type Card = {
     user?: User;
     card_expenses?: any[];
     card_expenses_count?: number;
-    expenses?: any[];
-    expenses_count?: number;
     created_at?: string;
     updated_at?: string;
 };
