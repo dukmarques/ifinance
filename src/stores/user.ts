@@ -56,11 +56,14 @@ export const useUserStore = defineStore('userStore', {
             // eslint-disable-next-line no-useless-catch
             try {
                 await axios.post('/auth/logout');
-                this.user = null;
-                this.accessToken = null;
+                this.clear();
             } catch (err: any) {
                 throw err;
             }
         },
+        clear() {
+            this.user = null;
+            this.accessToken = null;
+        }
     },
 });

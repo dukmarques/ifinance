@@ -14,9 +14,9 @@ axios.interceptors.request.use((config) => {
 });
 
 axios.interceptors.response.use((response) => response, (error) => {
-    if (error.response.status === 401 && error.response.data.message === 'unauthenticated user') {
+    if (error.response.status === 401 && error.response.data.message === 'Unauthenticated.') {
         const userStore = useUserStore();
-        userStore.logout();
+        userStore.clear();
         router.push('/login');
     }
     return Promise.reject(error);
