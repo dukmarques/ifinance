@@ -27,22 +27,24 @@ withDefaults(defineProps<BaseInputTextProps>(), {
 </script>
 
 <template>
-    <InputGroup>
-        <InputGroupAddon v-if="showPrefixIcon">{{ prefix }}</InputGroupAddon>
-        <FloatLabel variant="on">
-            <InputText 
-                :id="name" 
-                :name="name" 
-                :placeholder="placeholder"
-                :type="type"
-                :size="size" 
-                :disabled="disabled"
-                fluid
-            />
-    
-            <label v-if="label" :for="name">{{ label }}</label>
-    
-        </FloatLabel>
-    </InputGroup>
-    <Message severity="error" size="small" variant="simple">{{ errorMessage }}</Message>
+    <div class="w-full flex flex-col">
+        <InputGroup>
+            <InputGroupAddon v-if="showPrefixIcon">{{ prefix }}</InputGroupAddon>
+            <FloatLabel variant="on">
+                <InputText 
+                    :id="name" 
+                    :name="name" 
+                    :placeholder="placeholder"
+                    :type="type"
+                    :size="size" 
+                    :disabled="disabled"
+                    fluid
+                />
+        
+                <label v-if="label" :for="name">{{ label }}</label>
+        
+            </FloatLabel>
+        </InputGroup>
+        <Message severity="error" size="small" variant="simple">{{ errorMessage }}</Message>
+    </div>
 </template>
