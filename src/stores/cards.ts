@@ -8,7 +8,14 @@ export const useCardsStore = defineStore('cardsStore', {
         cards: [] as Card[],
         loading: false as boolean,
     }),
-    getters: {},
+    getters: {
+        getFormattedCards: (state) => {
+            return state.cards.map(card => ({
+                name: card.name,
+                value: card.id
+            }));
+        }
+    },
     actions: {
         async fetchCards() {
             this.fillCardsForLoading();
