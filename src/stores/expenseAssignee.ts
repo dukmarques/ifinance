@@ -2,6 +2,7 @@
 import { defineStore } from "pinia";
 import { axios } from "../services/axios";
 import type { ExpenseAssignee } from "@/@types/ExpensesAssignee";
+import type { AxiosError } from "axios";
 
 const ASSIGNEE_API_URL = "/expense-assignees";
 
@@ -25,8 +26,8 @@ export const useExpenseAssigneeStore = defineStore("expenseAssignee", {
         async fetchAssignees() {
             try {
                 this.loading = true;
-                const { data } = await axios.get(ASSIGNEE_API_URL);
-                this.assignees = data;
+                const { data } = await axios.get(`${ASSIGNEE_API_URL}?paginate=false`);
+                this.assignees = data.data;
             } catch (err) {
                 throw err;
             } finally {
@@ -38,10 +39,10 @@ export const useExpenseAssigneeStore = defineStore("expenseAssignee", {
             try {
                 await axios.post(ASSIGNEE_API_URL, assignee);
                 this.fetchAssignees();
-            } catch (err) {
-                throw err;
-            } finally {
-                this.loading = false;
+            } catch (err: unknown) {
+                const error = err as AxiosError;
+                const errorMessage = (error.response?.data as { message?: string })?.message || "Erro ao criar responsável.";
+                throw new Error(errorMessage);
             }
         },
     }
