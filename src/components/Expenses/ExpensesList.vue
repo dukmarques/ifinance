@@ -7,6 +7,7 @@ import AccordionContent from 'primevue/accordioncontent';
 import { toRef, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useExpensesStore } from '@/stores/expenses';
+import ExpensesListItems from '@/components/Expenses/ExpensesListItems.vue';
 
 const props = defineProps({
     date: {
@@ -55,7 +56,7 @@ watch(
                     }
                 }"
             >
-                
+                <ExpensesListItems />
             </AccordionContent>
         </AccordionPanel>
     </Accordion>
