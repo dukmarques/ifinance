@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useExpensesStore } from '@/stores/expenses';
 import { formatCurrency } from '@/helpers/currencyFormat';
-import type { Expense } from '@/@types/Expenses';
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import ExpensesListItemUpdateIcon from '@/components/Expenses/ExpensesListItemUpdateIcon.vue';
+import ExpensesListItemDeleteIcon from '@/components/Expenses/ExpensesListItemDeleteIcon.vue';
 
 const { expenses, loading } = storeToRefs(useExpensesStore());
 const expandedRows = ref({});
@@ -51,10 +52,10 @@ const expandedRows = ref({});
             </template>
         </Column>
 
-        <Column field="paid" header="Paga" sortable>
+        <Column field="paid" header="Status" sortable>
             <template #body="{ data }">
                 <Tag 
-                    :value="data.paid ? 'Sim' : 'Não'" 
+                    :value="data.paid ? 'Pago' : 'Pendente'" 
                     :severity="data.paid ? 'success' : 'danger'" 
                 />
             </template>
@@ -69,9 +70,9 @@ const expandedRows = ref({});
         <Column header="Ações">
             <template #body="{ data }">
                 <div class="flex gap-5">
-                    <RevenuesListItemUpdateIcon :revenue="data" />
-                    <RevenuesListItemDeleteIcon :revenue="data" />
-                    <RevenuesListItemOverrideHistory v-if="data.override" :revenue="data" />
+                    <ExpensesListItemUpdateIcon :expense="data" />
+                    <ExpensesListItemDeleteIcon :expense="data" />
+                    <!-- <RevenuesListItemOverrideHistory v-if="data.override" :revenue="data" /> -->
                 </div>
             </template>
         </Column>
