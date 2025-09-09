@@ -2,6 +2,7 @@ import { axios } from "@/services/axios";
 import type { AxiosError } from "axios";
 import { defineStore } from "pinia";
 import type { Expense } from "@/@types/Expenses";
+import type { ActionDeleteType, ActionEditType } from "@/@types/ActionsTypes";
 
 export const useExpensesStore = defineStore("expenses", {
     state: () => ({
@@ -29,12 +30,13 @@ export const useExpensesStore = defineStore("expenses", {
                 const error = err as AxiosError;
                 const errorMessage = (error.response?.data as { message?: string })?.message || "Erro ao buscar as despesas";
                 throw new Error(errorMessage);
+            } finally {
+                this.loading = false;
             }
         },
 
         filteredRevenues(data: Expense[]) {
-            // TODO: verificar se regra está correta
-            return data.filter(expense => expense.type === 'simple' || !expense.override?.is_deleted);
+            return data.filter(expense => !expense.recurrent || !expense.override?.is_deleted);
         },
 
         async create(expense: Expense) {
@@ -48,15 +50,32 @@ export const useExpensesStore = defineStore("expenses", {
             }
         },
 
-        async update(expense: Expense) {
+        async update(expense: Expense, update_type: ActionEditType) {
             try {
-                await axios.put(`/expenses/${expense.id}`, expense);
+                await axios.put(`/expenses/${expense.id}`, {
+                    ...expense,
+                    update_type,
+                    date: this.currentSelectedMonth,
+                });
                 await this.fetchExpenses(this.currentSelectedMonth);
             } catch (err: unknown) {
                 const error = err as AxiosError;
                 const errorMessage = (error.response?.data as { message?: string })?.message || "Erro ao atualizar despesa.";
                 throw new Error(errorMessage);
             }
-        }
+        },
+
+        async delete(expenseId: string, delete_type: ActionDeleteType) {
+            try {
+                await axios.delete(`/expenses/${expenseId}`, { 
+                    data: { date: this.currentSelectedMonth, delete_type } 
+                });
+                await this.fetchExpenses(this.currentSelectedMonth);
+            } catch (err: unknown) {
+                const error = err as AxiosError;
+                const errorMessage = (error.response?.data as { message?: string })?.message || "Erro ao deletar despesa";
+                throw new Error(errorMessage);
+            }
+        },
     }
 });
