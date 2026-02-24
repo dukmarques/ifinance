@@ -25,7 +25,7 @@ const { updateCategory, deleteCategory } = useCategoriesStore();
 
 const toggleUpdateDialog = () => updateDialogRef.value!.visible = true;
 
-async function update(name: Object) {
+async function update(name: object) {
     try {
         const payload = { ...props.category, ...name };
         await updateCategory(payload);
